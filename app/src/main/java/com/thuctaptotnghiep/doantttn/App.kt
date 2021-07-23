@@ -9,10 +9,7 @@ class App:Application() {
 
     override fun onCreate() {
         super.onCreate()
-
         repositoryComponent = DaggerRepositoryComponent.create();
-
-
     }
 
     fun getRepositoryComponent():RepositoryComponent{

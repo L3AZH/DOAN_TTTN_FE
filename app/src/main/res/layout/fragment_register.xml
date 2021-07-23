@@ -20,13 +20,13 @@
             app:boxCornerRadiusBottomStart="10dp"
             app:boxCornerRadiusTopEnd="10dp"
             app:boxCornerRadiusTopStart="10dp"
-            app:startIconDrawable="@drawable/ic_baseline_email_32"
             app:boxStrokeColor="@color/text_input_layout_color"
             app:layout_constraintBottom_toTopOf="@+id/passwordRegisterInputLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:startIconDrawable="@drawable/ic_baseline_email_32">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/emailRegisterEditText"
@@ -45,20 +45,20 @@
             app:boxCornerRadiusBottomStart="10dp"
             app:boxCornerRadiusTopEnd="10dp"
             app:boxCornerRadiusTopStart="10dp"
-            app:startIconDrawable="@drawable/ic_baseline_lock_32"
             app:boxStrokeColor="@color/text_input_layout_color"
             app:layout_constraintBottom_toTopOf="@+id/confirmPasswordInputLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/emailRegisterInputLayout">
+            app:layout_constraintTop_toBottomOf="@+id/emailRegisterInputLayout"
+            app:startIconDrawable="@drawable/ic_baseline_lock_32">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordRegisterEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -71,37 +71,53 @@
             app:boxCornerRadiusBottomStart="10dp"
             app:boxCornerRadiusTopEnd="10dp"
             app:boxCornerRadiusTopStart="10dp"
-            app:startIconDrawable="@drawable/ic_baseline_lock_32"
             app:boxStrokeColor="@color/text_input_layout_color"
             app:layout_constraintBottom_toTopOf="@+id/registerBtn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passwordRegisterInputLayout">
+            app:layout_constraintTop_toBottomOf="@+id/passwordRegisterInputLayout"
+            app:startIconDrawable="@drawable/ic_baseline_lock_32">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/confirmPasswordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Confirm Password"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/registerBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:paddingHorizontal="30dp"
             android:text="Register"
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:paddingHorizontal="30dp"
-            android:backgroundTint="@color/white"
             app:cornerRadius="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/backToLoginBtn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/confirmPasswordInputLayout" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/backToLoginBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:text="Back"
+            android:textColor="@color/black"
+            app:cornerRadius="10dp"
+            app:icon="@drawable/ic_baseline_keyboard_backspace_32"
+            app:iconTint="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/registerBtn" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

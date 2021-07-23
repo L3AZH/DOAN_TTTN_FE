@@ -2,20 +2,18 @@ package com.thuctaptotnghiep.doantttn
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.thuctaptotnghiep.doantttn.databinding.ActivityMainBinding
 import com.thuctaptotnghiep.doantttn.ui.LoginRegister.LoginAndRegisterActivity
 import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminActivity
 import com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.MainGuestActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,16 +28,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setUp() {
-        val pref = getSharedPreferences("com.thuctaptotnghiep.doantttn", Context.MODE_PRIVATE)
-        val token = pref.getString("accessToken", "null")
-        if (token.equals("null")) {
-            val goToLoginActivity = Intent(this@MainActivity, LoginAndRegisterActivity::class.java)
-            startActivity(goToLoginActivity)
-        } else {
-            CoroutineScope(Dispatchers.Default).launch {
+        Log.i("RUnning setup", "${Thread.currentThread()} ")
+        CoroutineScope(Dispatchers.Default).launch {
+            delay(5000)
+            Log.i("RUnning setup", "${Thread.currentThread()} ")
+            val pref = getSharedPreferences("com.thuctaptotnghiep.doantttn", Context.MODE_PRIVATE)
+            val token = pref.getString("accessToken", "null")
+            if (token.equals("null")) {
+                val goToLoginActivity =
+                    Intent(this@MainActivity, LoginAndRegisterActivity::class.java)
+                startActivity(goToLoginActivity)
+            } else {
                 if (viewModel.checkTokenNotExpire().await()) {
-                    val role = pref.getString("accountRole", "null")
-                    when (role) {
+                    when (pref.getString("role", "null")) {
                         "admin" -> {
                             val goToMainScreenAdmin =
                                 Intent(this@MainActivity, MainAdminActivity::class.java)
@@ -55,7 +56,9 @@ class MainActivity : AppCompatActivity() {
                                 binding.root,
                                 "Some thing was wrong, Logout",
                                 Snackbar.LENGTH_LONG
-                            ).show();
+                            ).apply {
+                                setBackgroundTint(Color.WHITE)
+                            }.show()
                             val goToLoginActivity =
                                 Intent(this@MainActivity, LoginAndRegisterActivity::class.java)
                             startActivity(goToLoginActivity)

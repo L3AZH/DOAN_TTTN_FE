@@ -1,6 +1,7 @@
 package com.thuctaptotnghiep.doantttn.di
 
 import com.thuctaptotnghiep.doantttn.MainActivityViewModel
+import com.thuctaptotnghiep.doantttn.ui.LoginRegister.LoginAndRegisterVieModel
 import dagger.Component
 import javax.inject.Singleton
 
@@ -9,4 +10,5 @@ import javax.inject.Singleton
 interface RepositoryComponent {
 
     fun inject(mainActivityViewModel: MainActivityViewModel)
+    fun inject(loginAndRegisterVieModel: LoginAndRegisterVieModel)
 }

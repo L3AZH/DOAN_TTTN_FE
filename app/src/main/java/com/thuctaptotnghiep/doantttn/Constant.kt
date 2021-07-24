@@ -14,4 +14,5 @@ object Constant {
         val base64 = Base64.encodeToString(data,Base64.NO_WRAP)
         return "Basic $base64";
     }
+
 }

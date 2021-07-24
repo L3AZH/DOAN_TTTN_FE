@@ -13,7 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.thuctaptotnghiep.doantttn.R
 import com.thuctaptotnghiep.doantttn.databinding.FragmentRegisterBinding
 import com.thuctaptotnghiep.doantttn.ui.LoginRegister.LoginAndRegisterActivity
-import com.thuctaptotnghiep.doantttn.ui.LoginRegister.LoginAndRegisterVieModel
+import com.thuctaptotnghiep.doantttn.ui.LoginRegister.LoginAndRegisterViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 class RegisterFragment : Fragment() {
 
     lateinit var binding: FragmentRegisterBinding
-    lateinit var viewmodel: LoginAndRegisterVieModel
+    lateinit var viewmodel: LoginAndRegisterViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

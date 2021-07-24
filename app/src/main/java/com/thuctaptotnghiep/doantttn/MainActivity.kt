@@ -29,17 +29,19 @@ class MainActivity : AppCompatActivity() {
 
     fun setUp() {
         ///UI working  too much on this suspend function
+        val pref = getSharedPreferences("com.thuctaptotnghiep.doantttn", Context.MODE_PRIVATE)
+        val token = pref.getString("token", "null")
+        val role = pref.getString("role", "null")
+        Log.i("token", token!!)
         CoroutineScope(Dispatchers.Default).launch {
             delay(5000)
-            val pref = getSharedPreferences("com.thuctaptotnghiep.doantttn", Context.MODE_PRIVATE)
-            val token = pref.getString("accessToken", "null")
-            if (token.equals("null")) {
+            if (token == "null") {
                 val goToLoginActivity =
                     Intent(this@MainActivity, LoginAndRegisterActivity::class.java)
                 startActivity(goToLoginActivity)
             } else {
                 if (viewModel.checkTokenNotExpire().await()) {
-                    when (pref.getString("role", "null")) {
+                    when (role) {
                         "admin" -> {
                             val goToMainScreenAdmin =
                                 Intent(this@MainActivity, MainAdminActivity::class.java)
@@ -56,7 +58,7 @@ class MainActivity : AppCompatActivity() {
                                 "Some thing was wrong, Logout",
                                 Snackbar.LENGTH_LONG
                             ).apply {
-                                setBackgroundTint(Color.WHITE)
+                                setBackgroundTint(Color.RED)
                             }.show()
                             val goToLoginActivity =
                                 Intent(this@MainActivity, LoginAndRegisterActivity::class.java)
@@ -64,9 +66,45 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 } else {
-                    val goToLoginActivity =
-                        Intent(this@MainActivity, LoginAndRegisterActivity::class.java)
-                    startActivity(goToLoginActivity)
+                    val updateTokenResult = viewModel.getNewToken(token!!).await()
+                    if ((updateTokenResult["flag"] as Boolean)) {
+                        pref.edit().putString("token", updateTokenResult["token"].toString())
+                            .apply()
+                        when (pref.getString("role", "null")) {
+                            "admin" -> {
+                                val goToMainScreenAdmin =
+                                    Intent(this@MainActivity, MainAdminActivity::class.java)
+                                startActivity(goToMainScreenAdmin)
+                            }
+                            "guest" -> {
+                                val goToMainScreenGuest =
+                                    Intent(this@MainActivity, MainGuestActivity::class.java)
+                                startActivity(goToMainScreenGuest)
+                            }
+                            "null" -> {
+                                Snackbar.make(
+                                    binding.root,
+                                    "Some thing was wrong, Logout",
+                                    Snackbar.LENGTH_LONG
+                                ).apply {
+                                    setBackgroundTint(Color.RED)
+                                }.show()
+                                val goToLoginActivity =
+                                    Intent(this@MainActivity, LoginAndRegisterActivity::class.java)
+                                startActivity(goToLoginActivity)
+                            }
+                        }
+                    } else {
+                        Snackbar.make(
+                            binding.root, updateTokenResult["message"].toString(),
+                            Snackbar.LENGTH_LONG
+                        ).apply {
+                            setBackgroundTint(Color.RED)
+                        }.show()
+                        val goToLoginActivity =
+                            Intent(this@MainActivity, LoginAndRegisterActivity::class.java)
+                        startActivity(goToLoginActivity)
+                    }
                 }
             }
         }

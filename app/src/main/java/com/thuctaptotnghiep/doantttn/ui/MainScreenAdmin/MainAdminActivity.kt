@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -16,6 +17,7 @@ import com.thuctaptotnghiep.doantttn.databinding.ActivityMainAdminBinding
 class MainAdminActivity : AppCompatActivity() {
 
     lateinit var binding:ActivityMainAdminBinding
+    lateinit var viewModel: MainAdminViewModel
     lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +30,8 @@ class MainAdminActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(navController.graph,binding.drawerLayoutAdminMain)
         binding.navViewMainAdmin.setupWithNavController(navController)
         binding.adminMainToolbar.setupWithNavController(navController,appBarConfiguration)
+
+        viewModel = ViewModelProvider(this).get(MainAdminViewModel::class.java)
     }
 
 

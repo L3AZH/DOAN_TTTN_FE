@@ -2,7 +2,6 @@ package com.thuctaptotnghiep.doantttn.repository
 
 import com.thuctaptotnghiep.doantttn.Constant
 import com.thuctaptotnghiep.doantttn.api.ApiInterface
-import com.thuctaptotnghiep.doantttn.api.RetrofitInstance
 import com.thuctaptotnghiep.doantttn.api.request.LoginRequest
 import com.thuctaptotnghiep.doantttn.api.request.RefreshTokenRequest
 import com.thuctaptotnghiep.doantttn.api.request.RegisterRequest
@@ -26,4 +25,6 @@ class Repository @Inject constructor(private val api:ApiInterface){
         )
 
     suspend fun checkTokenExpire() = api.checkTokenExpire()
+
+    suspend fun getAllCategory(token:String) = api.getAllCategory(token)
 }

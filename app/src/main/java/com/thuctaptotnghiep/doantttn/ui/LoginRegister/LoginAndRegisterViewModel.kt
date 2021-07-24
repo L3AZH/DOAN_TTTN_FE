@@ -9,7 +9,7 @@ import com.thuctaptotnghiep.doantttn.repository.Repository
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-class LoginAndRegisterVieModel(application: Application) : AndroidViewModel(application) {
+class LoginAndRegisterViewModel(application: Application) : AndroidViewModel(application) {
 
     @Inject
     lateinit var repository: Repository

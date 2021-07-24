@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.klinker.android.link_builder.Link
@@ -17,7 +16,7 @@ import com.klinker.android.link_builder.applyLinks
 import com.thuctaptotnghiep.doantttn.R
 import com.thuctaptotnghiep.doantttn.databinding.FragmentLoginBinding
 import com.thuctaptotnghiep.doantttn.ui.LoginRegister.LoginAndRegisterActivity
-import com.thuctaptotnghiep.doantttn.ui.LoginRegister.LoginAndRegisterVieModel
+import com.thuctaptotnghiep.doantttn.ui.LoginRegister.LoginAndRegisterViewModel
 import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +26,7 @@ import kotlinx.coroutines.launch
 class LoginFragment : Fragment() {
 
     lateinit var binding: FragmentLoginBinding
-    lateinit var viewModel: LoginAndRegisterVieModel
+    lateinit var viewModel: LoginAndRegisterViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,25 +46,23 @@ class LoginFragment : Fragment() {
     }
 
     fun initViewModel() {
-        viewModel.loginResult.observe(viewLifecycleOwner,  { result ->
+        viewModel.loginResult.observe(viewLifecycleOwner, { result ->
             if ((result["flag"] as Boolean)) {
+                val prefs = requireActivity().getSharedPreferences(
+                    "com.thuctaptotnghiep.doantttn.ui.LoginRegister.fragment",
+                    Context.MODE_PRIVATE
+                )
+                prefs.edit().apply {
+                    putString("token", result["token"].toString())
+                    putString("refreshToken", result["refreshToken"].toString())
+                }.apply()
                 if (result["role"].toString() == "admin") {
-                    val prefs = requireActivity().getSharedPreferences("com.thuctaptotnghiep.doantttn.ui.LoginRegister.fragment",Context.MODE_PRIVATE)
-                    prefs.edit().apply {
-                        putString("token","")
-                        putString("refreshToken","")
-                        putString("role","")
-                    }.apply()
+                    prefs.edit().putString("role", result["role"].toString()).apply()
                     val goToMainScreenAdmin =
                         Intent(requireActivity(), MainAdminActivity::class.java)
                     startActivity(goToMainScreenAdmin)
                 } else {
-                    val prefs = requireActivity().getSharedPreferences("com.thuctaptotnghiep.doantttn.ui.LoginRegister.fragment",Context.MODE_PRIVATE)
-                    prefs.edit().apply {
-                        putString("token","")
-                        putString("refreshToken","")
-                        putString("role","")
-                    }.apply()
+                    prefs.edit().putString("role", result["role"].toString()).apply()
                     val goToMainScreenGuest =
                         Intent(requireActivity(), MainAdminActivity::class.java)
                     startActivity(goToMainScreenGuest)
@@ -90,13 +87,14 @@ class LoginFragment : Fragment() {
         }
     }
 
-    fun setLinkTextToRegister(){
+    fun setLinkTextToRegister() {
         val linkText = Link("Register").apply {
             bold = true
             textColor = Color.BLACK
             underlined = false
             setOnClickListener {
-                val goToRegisterFragment =  LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
+                val goToRegisterFragment =
+                    LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
                 findNavController().navigate(goToRegisterFragment)
             }
         }

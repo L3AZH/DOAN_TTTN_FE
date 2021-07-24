@@ -5,16 +5,32 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/drawer_layout_admin_main"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:fitsSystemWindows="true">
-        <!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/nav_host_fragment_main_admin"
-            android:name="androidx.navigation.fragment.NavHostFragment"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_graph_main_admin" />
+            android:orientation="vertical">
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/admin_main_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:elevation="4dp"
+                app:titleTextColor="@color/white"
+                android:theme="@style/ToolbarColoredIcon"
+                app:popupTheme="@style/Theme.MaterialComponents.Light.DarkActionBar"/>
+
+            <!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/nav_host_fragment_main_admin"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/nav_graph_main_admin" />
+        </LinearLayout>
 
         <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
         <com.google.android.material.navigation.NavigationView

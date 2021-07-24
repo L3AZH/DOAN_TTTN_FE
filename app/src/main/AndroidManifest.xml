@@ -16,7 +16,9 @@
         <activity
             android:name=".ui.LoginRegister.LoginAndRegisterActivity"
             android:theme="@style/LoginAndRegisterAndSplashTheme" />
-        <activity android:name=".ui.MainScreenAdmin.MainAdminActivity" />
+        <activity
+            android:name=".ui.MainScreenAdmin.MainAdminActivity"
+            android:theme="@style/Theme.MaterialComponents.NoActionBar"/>
         <activity
             android:name=".MainActivity"
             android:theme="@style/LoginAndRegisterAndSplashTheme">

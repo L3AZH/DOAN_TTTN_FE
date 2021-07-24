@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -20,11 +21,13 @@ class MainAdminActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main_admin)
+        setSupportActionBar(binding.adminMainToolbar)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_main_admin) as NavHostFragment
         navController = navHostFragment.navController
-        val appBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayoutAdminMain)
+        val appBarConfiguration = AppBarConfiguration(navController.graph,binding.drawerLayoutAdminMain)
         binding.navViewMainAdmin.setupWithNavController(navController)
+        binding.adminMainToolbar.setupWithNavController(navController,appBarConfiguration)
     }
 
 

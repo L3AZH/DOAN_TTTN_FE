@@ -17,4 +17,8 @@
         <!--        <item name="android:windowBackground"></item>-->
         <item name="android:statusBarColor">@android:color/darker_gray</item>
     </style>
+
+    <style name="ToolbarColoredIcon" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="android:textColorSecondary">@color/white</item>
+    </style>
 </resources>

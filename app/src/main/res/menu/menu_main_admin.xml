@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn = "navigation_view">
+    <item
+        android:id="@+id/categoryFragment"
+        android:title="Category"
+        android:icon="@drawable/ic_baseline_category_32" />
+    <item
+        android:id="@+id/productFragment"
+        android:title="Product"
+        android:icon="@drawable/ic_baseline_backpack_32"/>
+</menu>

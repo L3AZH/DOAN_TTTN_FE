@@ -28,10 +28,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setUp() {
-        Log.i("RUnning setup", "${Thread.currentThread()} ")
+        ///UI working  too much on this suspend function
         CoroutineScope(Dispatchers.Default).launch {
             delay(5000)
-            Log.i("RUnning setup", "${Thread.currentThread()} ")
             val pref = getSharedPreferences("com.thuctaptotnghiep.doantttn", Context.MODE_PRIVATE)
             val token = pref.getString("accessToken", "null")
             if (token.equals("null")) {

@@ -83,10 +83,13 @@ dependencies {
     //Material
     implementation "com.google.android.material:material:$material_version"
 
-    //linkfortextview
-    implementation 'com.klinkerapps:link_builder:2.0.5'
-
     //dagger 2
     implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
+    // circle image view
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //linkfortextview
+    implementation 'com.klinkerapps:link_builder:2.0.5'
 }

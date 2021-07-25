@@ -1,6 +1,7 @@
 package com.thuctaptotnghiep.doantttn
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.thuctaptotnghiep.doantttn.api.response.ErrorResponse
@@ -21,14 +22,13 @@ class MainActivityViewModel(application:Application):AndroidViewModel(applicatio
        (application as App).getRepositoryComponent().inject(this)
     }
 
-    fun checkTokenNotExpire():Deferred<Boolean> = CoroutineScope(Dispatchers.Default).async {
-        val response = repository.checkTokenExpire()
+    fun checkTokenNotExpire(token: String):Deferred<Boolean> = CoroutineScope(Dispatchers.Default).async {
+        var result = false
+        val response = repository.checkTokenExpire(token)
         if(response.isSuccessful){
-            return@async response.code() == 200
+            result = true
         }
-        else{
-            return@async false
-        }
+        result
     }
 
     fun getNewToken(token:String):Deferred<Map<String,Any>> = CoroutineScope(Dispatchers.Default).async {

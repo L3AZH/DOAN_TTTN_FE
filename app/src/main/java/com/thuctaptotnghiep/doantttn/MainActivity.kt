@@ -29,18 +29,19 @@ class MainActivity : AppCompatActivity() {
 
     fun setUp() {
         ///UI working  too much on this suspend function
-        val pref = getSharedPreferences("com.thuctaptotnghiep.doantttn", Context.MODE_PRIVATE)
+        val pref = getSharedPreferences(Constant.SHARE_PREFERENCE_NAME, Context.MODE_PRIVATE)
         val token = pref.getString("token", "null")
         val role = pref.getString("role", "null")
         Log.i("token", token!!)
+        Log.i("role", role!!)
         CoroutineScope(Dispatchers.Default).launch {
-            delay(5000)
+            //delay(5000)
             if (token == "null") {
                 val goToLoginActivity =
                     Intent(this@MainActivity, LoginAndRegisterActivity::class.java)
                 startActivity(goToLoginActivity)
             } else {
-                if (viewModel.checkTokenNotExpire().await()) {
+                if (viewModel.checkTokenNotExpire(token).await()) {
                     when (role) {
                         "admin" -> {
                             val goToMainScreenAdmin =

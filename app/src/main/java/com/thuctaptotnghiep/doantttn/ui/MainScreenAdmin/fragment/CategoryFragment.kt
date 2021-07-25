@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.thuctaptotnghiep.doantttn.Constant
 import com.thuctaptotnghiep.doantttn.R
 import com.thuctaptotnghiep.doantttn.adapter.CategoryAdapter
 import com.thuctaptotnghiep.doantttn.databinding.FragmentCategoryBinding
@@ -49,15 +50,13 @@ class CategoryFragment : Fragment() {
         })
         CoroutineScope(Dispatchers.Default).launch {
             val pref = requireActivity().getSharedPreferences(
-                "com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.fragment",
+                Constant.SHARE_PREFERENCE_NAME,
                 Context.MODE_PRIVATE
             )
-            val token: String = pref.getString("token", "null")!!
+            val token = pref.getString("token", "null")!!
             if (token == "null") {
                 Snackbar.make(binding.root, "token null", Snackbar.LENGTH_LONG)
-                    .setBackgroundTint(
-                        Color.RED
-                    ).show()
+                    .setBackgroundTint(Color.RED).show()
             } else {
                 viewModel.getAllCategory(token)
             }

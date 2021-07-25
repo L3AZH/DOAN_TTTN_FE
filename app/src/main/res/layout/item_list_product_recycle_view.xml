@@ -4,13 +4,13 @@
     <LinearLayout
         android:id="@+id/rowLayoutItem"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal">
         <TextView
-            android:id="@+id/uuidTextViewItemCategory"
+            android:id="@+id/uuidTextViewItemProduct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.7"
+            android:layout_weight="0.6"
             android:text="TextView"
             android:textSize="16sp"
             android:textColor="@color/white"
@@ -19,12 +19,25 @@
             android:ellipsize="end"/>
 
         <TextView
-            android:id="@+id/nameTextViewItemCategory"
+            android:id="@+id/nameTextViewItemProduct"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.3"
+            android:layout_weight="0.4"
             android:text="TextView"
-            android:textAlignment="center"
+            android:textAlignment="textStart"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_margin="10dp"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:id="@+id/idCategoryTextViewItemProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
+            android:text="TextView"
+            android:textAlignment="textStart"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:layout_margin="10dp"

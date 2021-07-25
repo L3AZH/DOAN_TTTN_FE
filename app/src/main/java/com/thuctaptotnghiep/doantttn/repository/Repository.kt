@@ -24,7 +24,9 @@ class Repository @Inject constructor(private val api:ApiInterface){
             RefreshTokenRequest(refreshToken)
         )
 
-    suspend fun checkTokenExpire() = api.checkTokenExpire()
+    suspend fun checkTokenExpire(token: String) = api.checkTokenExpire(token)
 
     suspend fun getAllCategory(token:String) = api.getAllCategory(token)
+
+    suspend fun getAllProduct(token: String) = api.getAllProduct(token)
 }

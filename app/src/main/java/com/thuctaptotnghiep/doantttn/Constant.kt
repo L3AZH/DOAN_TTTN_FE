@@ -6,7 +6,8 @@ import android.util.Base64
 object Constant {
     val BASICAUTH_USER = "appdoantttn"
     val BASICAUTH_PASSWORD = "n17dccn004"
-    val BASE_URL = "http://192.168.1.8:7000/api/"
+    val BASE_URL = "http://192.168.1.9:7000/api/"
+    val SHARE_PREFERENCE_NAME = "com.thuctaptotnghiep.doantttn.app_config"
 
     fun getEncryptAccount():String{
         val account = "${BASICAUTH_USER}:${BASICAUTH_PASSWORD}"

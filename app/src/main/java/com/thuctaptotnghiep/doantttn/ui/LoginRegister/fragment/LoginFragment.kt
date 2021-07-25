@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.klinker.android.link_builder.Link
 import com.klinker.android.link_builder.applyLinks
+import com.thuctaptotnghiep.doantttn.Constant
 import com.thuctaptotnghiep.doantttn.R
 import com.thuctaptotnghiep.doantttn.databinding.FragmentLoginBinding
 import com.thuctaptotnghiep.doantttn.ui.LoginRegister.LoginAndRegisterActivity
@@ -49,11 +50,11 @@ class LoginFragment : Fragment() {
         viewModel.loginResult.observe(viewLifecycleOwner, { result ->
             if ((result["flag"] as Boolean)) {
                 val prefs = requireActivity().getSharedPreferences(
-                    "com.thuctaptotnghiep.doantttn.ui.LoginRegister.fragment",
+                    Constant.SHARE_PREFERENCE_NAME,
                     Context.MODE_PRIVATE
                 )
                 prefs.edit().apply {
-                    putString("token", result["token"].toString())
+                    putString("token", "Bearer "+result["token"].toString())
                     putString("refreshToken", result["refreshToken"].toString())
                 }.apply()
                 if (result["role"].toString() == "admin") {

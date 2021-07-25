@@ -3,10 +3,7 @@ package com.thuctaptotnghiep.doantttn.api
 import com.thuctaptotnghiep.doantttn.api.request.LoginRequest
 import com.thuctaptotnghiep.doantttn.api.request.RefreshTokenRequest
 import com.thuctaptotnghiep.doantttn.api.request.RegisterRequest
-import com.thuctaptotnghiep.doantttn.api.response.GetAllCategoryResponse
-import com.thuctaptotnghiep.doantttn.api.response.LoginResponse
-import com.thuctaptotnghiep.doantttn.api.response.RefreshTokenResponse
-import com.thuctaptotnghiep.doantttn.api.response.RegisterResponse
+import com.thuctaptotnghiep.doantttn.api.response.*
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -36,13 +33,20 @@ interface ApiInterface {
     ): Response<RefreshTokenResponse>
 
     @GET("auth/check-token-expire")
-    suspend fun checkTokenExpire():Response<Any>
+    suspend fun checkTokenExpire(
+        @Header("Authorization") token:String
+    ):Response<Any>
 
 
     @GET("category/get-all-category")
     suspend fun getAllCategory(
         @Header("Authorization") token:String
     ):Response<GetAllCategoryResponse>
+
+    @GET("product/get-all-product")
+    suspend fun getAllProduct(
+        @Header("Authorization") token: String
+    ):Response<GetAllProductResponse>
 
 
 }

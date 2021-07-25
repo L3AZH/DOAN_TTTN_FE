@@ -8,6 +8,17 @@
         android:layout_height="match_parent"
         tools:context=".ui.MainScreenAdmin.fragment.ProductFragment">
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addProductFloatingBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="32dp"
+            android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@android:drawable/ic_input_add" />
+
         <LinearLayout
             android:id="@+id/searchProductLayout"
             android:layout_width="match_parent"
@@ -17,13 +28,14 @@
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="32dp"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@+id/materialCardView"
+            app:layout_constraintBottom_toTopOf="@+id/listProductCardView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/searchProductInputTextEdit"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:boxCornerRadiusBottomEnd="20dp"
@@ -41,7 +53,7 @@
         </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/materialCardView"
+            android:id="@+id/listProductCardView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="32dp"
@@ -54,6 +66,61 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/searchProductLayout">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.2"
+                            android:background="@android:color/holo_green_light"
+                            android:padding="5dp"
+                            android:text="UUID"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.6"
+                            android:background="@android:color/holo_orange_dark"
+                            android:padding="5dp"
+                            android:text="Name"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.2"
+                            android:background="@android:color/holo_red_light"
+                            android:padding="5dp"
+                            android:text="ID Category"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </TableRow>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/listProductRecycleView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </TableLayout>
+            </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

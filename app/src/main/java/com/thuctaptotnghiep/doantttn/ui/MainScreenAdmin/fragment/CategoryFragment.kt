@@ -14,7 +14,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.thuctaptotnghiep.doantttn.Constant
 import com.thuctaptotnghiep.doantttn.R
 import com.thuctaptotnghiep.doantttn.adapter.CategoryAdapter
+import com.thuctaptotnghiep.doantttn.api.response.Category
 import com.thuctaptotnghiep.doantttn.databinding.FragmentCategoryBinding
+import com.thuctaptotnghiep.doantttn.dialog.CategoryAddDialog
+import com.thuctaptotnghiep.doantttn.dialog.CategoryEditDialog
 import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminActivity
 import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -42,6 +45,7 @@ class CategoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUpRecycleView()
         intialViewModel()
+        setOnClickAddBtn()
     }
 
     fun intialViewModel() {
@@ -65,7 +69,23 @@ class CategoryFragment : Fragment() {
 
     fun setUpRecycleView() {
         categoryAdapter = CategoryAdapter()
+        categoryAdapter.setItemOnClickListern {
+            itemCategoryClickListener(it)
+        }
         binding.listCategoryRecycleView.layoutManager = LinearLayoutManager(activity)
         binding.listCategoryRecycleView.adapter = categoryAdapter
+    }
+
+    fun itemCategoryClickListener(category:Category){
+        val dialogEdit = CategoryEditDialog(category)
+        dialogEdit.show(requireActivity().supportFragmentManager,"editing category dialog")
+    }
+
+    fun setOnClickAddBtn(){
+        binding.addCategoryFloatingBtn.setOnClickListener {
+            val addDialog = CategoryAddDialog()
+            addDialog.show(requireActivity().supportFragmentManager,"adding category dialog")
+        }
+
     }
 }

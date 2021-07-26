@@ -12,6 +12,12 @@ import com.thuctaptotnghiep.doantttn.databinding.ItemListCategoryRecycleViewBind
 
 class CategoryAdapter() : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
+    var itemOnClickListener:((category:Category)->Unit)? = null
+
+    fun setItemOnClickListern(listener: ((category:Category)->Unit)){
+        this.itemOnClickListener = listener
+    }
+
     var differCallBack = object : DiffUtil.ItemCallback<Category>() {
         override fun areItemsTheSame(oldItem: Category, newItem: Category): Boolean {
             return oldItem.idCategory == newItem.idCategory
@@ -36,7 +42,7 @@ class CategoryAdapter() : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolde
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        holder.setUpBinding(diff.currentList[position])
+        holder.setUpBinding(diff.currentList[position],itemOnClickListener!!)
     }
 
     override fun getItemCount(): Int {
@@ -46,9 +52,14 @@ class CategoryAdapter() : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolde
 
     inner class CategoryViewHolder(val binding: ItemListCategoryRecycleViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun setUpBinding(category: Category) {
+        fun setUpBinding(category: Category,itemClickListener:((category:Category)->Unit)) {
             binding.uuidTextViewItemCategory.text = category.idCategory
             binding.nameTextViewItemCategory.text = category.name
+            itemView.setOnClickListener {
+                itemClickListener.let {
+                    it(category)
+                }
+            }
         }
     }
 }

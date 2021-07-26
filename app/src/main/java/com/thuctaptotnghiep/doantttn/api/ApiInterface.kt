@@ -1,14 +1,9 @@
 package com.thuctaptotnghiep.doantttn.api
 
-import com.thuctaptotnghiep.doantttn.api.request.LoginRequest
-import com.thuctaptotnghiep.doantttn.api.request.RefreshTokenRequest
-import com.thuctaptotnghiep.doantttn.api.request.RegisterRequest
+import com.thuctaptotnghiep.doantttn.api.request.*
 import com.thuctaptotnghiep.doantttn.api.response.*
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 
 
 interface ApiInterface {
@@ -37,11 +32,37 @@ interface ApiInterface {
         @Header("Authorization") token:String
     ):Response<Any>
 
+    /**
+    API category
+     */
 
     @GET("category/get-all-category")
     suspend fun getAllCategory(
         @Header("Authorization") token:String
     ):Response<GetAllCategoryResponse>
+
+    @POST("category/create-new-category")
+    suspend fun createNewCategory(
+        @Header("Authorization") token: String,
+        @Body categoryRequest: AddCategoryRequest
+    ):Response<AddCategoryResponse>
+
+    @DELETE("category/delete-category/{idCategory}")
+    suspend fun deleteCategory(
+        @Header("Authorization") token: String,
+        @Path("idCategory") idCategory:String
+    ):Response<DeleteCategoryReponse>
+
+    @PUT("category/update-category/{idCategory}")
+    suspend fun updateCategory(
+        @Header("Authorization") token: String,
+        @Path("idCategory") idCategory: String,
+        @Body updateCategoryRequest: UpdateCategoryRequest
+    ):Response<UpdateCategoryReponse>
+
+    /**
+    API Product
+     */
 
     @GET("product/get-all-product")
     suspend fun getAllProduct(

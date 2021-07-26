@@ -2,12 +2,11 @@ package com.thuctaptotnghiep.doantttn.repository
 
 import com.thuctaptotnghiep.doantttn.Constant
 import com.thuctaptotnghiep.doantttn.api.ApiInterface
-import com.thuctaptotnghiep.doantttn.api.request.LoginRequest
-import com.thuctaptotnghiep.doantttn.api.request.RefreshTokenRequest
-import com.thuctaptotnghiep.doantttn.api.request.RegisterRequest
+import com.thuctaptotnghiep.doantttn.api.request.*
 import javax.inject.Inject
 
-class Repository @Inject constructor(private val api:ApiInterface){
+class Repository @Inject constructor(private val api: ApiInterface) {
+
 
     suspend fun login(email: String, password: String) =
         api.login(Constant.getEncryptAccount(), LoginRequest(email, password))
@@ -26,7 +25,20 @@ class Repository @Inject constructor(private val api:ApiInterface){
 
     suspend fun checkTokenExpire(token: String) = api.checkTokenExpire(token)
 
-    suspend fun getAllCategory(token:String) = api.getAllCategory(token)
+
+    suspend fun getAllCategory(token: String) = api.getAllCategory(token)
+    suspend fun createNewCategory(token: String, addCategoryRequest: AddCategoryRequest) =
+        api.createNewCategory(token, addCategoryRequest)
+
+    suspend fun deleteCategory(token: String, idCategory: String) =
+        api.deleteCategory(token, idCategory)
+
+    suspend fun updateCategory(
+        token: String,
+        idCategory: String,
+        categoryRequest: UpdateCategoryRequest
+    ) = api.updateCategory(token, idCategory, categoryRequest)
+
 
     suspend fun getAllProduct(token: String) = api.getAllProduct(token)
 }

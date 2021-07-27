@@ -69,5 +69,24 @@ interface ApiInterface {
         @Header("Authorization") token: String
     ):Response<GetAllProductResponse>
 
+    @POST("product/create-new-product")
+    suspend fun createNewProduct(
+        @Header("Authorization") token: String,
+        @Body addProductRequest:AddProductRequest
+    ):Response<AddProductResponse>
+
+    @DELETE("product/delete-product/{idProduct}")
+    suspend fun deleteProduct(
+        @Header("Authorization") token: String,
+        @Path("idProduct") idProduct:String
+    ):Response<DeleteProductResponse>
+
+    @PUT("product/update-product/{idProduct}")
+    suspend fun updateProduct(
+        @Header("Authorization") token: String,
+        @Path("idProduct") idProduct: String,
+        @Body updateProductRequest: UpdateProductRequest
+    ):Response<UpdateProductResponse>
+
 
 }

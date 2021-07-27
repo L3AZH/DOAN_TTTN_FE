@@ -8,7 +8,11 @@ data class Category(
     var idCategory:String,
     @SerializedName("name")
     var name:String
-)
+){
+    override fun toString(): String {
+        return name;
+    }
+}
 
 data class DataAllCategoryResponse(
     @SerializedName("result")

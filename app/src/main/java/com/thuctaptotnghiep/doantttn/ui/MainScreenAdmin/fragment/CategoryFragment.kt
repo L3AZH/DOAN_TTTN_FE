@@ -69,7 +69,7 @@ class CategoryFragment : Fragment() {
 
     fun setUpRecycleView() {
         categoryAdapter = CategoryAdapter()
-        categoryAdapter.setItemOnClickListern {
+        categoryAdapter.setItemCategoryAdapterOnClickListener {
             itemCategoryClickListener(it)
         }
         binding.listCategoryRecycleView.layoutManager = LinearLayoutManager(activity)

@@ -13,7 +13,7 @@ object Constant {
         val account = "${BASICAUTH_USER}:${BASICAUTH_PASSWORD}"
         val data = account.toByteArray()
         val base64 = Base64.encodeToString(data,Base64.NO_WRAP)
-        return "Basic $base64";
+        return "Basic $base64"
     }
 
 }

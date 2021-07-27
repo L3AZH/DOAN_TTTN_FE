@@ -13,7 +13,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.thuctaptotnghiep.doantttn.Constant
 import com.thuctaptotnghiep.doantttn.R
 import com.thuctaptotnghiep.doantttn.adapter.ProductAdapter
+import com.thuctaptotnghiep.doantttn.api.response.Product
 import com.thuctaptotnghiep.doantttn.databinding.FragmentProductBinding
+import com.thuctaptotnghiep.doantttn.dialog.ProductAddDialog
+import com.thuctaptotnghiep.doantttn.dialog.ProductEditDialog
 import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminActivity
 import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -40,6 +43,7 @@ class ProductFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUpRecycleView()
         initViewModel()
+        setOnclickAddProductFloatingBtn()
     }
 
     fun initViewModel(){
@@ -65,5 +69,20 @@ class ProductFragment : Fragment() {
         productAdapter = ProductAdapter()
         binding.listProductRecycleView.layoutManager = LinearLayoutManager(activity)
         binding.listProductRecycleView.adapter = productAdapter
+        productAdapter.setItemProductAdapterOnClickListener {
+            setOnItemProductApdapterListener(it)
+        }
+    }
+
+    fun setOnItemProductApdapterListener(product:Product){
+        val dialogEditProduct = ProductEditDialog(product,viewModel.listCategory.value!!)
+        dialogEditProduct.show(requireActivity().supportFragmentManager,"edit product dialog")
+    }
+
+    fun setOnclickAddProductFloatingBtn(){
+        binding.addProductFloatingBtn.setOnClickListener {
+            val dialogAddProduct = ProductAddDialog(viewModel.listCategory.value!!)
+            dialogAddProduct.show(requireActivity().supportFragmentManager,"add product dialog")
+        }
     }
 }

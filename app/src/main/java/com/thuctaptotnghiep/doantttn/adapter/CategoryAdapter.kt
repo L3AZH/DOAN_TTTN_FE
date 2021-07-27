@@ -14,7 +14,7 @@ class CategoryAdapter() : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolde
 
     var itemOnClickListener:((category:Category)->Unit)? = null
 
-    fun setItemOnClickListern(listener: ((category:Category)->Unit)){
+    fun setItemCategoryAdapterOnClickListener(listener: ((category:Category)->Unit)){
         this.itemOnClickListener = listener
     }
 

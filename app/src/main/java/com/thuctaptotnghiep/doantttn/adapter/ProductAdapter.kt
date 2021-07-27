@@ -7,12 +7,17 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.thuctaptotnghiep.doantttn.R
-import com.thuctaptotnghiep.doantttn.api.response.Category
 import com.thuctaptotnghiep.doantttn.api.response.Product
-import com.thuctaptotnghiep.doantttn.databinding.FragmentProductBinding
 import com.thuctaptotnghiep.doantttn.databinding.ItemListProductRecycleViewBinding
 
-class ProductAdapter : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
+class ProductAdapter() : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
+
+    var itemOnClickListener:((product:Product)->Unit)? = null
+
+    fun setItemProductAdapterOnClickListener(listener: ((product:Product)->Unit) ){
+        this.itemOnClickListener = listener
+    }
+
 
     var differCallBack = object : DiffUtil.ItemCallback<Product>() {
         override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
@@ -38,7 +43,7 @@ class ProductAdapter : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() 
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
-        holder.setUpBinding(diff.currentList[position])
+        holder.setUpBinding(diff.currentList[position],itemOnClickListener!!)
     }
 
     override fun getItemCount(): Int {
@@ -48,10 +53,13 @@ class ProductAdapter : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() 
 
     inner class ProductViewHolder(val binding: ItemListProductRecycleViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun setUpBinding(product: Product) {
+        fun setUpBinding(product: Product,listener: (product: Product) -> Unit) {
             binding.uuidTextViewItemProduct.text = product.idProduct
             binding.nameTextViewItemProduct.text = product.name
             binding.idCategoryTextViewItemProduct.text = product.CategoryIdCategory
+            itemView.setOnClickListener {
+                listener.let { it(product) }
+            }
         }
     }
 }

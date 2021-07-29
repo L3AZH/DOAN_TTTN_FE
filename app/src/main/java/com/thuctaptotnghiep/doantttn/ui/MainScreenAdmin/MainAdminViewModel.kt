@@ -4,13 +4,11 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.thuctaptotnghiep.doantttn.App
-import com.thuctaptotnghiep.doantttn.api.request.AddCategoryRequest
-import com.thuctaptotnghiep.doantttn.api.request.AddProductRequest
-import com.thuctaptotnghiep.doantttn.api.request.UpdateCategoryRequest
-import com.thuctaptotnghiep.doantttn.api.request.UpdateProductRequest
+import com.thuctaptotnghiep.doantttn.api.request.*
 import com.thuctaptotnghiep.doantttn.api.response.Category
 import com.thuctaptotnghiep.doantttn.api.response.ErrorResponse
 import com.thuctaptotnghiep.doantttn.api.response.Product
+import com.thuctaptotnghiep.doantttn.api.response.Shop
 import com.thuctaptotnghiep.doantttn.repository.Repository
 import kotlinx.coroutines.*
 import javax.inject.Inject
@@ -22,6 +20,7 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
 
     var listCategory: MutableLiveData<List<Category>> = MutableLiveData()
     var listProduct: MutableLiveData<List<Product>> = MutableLiveData()
+    var listShop: MutableLiveData<List<Shop>> = MutableLiveData()
 
     init {
         (application as App).getRepositoryComponent().inject(this)
@@ -140,11 +139,11 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
     fun updateProduct(
         token: String,
         idProduct: String,
-        name:String,
+        name: String,
         idCategory: String
-    ):Deferred<Map<String,Any>> = CoroutineScope(Dispatchers.Default).async {
+    ): Deferred<Map<String, Any>> = CoroutineScope(Dispatchers.Default).async {
         val response =
-            repository.updateProduct(token, idProduct, UpdateProductRequest(name,idCategory))
+            repository.updateProduct(token, idProduct, UpdateProductRequest(name, idCategory))
         var resultMap: MutableMap<String, Any> = mutableMapOf()
         if (response.isSuccessful) {
             resultMap["flag"] = response.body()!!.flag
@@ -156,6 +155,77 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
             resultMap["message"] = error.data.message
         }
         getAllProduct(token)
+        resultMap
+    }
+
+    fun getAllShop(token: String) = CoroutineScope(Dispatchers.Default).launch {
+        val response = repository.getAllShop(token)
+        if (response.isSuccessful) {
+            listShop.postValue(response.body()!!.data.result)
+        }
+    }
+
+    fun createNewShop(
+        token: String,
+        name: String,
+        phone: String,
+        address: String
+    ): Deferred<Map<String, Any>> = CoroutineScope(Dispatchers.Default).async {
+        val response =
+            repository.createNewShop(token, AddShopRequest(name, phone, address))
+        var resultMap: MutableMap<String, Any> = mutableMapOf()
+        if (response.isSuccessful) {
+            resultMap["flag"] = response.body()!!.flag
+            resultMap["message"] = response.body()!!.data.message
+        } else {
+            val error =
+                ErrorResponse.convertErrorBodyToErrorResponseClass(response.errorBody()!!)
+            resultMap["flag"] = error.flag
+            resultMap["message"] = error.data.message
+        }
+        getAllShop(token)
+        resultMap
+    }
+
+    fun deleteShop(
+        token: String,
+        idShop: String
+    ): Deferred<Map<String,Any>> = CoroutineScope(Dispatchers.Default).async {
+        val response = repository.deleteShop(token, idShop)
+        var resultMap: MutableMap<String, Any> = mutableMapOf()
+        if (response.isSuccessful) {
+            resultMap["flag"] = response.body()!!.flag
+            resultMap["message"] = response.body()!!.data.message
+        } else {
+            val error =
+                ErrorResponse.convertErrorBodyToErrorResponseClass(response.errorBody()!!)
+            resultMap["flag"] = error.flag
+            resultMap["message"] = error.data.message
+        }
+        getAllShop(token)
+        resultMap
+    }
+
+    fun updateShop(
+        token: String,
+        idShop: String,
+        name: String,
+        phone: String,
+        address: String
+    ): Deferred<Map<String, Any>> = CoroutineScope(Dispatchers.Default).async {
+        val response =
+            repository.updateShop(token, idShop, UpdateShopRequest(name, phone,address))
+        var resultMap: MutableMap<String, Any> = mutableMapOf()
+        if (response.isSuccessful) {
+            resultMap["flag"] = response.body()!!.flag
+            resultMap["message"] = response.body()!!.data.message
+        } else {
+            val error =
+                ErrorResponse.convertErrorBodyToErrorResponseClass(response.errorBody()!!)
+            resultMap["flag"] = error.flag
+            resultMap["message"] = error.data.message
+        }
+        getAllShop(token)
         resultMap
     }
 }

@@ -10,29 +10,24 @@ class Repository @Inject constructor(private val api: ApiInterface) {
 
     suspend fun login(email: String, password: String) =
         api.login(Constant.getEncryptAccount(), LoginRequest(email, password))
-
     suspend fun register(email: String, password: String, role: String) =
         api.register(
             Constant.getEncryptAccount(),
             RegisterRequest(email, password, role)
         )
-
     suspend fun refreshToken(refreshToken: String) =
         api.refreshToken(
             Constant.getEncryptAccount(),
             RefreshTokenRequest(refreshToken)
         )
-
     suspend fun checkTokenExpire(token: String) = api.checkTokenExpire(token)
 
 
     suspend fun getAllCategory(token: String) = api.getAllCategory(token)
     suspend fun createNewCategory(token: String, addCategoryRequest: AddCategoryRequest) =
         api.createNewCategory(token, addCategoryRequest)
-
     suspend fun deleteCategory(token: String, idCategory: String) =
         api.deleteCategory(token, idCategory)
-
     suspend fun updateCategory(
         token: String,
         idCategory: String,
@@ -50,4 +45,15 @@ class Repository @Inject constructor(private val api: ApiInterface) {
         idCategory: String,
         updateProductRequest: UpdateProductRequest
     ) = api.updateProduct(token, idCategory, updateProductRequest)
+
+
+    suspend fun getAllShop(token: String) = api.getAllShop(token)
+    suspend fun createNewShop(token: String,addShopRequest: AddShopRequest) =
+        api.createNewShop(token, addShopRequest)
+    suspend fun deleteShop(token: String, idShop:String) = api.deleteShop(token, idShop)
+    suspend fun updateShop(
+        token: String,
+        idShop: String,
+        updateShopRequest: UpdateShopRequest
+    ) = api.updateShop(token, idShop, updateShopRequest)
 }

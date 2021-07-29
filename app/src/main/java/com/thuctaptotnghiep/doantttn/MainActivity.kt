@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         val pref = getSharedPreferences(Constant.SHARE_PREFERENCE_NAME, Context.MODE_PRIVATE)
         val token = pref.getString("token", "null")
         val role = pref.getString("role", "null")
+        val refreshToken = pref.getString("refreshToken","null")
         Log.i("token", token!!)
         Log.i("role", role!!)
         CoroutineScope(Dispatchers.Default).launch {
@@ -67,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 } else {
-                    val updateTokenResult = viewModel.getNewToken(token!!).await()
+                    val updateTokenResult = viewModel.getNewToken(refreshToken!!).await()
                     if ((updateTokenResult["flag"] as Boolean)) {
                         pref.edit().putString("token", updateTokenResult["token"].toString())
                             .apply()

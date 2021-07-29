@@ -12,4 +12,8 @@
         android:id="@+id/productFragment"
         android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.fragment.ProductFragment"
         android:label="ProductFragment" />
+    <fragment
+        android:id="@+id/shopFragment"
+        android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.fragment.ShopFragment"
+        android:label="ShopFragment" />
 </navigation>

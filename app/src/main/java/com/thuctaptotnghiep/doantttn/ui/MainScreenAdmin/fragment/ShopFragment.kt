@@ -1,60 +1,85 @@
 package com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.fragment
 
+import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
+import com.thuctaptotnghiep.doantttn.Constant
 import com.thuctaptotnghiep.doantttn.R
+import com.thuctaptotnghiep.doantttn.adapter.ShopAdapter
+import com.thuctaptotnghiep.doantttn.api.response.Shop
+import com.thuctaptotnghiep.doantttn.databinding.FragmentShopBinding
+import com.thuctaptotnghiep.doantttn.dialog.ShopAddDialog
+import com.thuctaptotnghiep.doantttn.dialog.ShopEditDialog
+import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminActivity
+import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ShopFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ShopFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    lateinit var binding:FragmentShopBinding
+    lateinit var viewModel:MainAdminViewModel
+    lateinit var shopAdapter: ShopAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shop, container, false)
+        binding = DataBindingUtil.inflate(layoutInflater,R.layout.fragment_shop,container,false)
+        viewModel = (activity as MainAdminActivity).viewModel
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ShopFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ShopFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpRecycleView()
+        initViewModel()
+        setOnClickAddShopFloatingBtn()
+    }
+
+    fun initViewModel(){
+        viewModel.listShop.observe(viewLifecycleOwner,{
+            shopAdapter.diff.submitList(it)
+        })
+        val prefs = requireActivity().getSharedPreferences(Constant.SHARE_PREFERENCE_NAME,Context.MODE_PRIVATE)
+        val token = prefs.getString("token","null")!!
+        CoroutineScope(Dispatchers.Default).launch {
+            if (token == "null") {
+                Snackbar.make(binding.root, "token null", Snackbar.LENGTH_LONG)
+                    .setBackgroundTint(Color.RED).show()
+            }else{
+                viewModel.getAllShop(token)
             }
+        }
+    }
+
+    fun setUpRecycleView(){
+        shopAdapter = ShopAdapter()
+        binding.listShopRecycleView.layoutManager = LinearLayoutManager(activity)
+        binding.listShopRecycleView.adapter = shopAdapter
+        shopAdapter.setItemShopOnClickListener {
+            setShopItemClickListener(it)
+        }
+    }
+
+    fun setShopItemClickListener(shop:Shop){
+        val dialogEditShop = ShopEditDialog(shop)
+        dialogEditShop.show(requireActivity().supportFragmentManager,"dialog edit shop")
+    }
+
+    fun setOnClickAddShopFloatingBtn(){
+        binding.addShopFloatingBtn.setOnClickListener {
+            val dialogAddShop = ShopAddDialog()
+            dialogAddShop.show(requireActivity().supportFragmentManager,"dialog add shop")
+        }
     }
 }

@@ -54,8 +54,8 @@ class LoginFragment : Fragment() {
                     Context.MODE_PRIVATE
                 )
                 prefs.edit().apply {
-                    putString("token", "Bearer "+result["token"].toString())
-                    putString("refreshToken", result["refreshToken"].toString())
+                    putString("token", "Bearer " + result["token"].toString())
+                    putString("refreshToken", "Bearer " + result["refreshToken"].toString())
                 }.apply()
                 if (result["role"].toString() == "admin") {
                     prefs.edit().putString("role", result["role"].toString()).apply()

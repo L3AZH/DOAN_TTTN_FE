@@ -88,5 +88,33 @@ interface ApiInterface {
         @Body updateProductRequest: UpdateProductRequest
     ):Response<UpdateProductResponse>
 
+    /**
+    API shop
+     */
+
+    @GET("shop/get-all-shop")
+    suspend fun getAllShop(
+        @Header("Authorization") token:String
+    ):Response<GetAllShopResponse>
+
+    @POST("shop/create-new-shop")
+    suspend fun createNewShop(
+        @Header("Authorization") token: String,
+        @Body addShopRequest: AddShopRequest
+    ):Response<AddShopResponse>
+
+    @DELETE("shop/delete-shop/{idShop}")
+    suspend fun deleteShop(
+        @Header("Authorization") token: String,
+        @Path("idShop") idShop:String
+    ):Response<DeleteShopResponse>
+
+    @PUT("shop/update-shop/{id" +
+            "Shop}")
+    suspend fun updateShop(
+        @Header("Authorization") token: String,
+        @Path("idShop") idProduct: String,
+        @Body updateShopRequest: UpdateShopRequest
+    ):Response<UpdateShopResponse>
 
 }

@@ -10,7 +10,11 @@ data class Product(
     var name:String,
     @SerializedName("CategoryIdCategory")
     var CategoryIdCategory:String
-)
+){
+    override fun toString(): String {
+        return name;
+    }
+}
 
 data class DataAllProductResponse(
     @SerializedName("result")

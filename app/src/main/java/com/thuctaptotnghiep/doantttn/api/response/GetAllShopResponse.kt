@@ -11,7 +11,11 @@ data class Shop(
     var phone:String,
     @SerializedName("address")
     var address:String
-)
+){
+    override fun toString(): String {
+        return name
+    }
+}
 
 data class DataAllShopResponse(
     @SerializedName("result")

@@ -117,4 +117,18 @@ interface ApiInterface {
         @Body updateShopRequest: UpdateShopRequest
     ):Response<UpdateShopResponse>
 
+    /**
+     * API PriceList
+     */
+    @GET("pricelist/get-all-price-list")
+    suspend fun getAllPriceList(
+        @Header("Authorization") token: String
+    ):Response<GetAllPriceListResponse>
+
+    @POST("pricelist/create-new-price-list-object")
+    suspend fun createNewPriceListObject(
+        @Header("Authorization") token: String,
+        @Body addPriceListObjectRequest: AddPriceListObjectRequest
+    ):Response<AddPriceListObjectResponse>
+
 }

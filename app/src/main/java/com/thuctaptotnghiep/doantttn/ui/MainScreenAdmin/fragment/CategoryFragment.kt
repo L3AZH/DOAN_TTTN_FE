@@ -38,6 +38,12 @@ class CategoryFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_category, container, false)
         viewModel = (activity as MainAdminActivity).viewModel
+        /**
+         * Ta can get list shop va product de khi nguoi dung vao muc price list tu dau se khong
+         * bi crash chuong trinh
+         */
+        initListShopAndProduct()
+
         return binding.root
     }
 
@@ -86,6 +92,12 @@ class CategoryFragment : Fragment() {
             val addDialog = CategoryAddDialog()
             addDialog.show(requireActivity().supportFragmentManager,"adding category dialog")
         }
+    }
 
+    fun initListShopAndProduct() = CoroutineScope(Dispatchers.Default).launch {
+        val pref = requireActivity().getSharedPreferences(Constant.SHARE_PREFERENCE_NAME,Context.MODE_PRIVATE)
+        val token = pref.getString("token","null")!!
+        viewModel.getAllShop(token)
+        viewModel.getAllProduct(token)
     }
 }

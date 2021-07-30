@@ -48,12 +48,20 @@ class Repository @Inject constructor(private val api: ApiInterface) {
 
 
     suspend fun getAllShop(token: String) = api.getAllShop(token)
-    suspend fun createNewShop(token: String,addShopRequest: AddShopRequest) =
+    suspend fun createNewShop(token: String, addShopRequest: AddShopRequest) =
         api.createNewShop(token, addShopRequest)
-    suspend fun deleteShop(token: String, idShop:String) = api.deleteShop(token, idShop)
+    suspend fun deleteShop(token: String, idShop: String) = api.deleteShop(token, idShop)
     suspend fun updateShop(
         token: String,
         idShop: String,
         updateShopRequest: UpdateShopRequest
     ) = api.updateShop(token, idShop, updateShopRequest)
+
+
+    suspend fun getAllPriceList(token: String) = api.getAllPriceList(token)
+    suspend fun createNewPriceListObject(
+        token: String,
+        addPriceListObjectRequest: AddPriceListObjectRequest
+    ) =
+        api.createNewPriceListObject(token, addPriceListObjectRequest)
 }

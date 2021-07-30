@@ -7,7 +7,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/nameCategorySpinnerItem"
+            android:id="@+id/nameShopSpinnerItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
@@ -17,7 +17,7 @@
             android:textSize="20dp" />
 
         <TextView
-            android:id="@+id/idCategorySpinnerItem"
+            android:id="@+id/idShopSpinnerItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"

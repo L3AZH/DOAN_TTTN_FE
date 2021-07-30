@@ -16,7 +16,6 @@ import com.thuctaptotnghiep.doantttn.databinding.CategorySpinnerItemBinding
 class CategoryArrayAdapter( context: Context, var categoryList: List<Category>) :
     ArrayAdapter<Category>(context,0,categoryList){
 
-
     fun getItemId(idCategory:String):Category?{
         for(element in categoryList){
             if(element.idCategory == idCategory) return element

@@ -1,18 +1,20 @@
 package com.thuctaptotnghiep.doantttn
 
 import android.app.Application
-import com.thuctaptotnghiep.doantttn.di.DaggerRepositoryComponent
-import com.thuctaptotnghiep.doantttn.di.RepositoryComponent
+import com.thuctaptotnghiep.doantttn.di.DaggerDataComponent
+import com.thuctaptotnghiep.doantttn.di.DataComponent
+import com.thuctaptotnghiep.doantttn.di.DatabaseModel
 
-class App:Application() {
-    private lateinit var repositoryComponent:RepositoryComponent
+class App : Application() {
+    private lateinit var dataComponent: DataComponent
 
     override fun onCreate() {
         super.onCreate()
-        repositoryComponent = DaggerRepositoryComponent.create();
+        dataComponent =
+            DaggerDataComponent.builder().databaseModel(DatabaseModel(applicationContext)).build();
     }
 
-    fun getRepositoryComponent():RepositoryComponent{
-        return repositoryComponent
+    fun getDataComponent(): DataComponent {
+        return dataComponent
     }
 }

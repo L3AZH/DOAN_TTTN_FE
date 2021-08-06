@@ -2,18 +2,16 @@ package com.thuctaptotnghiep.doantttn.api.response
 
 import com.google.gson.annotations.SerializedName
 
-data class DatAddPriceListObject(
+data class DataDeletePriceListResponse(
     @SerializedName("message")
-    var message:String,
-    @SerializedName("newObject")
-    var newObject:Category
+    var message:String
 )
 
-data class AddPriceListObjectResponse(
+data class DeletePriceListResponse(
     @SerializedName("code")
     var code:Int,
     @SerializedName("data")
-    var data:DatAddPriceListObject,
+    var data:DataDeletePriceListResponse,
     @SerializedName("flag")
     var flag:Boolean
 )

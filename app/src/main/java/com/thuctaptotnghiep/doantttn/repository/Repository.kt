@@ -3,9 +3,11 @@ package com.thuctaptotnghiep.doantttn.repository
 import com.thuctaptotnghiep.doantttn.Constant
 import com.thuctaptotnghiep.doantttn.api.ApiInterface
 import com.thuctaptotnghiep.doantttn.api.request.*
+import com.thuctaptotnghiep.doantttn.db.DbDao
+import com.thuctaptotnghiep.doantttn.db.model.Cart
 import javax.inject.Inject
 
-class Repository @Inject constructor(private val api: ApiInterface) {
+class Repository @Inject constructor(private val api: ApiInterface,private val dbDao: DbDao) {
 
 
     suspend fun login(email: String, password: String) =
@@ -36,6 +38,8 @@ class Repository @Inject constructor(private val api: ApiInterface) {
 
 
     suspend fun getAllProduct(token: String) = api.getAllProduct(token)
+    suspend fun getListProductByCategory(token: String,idCategory: String) =
+        api.getListProductByCategory(token, idCategory)
     suspend fun createNewProduct(token: String, addProductRequest: AddProductRequest) =
         api.createNewProduct(token, addProductRequest)
     suspend fun deleteProduct(token: String, idProduct: String) =
@@ -62,6 +66,21 @@ class Repository @Inject constructor(private val api: ApiInterface) {
     suspend fun createNewPriceListObject(
         token: String,
         addPriceListObjectRequest: AddPriceListObjectRequest
-    ) =
-        api.createNewPriceListObject(token, addPriceListObjectRequest)
+    ) = api.createNewPriceListObject(token, addPriceListObjectRequest)
+    suspend fun deletePriceListObject(
+        token: String,
+        idShop: String,
+        idProduct: String
+    ) = api.deletePriceListObject(token, idShop, idProduct)
+    suspend fun updatePriceListObject(
+        token: String,
+        idShop: String,
+        idProduct: String,
+        updatePriceListRequest: UpdatePriceListRequest
+    ) = api.updatePriceListObject(token,idShop,idProduct,updatePriceListRequest)
+
+    suspend fun addToCart(cart: Cart) = dbDao.insertToCart(cart)
+    suspend fun deleteCart(cart: Cart) = dbDao.deleteCart(cart)
+    suspend fun updateCart(cart: Cart) = dbDao.updateCart(cart)
+    suspend fun getAllCart() = dbDao.getAllCart()
 }

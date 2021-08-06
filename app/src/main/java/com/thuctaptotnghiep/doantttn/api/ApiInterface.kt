@@ -69,6 +69,12 @@ interface ApiInterface {
         @Header("Authorization") token: String
     ):Response<GetAllProductResponse>
 
+    @GET("product/get-product-by-id-category/{idCategory}")
+    suspend fun getListProductByCategory(
+        @Header("Authorization") token: String,
+        @Path("idCategory") idCategory:String
+    ):Response<GetListProductByCategoryResponse>
+
     @POST("product/create-new-product")
     suspend fun createNewProduct(
         @Header("Authorization") token: String,
@@ -130,5 +136,20 @@ interface ApiInterface {
         @Header("Authorization") token: String,
         @Body addPriceListObjectRequest: AddPriceListObjectRequest
     ):Response<AddPriceListObjectResponse>
+
+    @DELETE("pricelist/delete-price-list-object/{idShop}/{idProduct}")
+    suspend fun deletePriceListObject(
+        @Header("Authorization") token: String,
+        @Path("idShop") idShop:String,
+        @Path("idProduct") idProduct: String
+    ):Response<DeletePriceListResponse>
+
+    @PUT("pricelist/update-price-list-object/{idShop}/{idProduct}")
+    suspend fun updatePriceListObject(
+        @Header("Authorization") token: String,
+        @Path("idShop") idShop: String,
+        @Path("idProduct") idProduct: String,
+        @Body updatePriceListRequest: UpdatePriceListRequest
+    ):Response<UpdatePriceListResponse>
 
 }

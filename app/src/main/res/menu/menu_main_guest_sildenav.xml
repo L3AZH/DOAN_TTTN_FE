@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn = "navigation_view"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/guestInformationFragment"
+        android:title="Information"
+        android:icon="@drawable/ic_baseline_person_pin_32"/>
+</menu>

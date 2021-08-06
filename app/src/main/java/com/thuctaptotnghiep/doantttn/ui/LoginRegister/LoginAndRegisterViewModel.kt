@@ -19,7 +19,7 @@ class LoginAndRegisterViewModel(application: Application) : AndroidViewModel(app
 
 
     init {
-        (application as App).getRepositoryComponent().inject(this)
+        (application as App).getDataComponent().inject(this)
     }
 
     fun login(username:String, password:String) = CoroutineScope(Dispatchers.Default).launch {

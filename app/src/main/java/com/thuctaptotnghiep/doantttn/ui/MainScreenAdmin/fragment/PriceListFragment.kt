@@ -17,6 +17,7 @@ import com.thuctaptotnghiep.doantttn.adapter.CategoryAdapter
 import com.thuctaptotnghiep.doantttn.adapter.PriceListAdapter
 import com.thuctaptotnghiep.doantttn.databinding.FragmentPriceListBinding
 import com.thuctaptotnghiep.doantttn.dialog.PriceListAddDialog
+import com.thuctaptotnghiep.doantttn.dialog.PriceListEditDialog
 import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminActivity
 import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -25,16 +26,17 @@ import kotlinx.coroutines.launch
 
 class PriceListFragment : Fragment() {
 
-    lateinit var binding:FragmentPriceListBinding
+    lateinit var binding: FragmentPriceListBinding
     lateinit var viewModel: MainAdminViewModel
-    lateinit var priceListAdapter:PriceListAdapter
+    lateinit var priceListAdapter: PriceListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(layoutInflater,R.layout.fragment_price_list,container,false)
+        binding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.fragment_price_list, container, false)
         viewModel = (requireActivity() as MainAdminActivity).viewModel
         return binding.root
     }
@@ -68,16 +70,23 @@ class PriceListFragment : Fragment() {
     fun setUpRecycleView() {
         priceListAdapter = PriceListAdapter()
         priceListAdapter.setItemPriceListAdapterOnClickListener {
-
+            val dialogEditPriceList = PriceListEditDialog(it)
+            dialogEditPriceList.show(
+                requireActivity().supportFragmentManager,
+                "dialog edit price list"
+            )
         }
         binding.priceListRecycleView.layoutManager = LinearLayoutManager(activity)
         binding.priceListRecycleView.adapter = priceListAdapter
     }
 
-    fun setOnClickAddPriceListFloatingBtn(){
+    fun setOnClickAddPriceListFloatingBtn() {
         binding.addPriceListObjectFloatingBtn.setOnClickListener {
             val dialogAddPriceList = PriceListAddDialog()
-            dialogAddPriceList.show(requireActivity().supportFragmentManager,"dialog add price list")
+            dialogAddPriceList.show(
+                requireActivity().supportFragmentManager,
+                "dialog add price list"
+            )
         }
     }
 

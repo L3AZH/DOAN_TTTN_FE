@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_main_guest"
+    app:startDestination="@id/categoryGuestFragment">
+
+    <fragment
+        android:id="@+id/billHistoryFragment"
+        android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.fragment.BillHistoryFragment"
+        android:label="Bill History"
+        tools:layout="@layout/fragment_bill_history" />
+    <fragment
+        android:id="@+id/categoryGuestFragment"
+        android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.fragment.CategoryGuestFragment"
+        android:label="Category"
+        tools:layout="@layout/fragment_category_guest" />
+    <fragment
+        android:id="@+id/guestInformationFragment"
+        android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.fragment.GuestInformationFragment"
+        android:label="Information"
+        tools:layout="@layout/fragment_guest_information" />
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.fragment.CartFragment"
+        android:label="Your Cart"
+        tools:layout="@layout/fragment_cart" />
+    <fragment
+        android:id="@+id/findProductFragment"
+        android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.fragment.FindProductFragment"
+        android:label="Search Product"
+        tools:layout="@layout/fragment_find_product" />
+</navigation>

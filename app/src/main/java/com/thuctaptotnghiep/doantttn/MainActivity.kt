@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     val updateTokenResult = viewModel.getNewToken(refreshToken!!).await()
                     if ((updateTokenResult["flag"] as Boolean)) {
-                        pref.edit().putString("token", updateTokenResult["token"].toString())
+                        pref.edit().putString("token","Bearer" +updateTokenResult["token"].toString())
                             .apply()
                         when (pref.getString("role", "null")) {
                             "admin" -> {

@@ -1,9 +1,7 @@
 package com.thuctaptotnghiep.doantttn
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
 import com.thuctaptotnghiep.doantttn.api.response.ErrorResponse
 import com.thuctaptotnghiep.doantttn.repository.Repository
 import kotlinx.coroutines.CoroutineScope
@@ -19,7 +17,7 @@ class MainActivityViewModel(application:Application):AndroidViewModel(applicatio
 
 
     init {
-       (application as App).getRepositoryComponent().inject(this)
+       (application as App).getDataComponent().inject(this)
     }
 
     fun checkTokenNotExpire(token: String):Deferred<Boolean> = CoroutineScope(Dispatchers.Default).async {

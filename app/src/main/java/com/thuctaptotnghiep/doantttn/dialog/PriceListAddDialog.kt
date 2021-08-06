@@ -46,6 +46,7 @@ class PriceListAddDialog : DialogFragment() {
     lateinit var productArrayAdapter: ProductArrayAdapter
     lateinit var selectedShop: Shop
     lateinit var selectedProduct: Product
+
     /**
      * Request and OnResult launcher
      */
@@ -64,31 +65,8 @@ class PriceListAddDialog : DialogFragment() {
             /**
              * Request and OnResult launcher
              */
-            onResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-                if(it.resultCode == Activity.RESULT_OK){
-                    val data:Intent = it.data!!
-                    try{
-                        if(Build.VERSION.SDK_INT < 28){
-                            val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver,data.data)
-                            binding.imageProductOfShop.setImageBitmap(bitmap)
-                        }
-                        else{
-                            val source = ImageDecoder.createSource(requireActivity().contentResolver,data.data!!)
-                            val bitmap = ImageDecoder.decodeBitmap(source)
-                            binding.imageProductOfShop.setImageBitmap(bitmap)
-                        }
-                    }
-                    catch (e:Exception){
-                        e.printStackTrace()
-                    }
-                }
-            }
-            onRequestLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){
-                if(it){
-                    val intent = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                    onResultLauncher.launch(intent)
-                }
-            }
+            setStartActivityForResult()
+            setOnRequestPermission()
 
             setOnClickChooseImageBtn()
             setOnclickSaveBtn()
@@ -96,6 +74,43 @@ class PriceListAddDialog : DialogFragment() {
             builder.setView(binding.root)
             builder.create()
         } ?: throw IllegalStateException("Activity must not empty")
+    }
+
+    fun setStartActivityForResult() {
+        onResultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == Activity.RESULT_OK) {
+                    val data: Intent = it.data!!
+                    try {
+                        if (Build.VERSION.SDK_INT < 28) {
+                            val bitmap = MediaStore.Images.Media.getBitmap(
+                                requireActivity().contentResolver,
+                                data.data
+                            )
+                            binding.imageProductOfShop.setImageBitmap(bitmap)
+                        } else {
+                            val source = ImageDecoder.createSource(
+                                requireActivity().contentResolver,
+                                data.data!!
+                            )
+                            val bitmap = ImageDecoder.decodeBitmap(source)
+                            binding.imageProductOfShop.setImageBitmap(bitmap)
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+    }
+
+    fun setOnRequestPermission() {
+        onRequestLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            if (it) {
+                val intent =
+                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                onResultLauncher.launch(intent)
+            }
+        }
     }
 
     fun setUpShopArrayAdapter() {
@@ -140,37 +155,60 @@ class PriceListAddDialog : DialogFragment() {
             if (requireContext().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 onRequestLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
             } else {
-                val intent = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                val intent =
+                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 onResultLauncher.launch(intent)
             }
         }
     }
 
-    fun setOnclickSaveBtn(){
+    fun setOnclickSaveBtn() {
         binding.savePriceListBtn.setOnClickListener {
             val prefs = requireActivity().getSharedPreferences(
                 Constant.SHARE_PREFERENCE_NAME,
                 Context.MODE_PRIVATE
             )
             val token = prefs.getString("token", "null")
-            CoroutineScope(Dispatchers.Default).launch {
-                val result = viewModel.createNewPriceListObject(
-                    token!!,
-                    selectedShop.idShop,
-                    selectedProduct.idProduct,
-                    binding.priceTextInputEditText.text.toString().toDouble(),
-                    (binding.imageProductOfShop.drawable as BitmapDrawable).bitmap
-                ).await()
-                if ((result["flag"] as Boolean)) {
-                    val dialoginform = InformDialog("success", result["message"].toString())
-                    dialoginform.show(requireActivity().supportFragmentManager, "dialog inform")
-                    dialog?.cancel()
-                } else {
-                    val dialoginform = InformDialog("fail", result["message"].toString())
-                    dialoginform.show(requireActivity().supportFragmentManager, "dialog inform")
-                    dialog?.cancel()
+            if (binding.imageProductOfShop.drawable == null) {
+                val dialoginform = InformDialog("fail", "Please choose image before input")
+                dialoginform.show(requireActivity().supportFragmentManager, "dialog inform")
+                dialog?.cancel()
+            }
+            else if(!checkPricevalid()){
+                val dialoginform = InformDialog("fail", "Please enter price")
+                dialoginform.show(requireActivity().supportFragmentManager, "dialog inform")
+                dialog?.cancel()
+            }
+            else {
+                CoroutineScope(Dispatchers.Default).launch {
+                    val result = viewModel.createNewPriceListObject(
+                        token!!,
+                        selectedShop.idShop,
+                        selectedProduct.idProduct,
+                        binding.priceTextInputEditText.text.toString().toDouble(),
+                        (binding.imageProductOfShop.drawable as BitmapDrawable).bitmap
+                    ).await()
+                    if ((result["flag"] as Boolean)) {
+                        val dialoginform = InformDialog("success", result["message"].toString())
+                        dialoginform.show(requireActivity().supportFragmentManager, "dialog inform")
+                        dialog?.cancel()
+                    } else {
+                        val dialoginform = InformDialog("fail", result["message"].toString())
+                        dialoginform.show(requireActivity().supportFragmentManager, "dialog inform")
+                        dialog?.cancel()
+                    }
                 }
             }
+        }
+    }
+
+    fun checkPricevalid():Boolean{
+        try{
+            binding.priceTextInputEditText.text.toString().toDouble()
+            return true
+        }
+        catch (e:Exception){
+            return false
         }
     }
 

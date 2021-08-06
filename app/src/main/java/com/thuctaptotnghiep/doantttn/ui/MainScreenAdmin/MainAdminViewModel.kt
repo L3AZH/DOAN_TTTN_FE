@@ -21,10 +21,10 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
     var listCategory: MutableLiveData<List<Category>> = MutableLiveData()
     var listProduct: MutableLiveData<List<Product>> = MutableLiveData()
     var listShop: MutableLiveData<List<Shop>> = MutableLiveData()
-    var listPriceList:MutableLiveData<List<PriceList>> = MutableLiveData()
+    var listPriceList: MutableLiveData<List<PriceList>> = MutableLiveData()
 
     init {
-        (application as App).getRepositoryComponent().inject(this)
+        (application as App).getDataComponent().inject(this)
     }
 
     fun getAllCategory(token: String) = CoroutineScope(Dispatchers.Default).launch {
@@ -191,7 +191,7 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
     fun deleteShop(
         token: String,
         idShop: String
-    ): Deferred<Map<String,Any>> = CoroutineScope(Dispatchers.Default).async {
+    ): Deferred<Map<String, Any>> = CoroutineScope(Dispatchers.Default).async {
         val response = repository.deleteShop(token, idShop)
         var resultMap: MutableMap<String, Any> = mutableMapOf()
         if (response.isSuccessful) {
@@ -215,7 +215,7 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
         address: String
     ): Deferred<Map<String, Any>> = CoroutineScope(Dispatchers.Default).async {
         val response =
-            repository.updateShop(token, idShop, UpdateShopRequest(name, phone,address))
+            repository.updateShop(token, idShop, UpdateShopRequest(name, phone, address))
         var resultMap: MutableMap<String, Any> = mutableMapOf()
         if (response.isSuccessful) {
             resultMap["flag"] = response.body()!!.flag
@@ -242,16 +242,16 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
         token: String,
         idShop: String,
         idProduct: String,
-        price:Double,
-        image:Bitmap
-    ):Deferred<Map<String,Any>> = CoroutineScope(Dispatchers.Default).async {
+        price: Double,
+        image: Bitmap
+    ): Deferred<Map<String, Any>> = CoroutineScope(Dispatchers.Default).async {
         val stream = ByteArrayOutputStream()
-        image.compress(Bitmap.CompressFormat.PNG,50,stream)
+        image.compress(Bitmap.CompressFormat.PNG, 50, stream)
         val imageByte = stream.toByteArray()
-        Log.i("IMAGE", "${imageByte[0]} ${imageByte[1]} ${imageByte[2]}")
         val response =
-            repository.createNewPriceListObject(token,
-                AddPriceListObjectRequest(idShop,idProduct,price,imageByte)
+            repository.createNewPriceListObject(
+                token,
+                AddPriceListObjectRequest(idShop, idProduct, price, imageByte)
             )
         var resultMap: MutableMap<String, Any> = mutableMapOf()
         if (response.isSuccessful) {
@@ -266,5 +266,59 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
         getAllPriceList(token)
         resultMap
     }
+
+    fun deletePriceListObject(
+        token: String,
+        idShop: String,
+        idProduct: String
+    ): Deferred<Map<String, Any>> =
+        CoroutineScope(Dispatchers.Default).async {
+            val response = repository.deletePriceListObject(token, idShop, idProduct)
+            var resultMap: MutableMap<String, Any> = mutableMapOf()
+            if (response.isSuccessful) {
+                resultMap["flag"] = response.body()!!.flag
+                resultMap["message"] = response.body()!!.data.message
+            } else {
+                val error =
+                    ErrorResponse.convertErrorBodyToErrorResponseClass(response.errorBody()!!)
+                resultMap["flag"] = error.flag
+                resultMap["message"] = error.data.message
+            }
+            getAllPriceList(token)
+            resultMap
+        }
+
+    fun updatePriceListObject(
+        token: String,
+        idShop: String,
+        idProduct: String,
+        price: Double,
+        image: Bitmap
+    ): Deferred<Map<String, Any>> =
+        CoroutineScope(Dispatchers.Default).async {
+            val stream = ByteArrayOutputStream()
+            image.compress(Bitmap.CompressFormat.PNG, 50, stream)
+            val imageByte = stream.toByteArray()
+            val response =
+                repository.updatePriceListObject(
+                    token,
+                    idShop,
+                    idProduct,
+                    UpdatePriceListRequest(price, imageByte)
+                )
+            var resultMap: MutableMap<String, Any> = mutableMapOf()
+            if (response.isSuccessful) {
+                resultMap["flag"] = response.body()!!.flag
+                resultMap["message"] = response.body()!!.data.message
+            } else {
+                val error =
+                    ErrorResponse.convertErrorBodyToErrorResponseClass(response.errorBody()!!)
+                resultMap["flag"] = error.flag
+                resultMap["message"] = error.data.message
+            }
+            getAllPriceList(token)
+            Log.i("TEST L4AZH", listPriceList.value!!.elementAt(0).price.toString())
+            resultMap
+        }
 
 }

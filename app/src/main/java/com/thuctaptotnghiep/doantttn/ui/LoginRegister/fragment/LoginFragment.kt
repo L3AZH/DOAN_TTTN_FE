@@ -19,6 +19,7 @@ import com.thuctaptotnghiep.doantttn.databinding.FragmentLoginBinding
 import com.thuctaptotnghiep.doantttn.ui.LoginRegister.LoginAndRegisterActivity
 import com.thuctaptotnghiep.doantttn.ui.LoginRegister.LoginAndRegisterViewModel
 import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminActivity
+import com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.MainGuestActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -55,7 +56,7 @@ class LoginFragment : Fragment() {
                 )
                 prefs.edit().apply {
                     putString("token", "Bearer " + result["token"].toString())
-                    putString("refreshToken", "Bearer " + result["refreshToken"].toString())
+                    putString("refreshToken",result["refreshToken"].toString())
                 }.apply()
                 if (result["role"].toString() == "admin") {
                     prefs.edit().putString("role", result["role"].toString()).apply()
@@ -65,7 +66,7 @@ class LoginFragment : Fragment() {
                 } else {
                     prefs.edit().putString("role", result["role"].toString()).apply()
                     val goToMainScreenGuest =
-                        Intent(requireActivity(), MainAdminActivity::class.java)
+                        Intent(requireActivity(), MainGuestActivity::class.java)
                     startActivity(goToMainScreenGuest)
                 }
             } else {

@@ -9,24 +9,28 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.thuctaptotnghiep.doantttn.Constant
 import com.thuctaptotnghiep.doantttn.R
-import com.thuctaptotnghiep.doantttn.adapter.CategoryGuestAdapter
-import com.thuctaptotnghiep.doantttn.databinding.FragmentCategoryGuestBinding
+import com.thuctaptotnghiep.doantttn.adapter.PriceListByProductAdapter
+import com.thuctaptotnghiep.doantttn.api.response.PriceListFullInformation
+import com.thuctaptotnghiep.doantttn.databinding.FragmentListPriceListByProductBinding
 import com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.MainGuestActivity
 import com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.MainGuestViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CategoryGuestFragment : Fragment() {
 
+class ListPriceListByProductFragment : Fragment() {
 
-    lateinit var binding: FragmentCategoryGuestBinding
-    lateinit var categoryGuestAdapter: CategoryGuestAdapter
+    lateinit var binding: FragmentListPriceListByProductBinding
     lateinit var viewModel: MainGuestViewModel
+    lateinit var priceListByProductAdapter: PriceListByProductAdapter
+
+    val args: ListPriceListByProductFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,23 +39,28 @@ class CategoryGuestFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(
             layoutInflater,
-            R.layout.fragment_category_guest,
+            R.layout.fragment_list_price_list_by_product,
             container,
             false
         )
         viewModel = (activity as MainGuestActivity).viewModel
-        return binding.root;
+        return binding.root
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.clearListPriceListByProduct()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpCategoryGuestAdapter()
+        setUpPriceListByProductAdapter()
         intialViewModel()
     }
 
     fun intialViewModel() {
-        viewModel.listCategory.observe(viewLifecycleOwner, {
-            categoryGuestAdapter.diff.submitList(it)
+        viewModel.listListPriceListByProduct.observe(viewLifecycleOwner, {
+            priceListByProductAdapter.diff.submitList(it)
         })
         CoroutineScope(Dispatchers.Default).launch {
             val pref = requireActivity().getSharedPreferences(
@@ -63,22 +72,25 @@ class CategoryGuestFragment : Fragment() {
                 Snackbar.make(binding.root, "token null", Snackbar.LENGTH_LONG)
                     .setBackgroundTint(Color.RED).show()
             } else {
-                viewModel.getAllCategory(token)
+                viewModel.getListPriceListByProduct(token, args.idProduct)
             }
         }
     }
 
-    fun setUpCategoryGuestAdapter() {
-        categoryGuestAdapter =
-            CategoryGuestAdapter(requireContext(), requireActivity(), viewModel, viewLifecycleOwner)
-        binding.categoryRecycleViewGuest.layoutManager = LinearLayoutManager(requireActivity())
-        binding.categoryRecycleViewGuest.adapter = categoryGuestAdapter
-        categoryGuestAdapter.setItemlistProductByCategoryCallBack {
-            val goToListPriceListByProductFragment =
-                CategoryGuestFragmentDirections.actionCategoryGuestFragmentToListPriceListByProductFragment(
-                    it.idProduct
-                )
-            findNavController().navigate(goToListPriceListByProductFragment)
+    fun setUpPriceListByProductAdapter() {
+        priceListByProductAdapter = PriceListByProductAdapter()
+        binding.listPriceListByProductRecycleView.layoutManager = LinearLayoutManager(context)
+        binding.listPriceListByProductRecycleView.adapter = priceListByProductAdapter
+        priceListByProductAdapter.setPriceListByProductItemOnClickListener {
+            setOnclickPriceListByProductItem(it)
         }
+    }
+
+    fun setOnclickPriceListByProductItem(priceListFullInformation: PriceListFullInformation){
+        val goToInformationProductFragment =
+            ListPriceListByProductFragmentDirections.actionListPriceListByProductFragmentToInformationProductFragment(
+                priceListFullInformation
+            )
+        findNavController().navigate(goToInformationProductFragment)
     }
 }

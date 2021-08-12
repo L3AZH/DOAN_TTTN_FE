@@ -27,6 +27,7 @@ class LoginAndRegisterViewModel(application: Application) : AndroidViewModel(app
         var resultMap = mutableMapOf<String,Any>()
         if(response.isSuccessful){
             resultMap["role"] = response.body()!!.data.role
+            resultMap["idAccount"] = response.body()!!.data.idAccount
             resultMap["flag"] = response.body()!!.flag
             resultMap["token"] = response.body()!!.data.token
             resultMap["refreshToken"] = response.body()!!.data.refreshToken

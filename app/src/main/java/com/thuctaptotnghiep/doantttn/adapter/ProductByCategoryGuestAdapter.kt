@@ -10,7 +10,7 @@ import com.thuctaptotnghiep.doantttn.R
 import com.thuctaptotnghiep.doantttn.api.response.Product
 import com.thuctaptotnghiep.doantttn.databinding.ItemListProductByCategoryRecycleViewGuestBinding
 
-class ProductByCategoryGuestAdapter :
+class ProductByCategoryGuestAdapter(val listProduct:List<Product>?) :
     RecyclerView.Adapter<ProductByCategoryGuestAdapter.ProductByCategoryGuestViewHolder>() {
 
     var itemOnClickListener:((product:Product)->Unit)? = null
@@ -19,18 +19,6 @@ class ProductByCategoryGuestAdapter :
         this.itemOnClickListener = listener
     }
 
-
-    var differCallBack = object : DiffUtil.ItemCallback<Product>() {
-        override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
-            return oldItem.idProduct == newItem.idProduct
-        }
-
-        override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
-            return oldItem == newItem
-        }
-    }
-
-    val diff = AsyncListDiffer(this, differCallBack)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -43,19 +31,24 @@ class ProductByCategoryGuestAdapter :
     }
 
     override fun onBindViewHolder(holder: ProductByCategoryGuestViewHolder, position: Int) {
-        holder.setUpBinding(diff.currentList[position])
+        holder.setUpBinding(listProduct!![position],itemOnClickListener!!)
     }
 
     override fun getItemCount(): Int {
-        if(diff.currentList == null || diff.currentList.isEmpty()) return 0
-        return diff.currentList.size
+        if(listProduct == null || listProduct.isEmpty()) return 0
+        return listProduct.size
     }
 
     inner class ProductByCategoryGuestViewHolder(val binding: ItemListProductByCategoryRecycleViewGuestBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun setUpBinding(product: Product) {
+        fun setUpBinding(product: Product, listener: (product: Product) -> Unit) {
             binding.nameProductByCategoryTextView.text = product.name
             binding.idProductByCategoryTextView.text = product.idProduct
+            itemView.setOnClickListener {
+                listener.let {
+                    it(product)
+                }
+            }
         }
     }
 }

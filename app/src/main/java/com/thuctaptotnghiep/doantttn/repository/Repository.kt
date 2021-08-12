@@ -63,6 +63,8 @@ class Repository @Inject constructor(private val api: ApiInterface,private val d
 
 
     suspend fun getAllPriceList(token: String) = api.getAllPriceList(token)
+    suspend fun getListPriceListByIdProduct(token: String,idProduct: String) =
+        api.getListPriceListByIdProduct(token, idProduct)
     suspend fun createNewPriceListObject(
         token: String,
         addPriceListObjectRequest: AddPriceListObjectRequest
@@ -82,5 +84,7 @@ class Repository @Inject constructor(private val api: ApiInterface,private val d
     suspend fun addToCart(cart: Cart) = dbDao.insertToCart(cart)
     suspend fun deleteCart(cart: Cart) = dbDao.deleteCart(cart)
     suspend fun updateCart(cart: Cart) = dbDao.updateCart(cart)
-    suspend fun getAllCart() = dbDao.getAllCart()
+    suspend fun getAllCart(email: String) = dbDao.getAllCart(email)
+    suspend fun checkCartExistInDb(idShop: String,idProduct: String,email: String) =
+        dbDao.checkCartExistInDb(idShop, idProduct,email)
 }

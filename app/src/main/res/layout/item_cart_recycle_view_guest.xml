@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="15dp">
+
+    <ImageView
+        android:id="@+id/imageCartItem"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_weight="0.1"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginStart="10dp"
+        android:layout_weight="0.5">
+
+        <TextView
+            android:id="@+id/nameProductCartItem"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="TextView"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:id="@+id/priceProductCartItem"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="TextView"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:id="@+id/nameShopCartItem"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="TextView"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/minusCartBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_baseline_do_not_disturb_on_32"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="0.15"/>
+
+    <TextView
+        android:id="@+id/amountCartItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:layout_marginHorizontal="5dp"
+        android:layout_weight="0.1" />
+
+    <ImageView
+        android:id="@+id/plusCartBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_baseline_add_circle_32"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="0.15"/>
+</LinearLayout>
+</layout>

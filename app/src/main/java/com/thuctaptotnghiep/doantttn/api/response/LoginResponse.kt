@@ -10,7 +10,9 @@ data class DataLoginResponse(
     @SerializedName("refreshToken")
     var refreshToken:String,
     @SerializedName("role")
-    var role:String
+    var role:String,
+    @SerializedName("idAccount")
+    var idAccount:String
 )
 
 data class LoginResponse(

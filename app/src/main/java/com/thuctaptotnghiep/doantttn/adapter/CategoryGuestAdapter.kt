@@ -19,11 +19,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.thuctaptotnghiep.doantttn.Constant
 import com.thuctaptotnghiep.doantttn.R
 import com.thuctaptotnghiep.doantttn.api.response.Category
+import com.thuctaptotnghiep.doantttn.api.response.Product
 import com.thuctaptotnghiep.doantttn.databinding.ItemListCategoryRecycleViewGuestBinding
 import com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.MainGuestViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class CategoryGuestAdapter(
     val context: Context,
@@ -33,13 +32,17 @@ class CategoryGuestAdapter(
 ) :
     RecyclerView.Adapter<CategoryGuestAdapter.CategoryGuestAdapterViewHolder>() {
 
-
+    lateinit var productByCategoryGuestAdapter: ProductByCategoryGuestAdapter
 
     var itemOnClickListener: ((category: Category) -> Unit)? = null
-    var productByCategoryGuestAdapter: ProductByCategoryGuestAdapter= ProductByCategoryGuestAdapter()
+    var itemListProductByCategoryCallBack: ((Product) -> Unit)? = null
 
     fun setItemCategoryAdapterGuestOnClickListener(listener: ((category: Category) -> Unit)) {
         this.itemOnClickListener = listener
+    }
+
+    fun setItemlistProductByCategoryCallBack(callBack: ((Product) -> Unit)) {
+        itemListProductByCategoryCallBack = callBack
     }
 
     var differCallBack = object : DiffUtil.ItemCallback<Category>() {
@@ -80,48 +83,57 @@ class CategoryGuestAdapter(
         RecyclerView.ViewHolder(itemBinding.root) {
 
 
+        /**
+         * có loi can fix
+         */
+
         fun setUpBinding(category: Category) {
             itemBinding.idCategoryTextViewItem.text = category.idCategory
             itemBinding.categoryNameTextViewItem.text = category.name
             itemBinding.stateItem.text = "false"
             itemBinding.listProductByCategoryItemGuest.layoutManager = LinearLayoutManager(context)
-            viewModel.listProductByCategory.observe(lifecycleOwner,{
-                productByCategoryGuestAdapter.diff.submitList(it)
-            })
             setShowOffBtn(category.idCategory)
         }
 
-        fun setShowOffBtn(idCategory: String){
+        fun setShowOffBtn(idCategory: String) {
             itemBinding.dropDownIcon.setOnClickListener {
-                TransitionManager.beginDelayedTransition(itemBinding.cartItemCategoryRecycleViewGuest,AutoTransition())
-                if(itemBinding.stateItem.text == "false"){
-                    getListProduct(idCategory)
-                    itemBinding.listProductByCategoryItemGuest.adapter = productByCategoryGuestAdapter
+                TransitionManager.beginDelayedTransition(
+                    itemBinding.cartItemCategoryRecycleViewGuest,
+                    AutoTransition()
+                )
+                if (itemBinding.stateItem.text == "false") {
+                    productByCategoryGuestAdapter =
+                        ProductByCategoryGuestAdapter(getListProduct(idCategory))
+                    productByCategoryGuestAdapter.itemOnClickListener = itemListProductByCategoryCallBack
+                    itemBinding.listProductByCategoryItemGuest.adapter =
+                        productByCategoryGuestAdapter
                     itemBinding.stateItem.text = "true"
                     itemBinding.listProductByCategoryItemGuest.visibility = View.VISIBLE
-                }
-                else{
+                } else {
                     itemBinding.listProductByCategoryItemGuest.adapter = null
-                    itemBinding.stateItem.text ="false"
+                    itemBinding.stateItem.text = "false"
                     itemBinding.listProductByCategoryItemGuest.visibility = View.GONE
                 }
             }
         }
 
-        fun getListProduct(idCategory:String) {
-            CoroutineScope(Dispatchers.Default).launch {
-                val pref = activity.getSharedPreferences(
-                    Constant.SHARE_PREFERENCE_NAME,
-                    Context.MODE_PRIVATE
-                )
-                val token = pref.getString("token", "null")!!
-                if (token == "null") {
-                    Snackbar.make(itemBinding.root, "token null", Snackbar.LENGTH_LONG)
-                        .setBackgroundTint(Color.RED).show()
-                } else {
-                    viewModel.getListProductByCategory(token,idCategory)
+        fun getListProduct(idCategory: String): List<Product>? {
+            var result: List<Product>? = null
+            val pref = activity.getSharedPreferences(
+                Constant.SHARE_PREFERENCE_NAME,
+                Context.MODE_PRIVATE
+            )
+            val token = pref.getString("token", "null")!!
+            if (token == "null") {
+                Snackbar.make(itemBinding.root, "token null", Snackbar.LENGTH_LONG)
+                    .setBackgroundTint(Color.RED).show()
+
+            } else {
+                runBlocking {
+                    result = viewModel.getListProductByCategory(token, idCategory).await()
                 }
             }
+            return result
         }
 
     }

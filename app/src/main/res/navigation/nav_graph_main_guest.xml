@@ -14,7 +14,11 @@
         android:id="@+id/categoryGuestFragment"
         android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.fragment.CategoryGuestFragment"
         android:label="Category"
-        tools:layout="@layout/fragment_category_guest" />
+        tools:layout="@layout/fragment_category_guest" >
+        <action
+            android:id="@+id/action_categoryGuestFragment_to_listPriceListByProductFragment"
+            app:destination="@id/listPriceListByProductFragment" />
+    </fragment>
     <fragment
         android:id="@+id/guestInformationFragment"
         android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.fragment.GuestInformationFragment"
@@ -30,4 +34,29 @@
         android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.fragment.FindProductFragment"
         android:label="Search Product"
         tools:layout="@layout/fragment_find_product" />
+    <fragment
+        android:id="@+id/listPriceListByProductFragment"
+        android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.fragment.ListPriceListByProductFragment"
+        android:label="ListPriceListByProductFragment" >
+        <action
+            android:id="@+id/action_listPriceListByProductFragment_to_categoryGuestFragment"
+            app:destination="@id/categoryGuestFragment" />
+        <argument
+            android:name="idProduct"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_listPriceListByProductFragment_to_informationProductFragment"
+            app:destination="@id/informationProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/informationProductFragment"
+        android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.fragment.InformationProductFragment"
+        android:label="InformationProductFragment" >
+        <argument
+            android:name="priceListFullInfoItem"
+            app:argType="com.thuctaptotnghiep.doantttn.api.response.PriceListFullInformation" />
+        <action
+            android:id="@+id/action_informationProductFragment_to_listPriceListByProductFragment"
+            app:destination="@id/listPriceListByProductFragment" />
+    </fragment>
 </navigation>

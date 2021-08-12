@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.MainScreenGuest.fragment.InformationProductFragment">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/informationPriceListCardView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="32dp"
+            app:cardCornerRadius="15dp"
+            app:layout_constraintBottom_toTopOf="@+id/amountProductDetailTextLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imagePriceListDetail"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        app:srcCompat="@mipmap/ic_launcher"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="15dp"/>
+
+                    <TextView
+                        android:id="@+id/nameProductDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        android:textSize="16sp"
+                        android:maxLines="3"
+                        android:ellipsize="end"
+                        android:layout_margin="10dp"
+                        android:textColor="@color/white"/>
+
+                    <TextView
+                        android:id="@+id/priceProductDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        android:textSize="16sp"
+                        android:maxLines="3"
+                        android:ellipsize="end"
+                        android:layout_margin="10dp"
+                        android:textColor="@color/white"/>
+
+                    <TextView
+                        android:id="@+id/nameShopDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        android:textSize="16sp"
+                        android:maxLines="3"
+                        android:ellipsize="end"
+                        android:layout_margin="10dp"
+                        android:textColor="@color/white"/>
+
+                    <TextView
+                        android:id="@+id/addressShopDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        android:textSize="16sp"
+                        android:maxLines="3"
+                        android:ellipsize="end"
+                        android:layout_margin="10dp"
+                        android:textColor="@color/white"/>
+
+                    <TextView
+                        android:id="@+id/phoneShopDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        android:textSize="16sp"
+                        android:maxLines="3"
+                        android:ellipsize="end"
+                        android:layout_margin="10dp"
+                        android:textColor="@color/white"/>
+                </LinearLayout>
+            </ScrollView>
+        </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/amountProductDetailTextLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginEnd="64dp"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/addToCartBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/informationPriceListCardView">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/amountProductDetailTextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:hint="Amount" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addToCartBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            android:text="Add to cart"
+            android:textStyle="bold"
+            app:cornerRadius="10dp"
+            android:backgroundTint="@android:color/holo_red_light"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/amountProductDetailTextLayout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

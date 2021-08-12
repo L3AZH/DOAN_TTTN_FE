@@ -131,6 +131,12 @@ interface ApiInterface {
         @Header("Authorization") token: String
     ):Response<GetAllPriceListResponse>
 
+    @GET("pricelist/get-shop-by-id-product/{idProduct}")
+    suspend fun getListPriceListByIdProduct(
+        @Header("Authorization") token: String,
+        @Path("idProduct") idProduct: String
+    ):Response<GetListPriceListByProductResponse>
+
     @POST("pricelist/create-new-price-list-object")
     suspend fun createNewPriceListObject(
         @Header("Authorization") token: String,

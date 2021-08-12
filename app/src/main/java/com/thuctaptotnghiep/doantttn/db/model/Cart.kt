@@ -7,11 +7,14 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = "CartTable")
 data class Cart(
     @PrimaryKey(autoGenerate = true)
-    var idCart: Int,
+    var idCart: Int?,
+    var email: String,
     var idShop:String,
     var nameShop:String,
     var idProduct:String,
     var nameProduct:String,
     var price:Double,
-    var amount:Int
-)
+    var amount:Int,
+    var image:ByteArray
+){
+}

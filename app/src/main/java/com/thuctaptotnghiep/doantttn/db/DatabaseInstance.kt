@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.thuctaptotnghiep.doantttn.db.model.Cart
 
-@Database(entities = [Cart::class], version = 0)
+@Database(entities = [Cart::class], version = 1)
 abstract class DatabaseInstance:RoomDatabase() {
 
     abstract fun getDbDao():DbDao

@@ -44,7 +44,7 @@ class ShopArrayAdapter(context: Context, var shopList: List<Shop>) :
         var view: View
         val binding: ShopSpinnerItemBinding
         if(convertView == null){
-            val layoutInflater = LayoutInflater.from(parent!!.context)
+            val layoutInflater = LayoutInflater.from(parent.context)
             binding = DataBindingUtil.inflate(layoutInflater,
                 R.layout.shop_spinner_item,null,false)
             view = binding.root

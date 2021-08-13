@@ -1,5 +1,7 @@
 package com.thuctaptotnghiep.doantttn.di
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.thuctaptotnghiep.doantttn.Constant
 import com.thuctaptotnghiep.doantttn.api.ApiInterface
 import dagger.Module
@@ -30,10 +32,16 @@ class RetrofitModel {
 
     @Singleton
     @Provides
-    fun providerRetrofitInstance(client: OkHttpClient): Retrofit {
+    fun providerGson():Gson{
+        return GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm:ss").create()
+    }
+
+    @Singleton
+    @Provides
+    fun providerRetrofitInstance(client: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
             .baseUrl(Constant.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .client(client).build()
     }
 

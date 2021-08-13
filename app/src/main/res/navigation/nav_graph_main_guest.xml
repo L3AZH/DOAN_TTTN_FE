@@ -9,7 +9,11 @@
         android:id="@+id/billHistoryFragment"
         android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.fragment.BillHistoryFragment"
         android:label="Bill History"
-        tools:layout="@layout/fragment_bill_history" />
+        tools:layout="@layout/fragment_bill_history" >
+        <action
+            android:id="@+id/action_billHistoryFragment_to_detailBillFragment"
+            app:destination="@id/detailBillFragment" />
+    </fragment>
     <fragment
         android:id="@+id/categoryGuestFragment"
         android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.fragment.CategoryGuestFragment"
@@ -58,5 +62,16 @@
         <action
             android:id="@+id/action_informationProductFragment_to_listPriceListByProductFragment"
             app:destination="@id/listPriceListByProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailBillFragment"
+        android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.fragment.DetailBillFragment"
+        android:label="DetailBillFragment" >
+        <action
+            android:id="@+id/action_detailBillFragment_to_billHistoryFragment"
+            app:destination="@id/billHistoryFragment" />
+        <argument
+            android:name="bill"
+            app:argType="com.thuctaptotnghiep.doantttn.api.response.Bill" />
     </fragment>
 </navigation>

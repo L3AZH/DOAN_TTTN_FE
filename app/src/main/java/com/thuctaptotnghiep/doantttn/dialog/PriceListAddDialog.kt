@@ -152,7 +152,8 @@ class PriceListAddDialog : DialogFragment() {
 
     fun setOnClickChooseImageBtn() {
         binding.chooseImageBtn.setOnClickListener {
-            if (requireContext().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (requireContext().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
                 onRequestLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
             } else {
                 val intent =
@@ -173,13 +174,11 @@ class PriceListAddDialog : DialogFragment() {
                 val dialoginform = InformDialog("fail", "Please choose image before input")
                 dialoginform.show(requireActivity().supportFragmentManager, "dialog inform")
                 dialog?.cancel()
-            }
-            else if(!checkPricevalid()){
+            } else if (!checkPricevalid()) {
                 val dialoginform = InformDialog("fail", "Please enter price")
                 dialoginform.show(requireActivity().supportFragmentManager, "dialog inform")
                 dialog?.cancel()
-            }
-            else {
+            } else {
                 CoroutineScope(Dispatchers.Default).launch {
                     val result = viewModel.createNewPriceListObject(
                         token!!,
@@ -202,12 +201,11 @@ class PriceListAddDialog : DialogFragment() {
         }
     }
 
-    fun checkPricevalid():Boolean{
-        try{
+    fun checkPricevalid(): Boolean {
+        try {
             binding.priceTextInputEditText.text.toString().toDouble()
             return true
-        }
-        catch (e:Exception){
+        } catch (e: Exception) {
             return false
         }
     }

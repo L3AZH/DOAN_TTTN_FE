@@ -87,4 +87,11 @@ class Repository @Inject constructor(private val api: ApiInterface,private val d
     suspend fun getAllCart(email: String) = dbDao.getAllCart(email)
     suspend fun checkCartExistInDb(idShop: String,idProduct: String,email: String) =
         dbDao.checkCartExistInDb(idShop, idProduct,email)
+
+    suspend fun getBillByIdAccount(token: String,idAccount:String) =
+        api.getBillByIdAccount(token, idAccount)
+
+
+    suspend fun getBillDetailByIdBill(token: String,idBill: String) =
+        api.getBillDetailByIdBill(token, idBill)
 }

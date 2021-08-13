@@ -158,4 +158,21 @@ interface ApiInterface {
         @Body updatePriceListRequest: UpdatePriceListRequest
     ):Response<UpdatePriceListResponse>
 
+    /**
+     * API Bill
+     */
+    @GET("bill/get-bill-by-id-account/{idAccount}")
+    suspend fun getBillByIdAccount(
+        @Header("Authorization") token: String,
+        @Path("idAccount") idAccount:String
+    ):Response<GetAllBillByIdAccountResponse>
+    /**
+     * API Bill Detail
+     */
+    @GET("billdetail/get-bill-detail/{idBill}")
+    suspend fun getBillDetailByIdBill(
+        @Header("Authorization") token: String,
+        @Path("idBill") idBill:String
+    ):Response<GetAllBillDetailByIdBillResponse>
+
 }

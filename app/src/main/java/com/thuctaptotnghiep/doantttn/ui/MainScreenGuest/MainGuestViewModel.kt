@@ -6,9 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.thuctaptotnghiep.doantttn.App
-import com.thuctaptotnghiep.doantttn.api.response.Category
-import com.thuctaptotnghiep.doantttn.api.response.PriceListFullInformation
-import com.thuctaptotnghiep.doantttn.api.response.Product
+import com.thuctaptotnghiep.doantttn.api.response.*
 import com.thuctaptotnghiep.doantttn.db.model.Cart
 import com.thuctaptotnghiep.doantttn.repository.Repository
 import kotlinx.coroutines.*
@@ -24,6 +22,8 @@ class MainGuestViewModel(application: Application) : AndroidViewModel(applicatio
     var listListPriceListByProduct: MutableLiveData<List<PriceListFullInformation>> =
         MutableLiveData()
     var listCart: MutableLiveData<List<Cart>> = MutableLiveData()
+    var listBill: MutableLiveData<List<Bill>> = MutableLiveData()
+    var listBillDetail: MutableLiveData<List<BillDetail>> = MutableLiveData()
 
     init {
         (application as App).getDataComponent().inject(this)
@@ -86,12 +86,11 @@ class MainGuestViewModel(application: Application) : AndroidViewModel(applicatio
                     repository.addToCart(newCart)
                 } else {
                     val newAmount = cartExist.amount + amount
-                    if(newAmount > 10){
+                    if (newAmount > 10) {
                         resultMap["flag"] = false
                         resultMap["message"] = "Amount of product cant be greater than 10"
                         return@async resultMap
-                    }
-                    else{
+                    } else {
                         cartExist.amount = newAmount
                     }
                     repository.updateCart(cartExist)
@@ -139,4 +138,21 @@ class MainGuestViewModel(application: Application) : AndroidViewModel(applicatio
                 }
             }
         }
+
+    fun getBillByIdAccount(token: String, idAccount: String) =
+        CoroutineScope(Dispatchers.Default).launch {
+            val response = repository.getBillByIdAccount(token, idAccount)
+            if (response.isSuccessful) {
+                listBill.postValue(response.body()!!.data.result)
+            }
+        }
+
+    fun getBillDetailByIdBill(token: String,idBill:String) =
+        CoroutineScope(Dispatchers.Default).launch {
+            val response = repository.getBillDetailByIdBill(token, idBill)
+            if(response.isSuccessful){
+                listBillDetail.postValue(response.body()!!.data.result)
+            }
+        }
+
 }

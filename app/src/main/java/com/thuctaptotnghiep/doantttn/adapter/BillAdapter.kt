@@ -13,9 +13,14 @@ import com.thuctaptotnghiep.doantttn.databinding.ItemBillRecycleViewGuestBinding
 class BillAdapter : RecyclerView.Adapter<BillAdapter.BillViewHolder>() {
 
     var itemBillOnClickCallBack: ((Bill) -> Unit)? = null
+    var longClickItemBillCallBack: ((Bill) -> Boolean)? = null
 
     fun setOnItemBillOnClickCallBack(listener: ((Bill) -> Unit)) {
         this.itemBillOnClickCallBack = listener
+    }
+
+    fun setOnLongClickItemBillCallBack(listener: ((Bill) -> Boolean)?) {
+        this.longClickItemBillCallBack = listener
     }
 
     val diffCallBack = object : DiffUtil.ItemCallback<Bill>() {
@@ -42,8 +47,13 @@ class BillAdapter : RecyclerView.Adapter<BillAdapter.BillViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: BillViewHolder, position: Int) {
-        holder.setUpBinding(diff.currentList[position], itemBillOnClickCallBack!!)
+        holder.setUpBinding(
+            diff.currentList[position],
+            itemBillOnClickCallBack!!,
+            longClickItemBillCallBack
+        )
     }
+
 
     override fun getItemCount(): Int {
         if (diff.currentList == null || diff.currentList.isEmpty()) return 0
@@ -52,7 +62,11 @@ class BillAdapter : RecyclerView.Adapter<BillAdapter.BillViewHolder>() {
 
     inner class BillViewHolder(val binding: ItemBillRecycleViewGuestBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun setUpBinding(bill: Bill, listener: (Bill) -> Unit) {
+        fun setUpBinding(
+            bill: Bill,
+            listener: (Bill) -> Unit,
+            longClickListener: ((Bill) -> Boolean)?
+        ) {
             binding.idBillTextViewItem.text = "ID: " + bill.idBill
             binding.dateBillTextViewItem.text = "Time: " + bill.date.toString()
             binding.statusBillTextView.text = "Status: " + bill.status
@@ -60,6 +74,12 @@ class BillAdapter : RecyclerView.Adapter<BillAdapter.BillViewHolder>() {
                 listener.let {
                     it(bill)
                 }
+            }
+            itemView.setOnLongClickListener {
+                longClickListener.let {
+                    it?.invoke(bill)
+                }
+                return@setOnLongClickListener true
             }
         }
     }

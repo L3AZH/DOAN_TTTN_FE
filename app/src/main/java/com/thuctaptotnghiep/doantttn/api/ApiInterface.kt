@@ -161,11 +161,30 @@ interface ApiInterface {
     /**
      * API Bill
      */
+    @GET("bill/get-all-bill")
+    suspend fun getAllBill(
+        @Header("Authorization") token: String,
+    ):Response<GetAllBillResponse>
+
     @GET("bill/get-bill-by-id-account/{idAccount}")
     suspend fun getBillByIdAccount(
         @Header("Authorization") token: String,
         @Path("idAccount") idAccount:String
     ):Response<GetAllBillByIdAccountResponse>
+
+    @POST("bill/create-new-bill/{idAccount}")
+    suspend fun createNewBill(
+        @Header("Authorization") token: String,
+        @Path("idAccount") idAccount: String,
+        @Body createNewBillRequest: CreateNewBillRequest
+    ):Response<CreateNewBillResponse>
+
+    @PUT("bill/update-bill/{idBill}")
+    suspend fun confirmBill(
+        @Header("Authorization") token: String,
+        @Path("idBill") idBill: String
+    ):Response<UpdateBillResponse>
+
     /**
      * API Bill Detail
      */
@@ -174,5 +193,11 @@ interface ApiInterface {
         @Header("Authorization") token: String,
         @Path("idBill") idBill:String
     ):Response<GetAllBillDetailByIdBillResponse>
+
+    @POST("billdetail/create-new-list-bill-detail")
+    suspend fun createNewListBillDetail(
+        @Header("Authorization") token: String,
+        @Body createNewListBillDetailRequest: CreateNewListBillDetailRequest
+    ):Response<CreateNewListBillDetailResponse>
 
 }

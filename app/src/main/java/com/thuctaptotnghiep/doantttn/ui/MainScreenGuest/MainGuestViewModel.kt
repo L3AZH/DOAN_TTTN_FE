@@ -1,16 +1,24 @@
 package com.thuctaptotnghiep.doantttn.ui.MainScreenGuest
 
 import android.app.Application
+import android.icu.util.Calendar
+import android.os.Build
+import android.text.format.DateFormat
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.thuctaptotnghiep.doantttn.App
+import com.thuctaptotnghiep.doantttn.api.request.CreateNewBillRequest
+import com.thuctaptotnghiep.doantttn.api.request.CreateNewListBillDetailRequest
+import com.thuctaptotnghiep.doantttn.api.request.DataCreateNewListBillDetailRequest
 import com.thuctaptotnghiep.doantttn.api.response.*
 import com.thuctaptotnghiep.doantttn.db.model.Cart
 import com.thuctaptotnghiep.doantttn.repository.Repository
 import kotlinx.coroutines.*
 import okhttp3.internal.wait
+import java.sql.Date
 import javax.inject.Inject
 
 class MainGuestViewModel(application: Application) : AndroidViewModel(application) {
@@ -145,14 +153,77 @@ class MainGuestViewModel(application: Application) : AndroidViewModel(applicatio
             if (response.isSuccessful) {
                 listBill.postValue(response.body()!!.data.result)
             }
-        }
-
-    fun getBillDetailByIdBill(token: String,idBill:String) =
-        CoroutineScope(Dispatchers.Default).launch {
-            val response = repository.getBillDetailByIdBill(token, idBill)
-            if(response.isSuccessful){
-                listBillDetail.postValue(response.body()!!.data.result)
+            else{
+                listBill.postValue(emptyList())
             }
         }
+
+    fun getBillDetailByIdBill(token: String, idBill: String) =
+        CoroutineScope(Dispatchers.Default).launch {
+            val response = repository.getBillDetailByIdBill(token, idBill)
+            if (response.isSuccessful) {
+                listBillDetail.postValue(response.body()!!.data.result)
+            }
+            else{
+                listBillDetail.postValue(emptyList())
+            }
+        }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun createBill(token: String, idAccount: String, email: String): Deferred<Map<String, Any>> =
+        CoroutineScope(Dispatchers.Default).async {
+            val result: MutableMap<String, Any> = mutableMapOf()
+            val responseCreateBill = repository.createNewBill(
+                token,
+                idAccount,
+                CreateNewBillRequest(
+                    DateFormat.format(
+                        "yyyy-MM-dd hh:mm:ss",
+                        Calendar.getInstance().time
+                    ).toString()
+                )
+            )
+            if (responseCreateBill.isSuccessful) {
+                val idBillJustCreated = responseCreateBill.body()!!.data.idBill
+                var listDetailBill: MutableList<DataCreateNewListBillDetailRequest> =
+                    mutableListOf()
+                for (itemCart in listCart.value!!) {
+                    listDetailBill.add(
+                        DataCreateNewListBillDetailRequest(
+                            idBillJustCreated,
+                            itemCart.idProduct,
+                            itemCart.idShop,
+                            itemCart.price,
+                            itemCart.amount
+                        )
+                    )
+                    repository.deleteCart(itemCart)
+                }
+                listCart.postValue(repository.getAllCart(email))
+                val responseCreateBillDetail = repository.createNewListBillDetail(
+                    token,
+                    CreateNewListBillDetailRequest(listDetailBill)
+                )
+                if (responseCreateBillDetail.isSuccessful) {
+                    result["flag"] = responseCreateBillDetail.body()!!.flag
+                    result["message"] = "Create Bill Successfully !!"
+                } else {
+                    val errorResponse =
+                        ErrorResponse.convertErrorBodyToErrorResponseClass(responseCreateBillDetail.errorBody()!!)
+                    result["flag"] = errorResponse.flag
+                    result["message"] = errorResponse.data.message
+                }
+            } else {
+                val errorResponse =
+                    ErrorResponse.convertErrorBodyToErrorResponseClass(responseCreateBill.errorBody()!!)
+                result["flag"] = errorResponse.flag
+                result["message"] = errorResponse.data.message
+            }
+            result
+        }
+
+    fun clearListBillDetail(){
+        listBillDetail.postValue(emptyList())
+    }
 
 }

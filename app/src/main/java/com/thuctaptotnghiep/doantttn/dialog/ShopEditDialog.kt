@@ -32,6 +32,7 @@ class ShopEditDialog(var shop: Shop) : DialogFragment() {
             setUpBinding()
             setOnClickDeleteBtn()
             setOnClickUpdateBtn()
+            setOnclickCancelBtn()
 
             builder.setView(binding.root)
             builder.create()
@@ -93,6 +94,12 @@ class ShopEditDialog(var shop: Shop) : DialogFragment() {
                     dialog?.cancel()
                 }
             }
+        }
+    }
+
+    fun setOnclickCancelBtn(){
+        binding.cancelShopEditDialogBtn.setOnClickListener {
+            dialog?.cancel()
         }
     }
 }

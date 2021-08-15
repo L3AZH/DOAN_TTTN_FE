@@ -180,6 +180,8 @@ class PriceListAddDialog : DialogFragment() {
                 dialog?.cancel()
             } else {
                 CoroutineScope(Dispatchers.Default).launch {
+                    val loadingDialog = LoadingDialog()
+                    loadingDialog.show(requireActivity().supportFragmentManager,"loading dialog")
                     val result = viewModel.createNewPriceListObject(
                         token!!,
                         selectedShop.idShop,
@@ -187,6 +189,7 @@ class PriceListAddDialog : DialogFragment() {
                         binding.priceTextInputEditText.text.toString().toDouble(),
                         (binding.imageProductOfShop.drawable as BitmapDrawable).bitmap
                     ).await()
+                    loadingDialog.cancelLoading()
                     if ((result["flag"] as Boolean)) {
                         val dialoginform = InformDialog("success", result["message"].toString())
                         dialoginform.show(requireActivity().supportFragmentManager, "dialog inform")

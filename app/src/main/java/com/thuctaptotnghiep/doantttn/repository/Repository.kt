@@ -88,10 +88,22 @@ class Repository @Inject constructor(private val api: ApiInterface,private val d
     suspend fun checkCartExistInDb(idShop: String,idProduct: String,email: String) =
         dbDao.checkCartExistInDb(idShop, idProduct,email)
 
+
+    suspend fun getAllBill(token: String) = api.getAllBill(token)
     suspend fun getBillByIdAccount(token: String,idAccount:String) =
         api.getBillByIdAccount(token, idAccount)
+    suspend fun createNewBill(
+        token: String,
+        idAccount: String,
+        createNewBillRequest: CreateNewBillRequest
+    ) = api.createNewBill(token, idAccount, createNewBillRequest)
+    suspend fun confrimBill(token: String,idBill: String) = api.confirmBill(token, idBill)
 
 
     suspend fun getBillDetailByIdBill(token: String,idBill: String) =
         api.getBillDetailByIdBill(token, idBill)
+    suspend fun createNewListBillDetail(
+        token: String,
+        createNewListBillDetailRequest: CreateNewListBillDetailRequest
+    ) = api.createNewListBillDetail(token, createNewListBillDetailRequest)
 }

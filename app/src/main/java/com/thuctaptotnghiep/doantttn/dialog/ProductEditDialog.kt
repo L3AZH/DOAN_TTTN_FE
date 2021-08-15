@@ -41,6 +41,7 @@ class ProductEditDialog(var product: Product, val categoryList: List<Category>) 
             setUpSpinnerTextInputAdapter()
             setOnClickDeleteBtn()
             setOnClickUpdateBtn()
+            setOnclickCancelBtn()
 
             builder.setView(binding.root)
             builder.create()
@@ -121,6 +122,12 @@ class ProductEditDialog(var product: Product, val categoryList: List<Category>) 
                     dialog?.cancel()
                 }
             }
+        }
+    }
+
+    fun setOnclickCancelBtn(){
+        binding.cancelProductEditDialogBtn.setOnClickListener {
+            dialog?.cancel()
         }
     }
 }

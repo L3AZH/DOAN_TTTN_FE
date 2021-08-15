@@ -20,4 +20,23 @@
         android:id="@+id/priceListFragment"
         android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.fragment.PriceListFragment"
         android:label="PriceListFragment" />
+    <fragment
+        android:id="@+id/billFragment"
+        android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.fragment.BillFragment"
+        android:label="BillFragment" >
+        <action
+            android:id="@+id/action_billFragment_to_detailBillAdminFragment"
+            app:destination="@id/detailBillAdminFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailBillAdminFragment"
+        android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.fragment.DetailBillAdminFragment"
+        android:label="DetailBillAdminFragment" >
+        <action
+            android:id="@+id/action_detailBillAdminFragment_to_billFragment"
+            app:destination="@id/billFragment" />
+        <argument
+            android:name="bill"
+            app:argType="com.thuctaptotnghiep.doantttn.api.response.Bill" />
+    </fragment>
 </navigation>

@@ -31,6 +31,7 @@ class CategoryEditDialog(val category: Category) : DialogFragment() {
             setUpBinding()
             setOnlickDeleteBtn()
             setOnClickSaveBtn()
+            setOnclickCancelBtn()
 
             builder.setView(binding.root)
             builder.create()
@@ -87,6 +88,12 @@ class CategoryEditDialog(val category: Category) : DialogFragment() {
                     dialog?.cancel()
                 }
             }
+        }
+    }
+
+    fun setOnclickCancelBtn(){
+        binding.cancelEditCategoryBtn.setOnClickListener {
+            dialog?.cancel()
         }
     }
 }

@@ -20,7 +20,7 @@ class RetrofitModel {
     @Provides
     fun providerLog(): HttpLoggingInterceptor {
         val log = HttpLoggingInterceptor()
-        log.setLevel(HttpLoggingInterceptor.Level.BODY)
+        log.setLevel(HttpLoggingInterceptor.Level.HEADERS)
         return log
     }
 

@@ -17,10 +17,12 @@ import com.thuctaptotnghiep.doantttn.R
 import com.thuctaptotnghiep.doantttn.adapter.PriceListByProductAdapter
 import com.thuctaptotnghiep.doantttn.api.response.PriceListFullInformation
 import com.thuctaptotnghiep.doantttn.databinding.FragmentListPriceListByProductBinding
+import com.thuctaptotnghiep.doantttn.dialog.LoadingDialog
 import com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.MainGuestActivity
 import com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.MainGuestViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -72,7 +74,16 @@ class ListPriceListByProductFragment : Fragment() {
                 Snackbar.make(binding.root, "token null", Snackbar.LENGTH_LONG)
                     .setBackgroundTint(Color.RED).show()
             } else {
+                val loadingDialog = LoadingDialog()
+                loadingDialog.show(requireActivity().supportFragmentManager,"loading dialog")
                 viewModel.getListPriceListByProduct(token, args.idProduct)
+                if(loadingDialog.dialog == null){
+                    delay(1000)
+                    loadingDialog.cancelLoading()
+                }
+                else{
+                    loadingDialog.cancelLoading()
+                }
             }
         }
     }

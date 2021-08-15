@@ -22,6 +22,8 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
     var listProduct: MutableLiveData<List<Product>> = MutableLiveData()
     var listShop: MutableLiveData<List<Shop>> = MutableLiveData()
     var listPriceList: MutableLiveData<List<PriceList>> = MutableLiveData()
+    var listBill: MutableLiveData<List<Bill>> = MutableLiveData()
+    var listDetailBill: MutableLiveData<List<BillDetail>> = MutableLiveData()
 
     init {
         (application as App).getDataComponent().inject(this)
@@ -320,5 +322,41 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
             Log.i("TEST L4AZH", listPriceList.value!!.elementAt(0).price.toString())
             resultMap
         }
+
+    fun getAllBill(token: String) = CoroutineScope(Dispatchers.Default).launch {
+        val response = repository.getAllBill(token)
+        if (response.isSuccessful) {
+            listBill.postValue(response.body()!!.data.result)
+        }
+    }
+
+    fun confirmBill(token: String, idBill: String): Deferred<Map<String, Any>> =
+        CoroutineScope(Dispatchers.Default).async {
+            val result: MutableMap<String, Any> = mutableMapOf()
+            val resposne = repository.confrimBill(token, idBill)
+            if (resposne.isSuccessful) {
+                result["flag"] = resposne.body()!!.flag
+                result["message"] = resposne.body()!!.data.message
+                getAllBill(token)
+            } else {
+                val error =
+                    ErrorResponse.convertErrorBodyToErrorResponseClass(resposne.errorBody()!!)
+                result["flag"] = error.flag
+                result["message"] = error.data.message
+            }
+            result
+        }
+
+    fun getAllListDetailBill(token: String, idBill: String) =
+        CoroutineScope(Dispatchers.Default).launch {
+            val response = repository.getBillDetailByIdBill(token, idBill)
+            if (response.isSuccessful) {
+                listDetailBill.postValue(response.body()!!.data.result)
+            }
+        }
+
+    fun clearListDetailBill(){
+        listDetailBill.postValue(emptyList())
+    }
 
 }

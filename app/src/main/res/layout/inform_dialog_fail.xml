@@ -16,12 +16,13 @@
             android:layout_margin="15dp"/>
         <TextView
             android:id="@+id/textInformFail"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Success text"
             android:textColor="@color/white"
+            android:textAlignment="center"
             android:textSize="16dp"
-            android:maxLines="2"
+            android:maxLines="7"
             android:ellipsize="end"
             android:layout_gravity="center"
             android:layout_margin="15dp"/>

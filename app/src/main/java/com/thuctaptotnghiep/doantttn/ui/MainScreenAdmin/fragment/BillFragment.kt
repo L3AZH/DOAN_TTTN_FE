@@ -17,6 +17,7 @@ import com.thuctaptotnghiep.doantttn.adapter.BillAdapter
 import com.thuctaptotnghiep.doantttn.api.response.Bill
 import com.thuctaptotnghiep.doantttn.databinding.FragmentBillBinding
 import com.thuctaptotnghiep.doantttn.dialog.ConfirmBillDialog
+import com.thuctaptotnghiep.doantttn.dialog.IntroductionForConfirmBillDialog
 import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminActivity
 import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -42,8 +43,20 @@ class BillFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        showIntroductionForConfirmBill()
         setUpAdapter()
         intialViewModel()
+    }
+
+    fun showIntroductionForConfirmBill() {
+        val prefs = requireActivity().getSharedPreferences(
+            Constant.SHARE_PREFERENCE_NAME,
+            Context.MODE_PRIVATE
+        )
+        if (!prefs.getBoolean("dontShowIntroductionConfirmBill", false)) {
+            val introductionDialog = IntroductionForConfirmBillDialog()
+            introductionDialog.show(requireActivity().supportFragmentManager, "introduction dialog")
+        }
     }
 
     fun intialViewModel() {
@@ -79,14 +92,15 @@ class BillFragment : Fragment() {
         }
     }
 
-    fun setOnClickItemBill(bill:Bill){
-        val goToDetailBill = BillFragmentDirections.actionBillFragmentToDetailBillAdminFragment(bill)
+    fun setOnClickItemBill(bill: Bill) {
+        val goToDetailBill =
+            BillFragmentDirections.actionBillFragmentToDetailBillAdminFragment(bill)
         findNavController().navigate(goToDetailBill)
     }
 
-    fun setLongClickItemBill(bill: Bill):Boolean{
+    fun setLongClickItemBill(bill: Bill): Boolean {
         val confirmBillDialog = ConfirmBillDialog(bill)
-        confirmBillDialog.show(requireActivity().supportFragmentManager,"confirm bill dialog ")
+        confirmBillDialog.show(requireActivity().supportFragmentManager, "confirm bill dialog ")
         return true
     }
 

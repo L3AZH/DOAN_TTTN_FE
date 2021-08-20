@@ -1,17 +1,14 @@
 package com.thuctaptotnghiep.doantttn
 
 import android.util.Base64
-import android.util.Log
-import com.google.gson.Gson
-import java.lang.Exception
-import java.nio.charset.Charset
+
 
 
 object Constant {
-    val BASICAUTH_USER = "appdoantttn"
-    val BASICAUTH_PASSWORD = "n17dccn004"
-    val BASE_URL = "http://192.168.1.12:7000/api/"
-    val SHARE_PREFERENCE_NAME = "com.thuctaptotnghiep.doantttn.app_config"
+    const val BASICAUTH_USER = "appdoantttn"
+    const val BASICAUTH_PASSWORD = "n17dccn004"
+    const val BASE_URL = "http://192.168.1.12:7000/api/"
+    const val SHARE_PREFERENCE_NAME = "com.thuctaptotnghiep.doantttn.app_config"
 
     fun getEncryptAccount():String{
         val account = "${BASICAUTH_USER}:${BASICAUTH_PASSWORD}"

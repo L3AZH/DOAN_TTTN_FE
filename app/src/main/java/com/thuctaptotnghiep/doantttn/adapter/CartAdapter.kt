@@ -16,7 +16,7 @@ class CartAdapter : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
     var onClickMinusBtnCallBack: ((cart: Cart) -> Unit)? = null
     var onClickPlusBtnCallBack: ((cart: Cart) -> Unit)? = null
 
-    fun setOnClickMinusCallBack(callback: ((cart: Cart) -> Unit)) {
+    fun setOnClickMinusCallBack(callback: (cart: Cart) -> Unit) {
         this.onClickMinusBtnCallBack = callback
     }
 
@@ -65,7 +65,7 @@ class CartAdapter : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
         fun setUpBinding(
             cart: Cart,
             callbackMinus: ((cart: Cart) -> Unit),
-            callbackPlus: (cart: Cart) -> Unit
+            callbackPlus: ((cart: Cart) -> Unit)
         ) {
             binding.imageCartItem.setImageBitmap(
                 BitmapFactory.decodeByteArray(

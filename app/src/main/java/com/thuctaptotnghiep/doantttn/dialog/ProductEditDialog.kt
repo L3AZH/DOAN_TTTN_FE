@@ -59,7 +59,7 @@ class ProductEditDialog(var product: Product, val categoryList: List<Category>) 
             categoryArrayAdapter
         )
         binding.categorySpinnerEditDialogInutEditText.setText(
-            categoryArrayAdapter.getItem(0).toString(),
+            categoryArrayAdapter.getItemId(product.CategoryIdCategory).toString(),
             false
         );
         (binding.categorySpinnerEditDialogInutEditText as AutoCompleteTextView).onItemClickListener =
@@ -92,7 +92,6 @@ class ProductEditDialog(var product: Product, val categoryList: List<Category>) 
                 } else {
                     val dialogInform = InformDialog("fail", result["message"].toString())
                     dialogInform.show(requireActivity().supportFragmentManager, "inform dialog")
-                    dialog?.cancel()
                 }
             }
         }
@@ -119,7 +118,6 @@ class ProductEditDialog(var product: Product, val categoryList: List<Category>) 
                 } else {
                     val dialogInform = InformDialog("fail", result["message"].toString())
                     dialogInform.show(requireActivity().supportFragmentManager, "inform dialog")
-                    dialog?.cancel()
                 }
             }
         }

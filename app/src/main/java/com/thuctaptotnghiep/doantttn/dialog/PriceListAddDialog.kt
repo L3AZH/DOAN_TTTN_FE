@@ -173,11 +173,9 @@ class PriceListAddDialog : DialogFragment() {
             if (binding.imageProductOfShop.drawable == null) {
                 val dialoginform = InformDialog("fail", "Please choose image before input")
                 dialoginform.show(requireActivity().supportFragmentManager, "dialog inform")
-                dialog?.cancel()
             } else if (!checkPricevalid()) {
                 val dialoginform = InformDialog("fail", "Please enter price")
                 dialoginform.show(requireActivity().supportFragmentManager, "dialog inform")
-                dialog?.cancel()
             } else {
                 CoroutineScope(Dispatchers.Default).launch {
                     val loadingDialog = LoadingDialog()
@@ -197,7 +195,6 @@ class PriceListAddDialog : DialogFragment() {
                     } else {
                         val dialoginform = InformDialog("fail", result["message"].toString())
                         dialoginform.show(requireActivity().supportFragmentManager, "dialog inform")
-                        dialog?.cancel()
                     }
                 }
             }

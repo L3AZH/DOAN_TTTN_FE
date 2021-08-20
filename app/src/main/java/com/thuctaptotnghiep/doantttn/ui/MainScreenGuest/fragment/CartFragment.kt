@@ -23,7 +23,6 @@ import com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.MainGuestViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.internal.wait
 
 
 class CartFragment : Fragment() {

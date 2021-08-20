@@ -4,12 +4,11 @@ import android.app.Application
 import android.icu.util.Calendar
 import android.os.Build
 import android.text.format.DateFormat
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.thuctaptotnghiep.doantttn.App
+import com.thuctaptotnghiep.doantttn.api.request.ChangePasswordRequest
 import com.thuctaptotnghiep.doantttn.api.request.CreateNewBillRequest
 import com.thuctaptotnghiep.doantttn.api.request.CreateNewListBillDetailRequest
 import com.thuctaptotnghiep.doantttn.api.request.DataCreateNewListBillDetailRequest
@@ -17,8 +16,6 @@ import com.thuctaptotnghiep.doantttn.api.response.*
 import com.thuctaptotnghiep.doantttn.db.model.Cart
 import com.thuctaptotnghiep.doantttn.repository.Repository
 import kotlinx.coroutines.*
-import okhttp3.internal.wait
-import java.sql.Date
 import javax.inject.Inject
 
 class MainGuestViewModel(application: Application) : AndroidViewModel(application) {
@@ -62,8 +59,19 @@ class MainGuestViewModel(application: Application) : AndroidViewModel(applicatio
             }
         }
 
+    fun getListPriceListByNameProduct(token: String, nameProduct: String) =
+        CoroutineScope(Dispatchers.Default).launch {
+            val resposne = repository.getListPriceListByNameProduct(
+                token,
+                nameProduct
+            )
+            if (resposne.isSuccessful) {
+                listListPriceListByProduct.postValue(resposne.body()!!.data.result)
+            }
+        }
+
     fun clearListPriceListByProduct() {
-        listListPriceListByProduct.postValue(null)
+        listListPriceListByProduct.postValue(emptyList())
     }
 
     fun addToCart(
@@ -152,8 +160,7 @@ class MainGuestViewModel(application: Application) : AndroidViewModel(applicatio
             val response = repository.getBillByIdAccount(token, idAccount)
             if (response.isSuccessful) {
                 listBill.postValue(response.body()!!.data.result)
-            }
-            else{
+            } else {
                 listBill.postValue(emptyList())
             }
         }
@@ -163,8 +170,7 @@ class MainGuestViewModel(application: Application) : AndroidViewModel(applicatio
             val response = repository.getBillDetailByIdBill(token, idBill)
             if (response.isSuccessful) {
                 listBillDetail.postValue(response.body()!!.data.result)
-            }
-            else{
+            } else {
                 listBillDetail.postValue(emptyList())
             }
         }
@@ -222,8 +228,36 @@ class MainGuestViewModel(application: Application) : AndroidViewModel(applicatio
             result
         }
 
-    fun clearListBillDetail(){
+    fun clearListBillDetail() {
         listBillDetail.postValue(emptyList())
     }
+
+    fun validationBeforeRegister(password: String,confirmPassword:String):Boolean{
+        return (password == confirmPassword)
+    }
+
+    fun changePassword(
+        token: String,
+        idAccount: String,
+        oldPassword: String,
+        confirmPassword: String
+    ): Deferred<Map<String, Any>> =
+        CoroutineScope(Dispatchers.Default).async {
+            val resultMap: MutableMap<String, Any> = mutableMapOf()
+            val response = repository.changePassword(
+                token, idAccount,
+                ChangePasswordRequest(oldPassword, confirmPassword)
+            )
+            if (response.isSuccessful) {
+                resultMap["flag"] = response.body()!!.flag
+                resultMap["message"] = response.body()!!.data.message
+            } else {
+                val error =
+                    ErrorResponse.convertErrorBodyToErrorResponseClass(response.errorBody()!!)
+                resultMap["flag"] = error.flag
+                resultMap["message"] = error.data.message
+            }
+            resultMap
+        }
 
 }

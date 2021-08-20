@@ -39,4 +39,8 @@
             android:name="bill"
             app:argType="com.thuctaptotnghiep.doantttn.api.response.Bill" />
     </fragment>
+    <fragment
+        android:id="@+id/registerAccountForAdminFragment"
+        android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.fragment.RegisterAccountForAdminFragment"
+        android:label="RegisterAccountForAdminFragment" />
 </navigation>

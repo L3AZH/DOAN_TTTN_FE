@@ -142,7 +142,6 @@ class PriceListEditDialog(val priceList: PriceList) : DialogFragment() {
                 } else {
                     val dialogInform = InformDialog("fail", result["message"].toString())
                     dialogInform.show(requireActivity().supportFragmentManager, "inform dialog")
-                    dialog?.cancel()
                 }
             }
         }
@@ -158,11 +157,9 @@ class PriceListEditDialog(val priceList: PriceList) : DialogFragment() {
             if (binding.imageProductOfShopEdit.drawable == null) {
                 val dialoginform = InformDialog("fail", "Please choose image before input")
                 dialoginform.show(requireActivity().supportFragmentManager, "dialog inform")
-                dialog?.cancel()
             } else if (!checkPricevalid()) {
                 val dialoginform = InformDialog("fail", "Please enter price")
                 dialoginform.show(requireActivity().supportFragmentManager, "dialog inform")
-                dialog?.cancel()
             } else {
                 CoroutineScope(Dispatchers.Default).launch {
                     val loadingDialog = LoadingDialog()
@@ -182,7 +179,6 @@ class PriceListEditDialog(val priceList: PriceList) : DialogFragment() {
                     } else {
                         val dialoginform = InformDialog("fail", result["message"].toString())
                         dialoginform.show(requireActivity().supportFragmentManager, "dialog inform")
-                        dialog?.cancel()
                     }
                 }
             }

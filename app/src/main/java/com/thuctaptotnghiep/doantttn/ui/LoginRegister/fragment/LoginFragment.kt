@@ -94,7 +94,7 @@ class LoginFragment : Fragment() {
     fun setLinkTextToRegister() {
         val linkText = Link("Register").apply {
             bold = true
-            textColor = Color.BLACK
+            textColor = Color.MAGENTA
             underlined = false
             setOnClickListener {
                 val goToRegisterFragment =

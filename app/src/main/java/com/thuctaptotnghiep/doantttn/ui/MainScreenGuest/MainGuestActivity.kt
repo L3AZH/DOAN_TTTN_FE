@@ -15,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.thuctaptotnghiep.doantttn.Constant
 import com.thuctaptotnghiep.doantttn.R
 import com.thuctaptotnghiep.doantttn.databinding.ActivityMainGuestBinding
+import com.thuctaptotnghiep.doantttn.dialog.ChangePasswordDialog
 import com.thuctaptotnghiep.doantttn.ui.LoginRegister.LoginAndRegisterActivity
 
 class MainGuestActivity : AppCompatActivity() {
@@ -39,6 +40,7 @@ class MainGuestActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this).get(MainGuestViewModel::class.java)
         setOnlickLogoutOptionOnSildeMenu()
+        setOnClickChangePasswordOptionSildeMenu()
     }
 
     fun setOnlickLogoutOptionOnSildeMenu() {
@@ -57,7 +59,19 @@ class MainGuestActivity : AppCompatActivity() {
                     startActivity(goToLoginAndRegisterScreen)
                     return true
                 }
-
             })
     }
+
+    fun setOnClickChangePasswordOptionSildeMenu() {
+        binding.navViewMainGuest.menu.findItem(R.id.changePasswordOption)
+            .setOnMenuItemClickListener(object : MenuItem.OnMenuItemClickListener {
+                override fun onMenuItemClick(item: MenuItem?): Boolean {
+                    val showChangePasswordDialog = ChangePasswordDialog(null,viewModel)
+                    showChangePasswordDialog.show(supportFragmentManager,"change pass dialog")
+                    return true
+                }
+            })
+    }
+
+
 }

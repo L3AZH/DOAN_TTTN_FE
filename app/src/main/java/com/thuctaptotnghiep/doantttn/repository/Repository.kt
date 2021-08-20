@@ -23,6 +23,11 @@ class Repository @Inject constructor(private val api: ApiInterface,private val d
             RefreshTokenRequest(refreshToken)
         )
     suspend fun checkTokenExpire(token: String) = api.checkTokenExpire(token)
+    suspend fun changePassword(
+        token: String,
+        idAccount: String,
+        changePasswordRequest: ChangePasswordRequest
+    ) = api.changePassword(token, idAccount, changePasswordRequest)
 
 
     suspend fun getAllCategory(token: String) = api.getAllCategory(token)
@@ -65,6 +70,10 @@ class Repository @Inject constructor(private val api: ApiInterface,private val d
     suspend fun getAllPriceList(token: String) = api.getAllPriceList(token)
     suspend fun getListPriceListByIdProduct(token: String,idProduct: String) =
         api.getListPriceListByIdProduct(token, idProduct)
+    suspend fun getListPriceListByNameProduct(
+        token: String,
+        nameProduct:String
+    ) = api.getListPriceListByNameProduct(token, nameProduct)
     suspend fun createNewPriceListObject(
         token: String,
         addPriceListObjectRequest: AddPriceListObjectRequest

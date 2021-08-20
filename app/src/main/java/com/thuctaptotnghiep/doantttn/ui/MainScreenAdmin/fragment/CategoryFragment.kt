@@ -82,22 +82,26 @@ class CategoryFragment : Fragment() {
         binding.listCategoryRecycleView.adapter = categoryAdapter
     }
 
-    fun itemCategoryClickListener(category:Category){
+    fun itemCategoryClickListener(category: Category) {
         val dialogEdit = CategoryEditDialog(category)
-        dialogEdit.show(requireActivity().supportFragmentManager,"editing category dialog")
+        dialogEdit.show(requireActivity().supportFragmentManager, "editing category dialog")
     }
 
-    fun setOnClickAddBtn(){
+    fun setOnClickAddBtn() {
         binding.addCategoryFloatingBtn.setOnClickListener {
             val addDialog = CategoryAddDialog()
-            addDialog.show(requireActivity().supportFragmentManager,"adding category dialog")
+            addDialog.show(requireActivity().supportFragmentManager, "adding category dialog")
         }
     }
 
     fun initListShopAndProduct() = CoroutineScope(Dispatchers.Default).launch {
-        val pref = requireActivity().getSharedPreferences(Constant.SHARE_PREFERENCE_NAME,Context.MODE_PRIVATE)
-        val token = pref.getString("token","null")!!
+        val pref = requireActivity().getSharedPreferences(
+            Constant.SHARE_PREFERENCE_NAME,
+            Context.MODE_PRIVATE
+        )
+        val token = pref.getString("token", "null")!!
         viewModel.getAllShop(token)
         viewModel.getAllProduct(token)
     }
+
 }

@@ -8,7 +8,6 @@ import retrofit2.http.*
 
 interface ApiInterface {
 
-
     @POST("auth/login")
     suspend fun login(
         @Header("Authorization") encryptAccount: String,
@@ -31,6 +30,13 @@ interface ApiInterface {
     suspend fun checkTokenExpire(
         @Header("Authorization") token:String
     ):Response<Any>
+
+    @PUT("auth/change-password/{idAccount}")
+    suspend fun changePassword(
+        @Header("Authorization") token: String,
+        @Path("idAccount") idAccount:String,
+        @Body changePasswordRequest: ChangePasswordRequest
+    ):Response<ChangePasswordResponse>
 
     /**
     API category
@@ -136,6 +142,16 @@ interface ApiInterface {
         @Header("Authorization") token: String,
         @Path("idProduct") idProduct: String
     ):Response<GetListPriceListByProductResponse>
+
+    /**
+     * Get cant have a param like @Body, @Body will make error like non HTTP cant have a body
+     */
+
+    @GET("pricelist/get-list-price-list-by-name-product/{nameProduct}")
+    suspend fun getListPriceListByNameProduct(
+        @Header("Authorization") token: String,
+        @Path("nameProduct") nameProduct:String
+    ):Response<GetListPriceListByNameProductResponse>
 
     @POST("pricelist/create-new-price-list-object")
     suspend fun createNewPriceListObject(

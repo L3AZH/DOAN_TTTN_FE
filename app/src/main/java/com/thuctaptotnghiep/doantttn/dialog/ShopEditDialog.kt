@@ -63,7 +63,6 @@ class ShopEditDialog(var shop: Shop) : DialogFragment() {
                 } else {
                     val dialogInform = InformDialog("fail", result["message"].toString())
                     dialogInform.show(requireActivity().supportFragmentManager, "inform dialog")
-                    dialog?.cancel()
                 }
             }
         }
@@ -91,7 +90,6 @@ class ShopEditDialog(var shop: Shop) : DialogFragment() {
                 } else {
                     val dialogInform = InformDialog("fail", result["message"].toString())
                     dialogInform.show(requireActivity().supportFragmentManager, "inform dialog")
-                    dialog?.cancel()
                 }
             }
         }

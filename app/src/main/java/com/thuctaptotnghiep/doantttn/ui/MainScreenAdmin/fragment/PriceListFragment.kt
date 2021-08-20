@@ -51,6 +51,11 @@ class PriceListFragment : Fragment() {
         setOnClickAddPriceListFloatingBtn()
     }
 
+    override fun onStop() {
+        super.onStop()
+        viewModel.clearListPriceList()
+    }
+
     fun intialViewModel() {
         viewModel.listPriceList.observe(viewLifecycleOwner, Observer {
             priceListAdapter.diff.submitList(it)

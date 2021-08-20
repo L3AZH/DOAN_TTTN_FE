@@ -38,12 +38,15 @@
                 android:id="@+id/searchProductInputTextEdit"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="gone"
                 app:boxCornerRadiusBottomEnd="20dp"
                 app:boxCornerRadiusBottomStart="20dp"
                 app:boxCornerRadiusTopEnd="20dp"
                 app:boxCornerRadiusTopStart="20dp"
                 app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp">
+                app:boxStrokeWidthFocused="0dp"
+                app:endIconMode="custom"
+                app:endIconDrawable="@drawable/ic_baseline_search_32">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"

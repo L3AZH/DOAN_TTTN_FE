@@ -10,6 +10,7 @@ import com.thuctaptotnghiep.doantttn.api.request.*
 import com.thuctaptotnghiep.doantttn.api.response.*
 import com.thuctaptotnghiep.doantttn.repository.Repository
 import kotlinx.coroutines.*
+import okhttp3.internal.notify
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
@@ -355,8 +356,57 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
             }
         }
 
-    fun clearListDetailBill(){
+    fun registerAdminAccount(email: String, password: String): Deferred<Map<String, Any>> =
+        CoroutineScope(Dispatchers.Default).async {
+            val resultMap: MutableMap<String, Any> = mutableMapOf()
+            val resposne = repository.register(email, password, "admin")
+            if (resposne.isSuccessful) {
+                resultMap["flag"] = resposne.body()!!.flag
+                resultMap["message"] = resposne.body()!!.data.message
+            } else {
+                val error =
+                    ErrorResponse.convertErrorBodyToErrorResponseClass(resposne.errorBody()!!)
+                resultMap["flag"] = error.flag
+                resultMap["message"] = error.data.message
+            }
+            resultMap
+        }
+
+    fun validationBeforeRegister(password: String, confirmPassword: String): Boolean {
+        return (password == confirmPassword)
+    }
+
+    fun changePassword(
+        token: String,
+        idAccount: String,
+        oldPassword: String,
+        confirmPassword: String
+    ): Deferred<Map<String, Any>> =
+        CoroutineScope(Dispatchers.Default).async {
+            val resultMap: MutableMap<String, Any> = mutableMapOf()
+            val response = repository.changePassword(
+                token, idAccount,
+                ChangePasswordRequest(oldPassword, confirmPassword)
+            )
+            if (response.isSuccessful) {
+                resultMap["flag"] = response.body()!!.flag
+                resultMap["message"] = response.body()!!.data.message
+            } else {
+                val error =
+                    ErrorResponse.convertErrorBodyToErrorResponseClass(response.errorBody()!!)
+                resultMap["flag"] = error.flag
+                resultMap["message"] = error.data.message
+            }
+            resultMap
+        }
+
+    fun clearListDetailBill() {
         listDetailBill.postValue(emptyList())
     }
+
+    fun clearListPriceList() {
+        listPriceList.postValue(emptyList())
+    }
+
 
 }

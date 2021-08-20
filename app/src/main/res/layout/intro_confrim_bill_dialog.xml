@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/introTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hold On Bill to confirm Bill"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:layout_margin="32dp"
+        android:drawableStart="@drawable/ic_baseline_front_hand_32"
+        android:drawablePadding="10dp"/>
+
+    <CheckBox
+        android:id="@+id/rememberCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:text="Don't show this again" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/understandBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginBottom="20dp"
+        app:icon="@drawable/ic_baseline_check_32"
+        app:iconGravity="textStart"
+        app:cornerRadius="20dp"
+        app:backgroundTint="@android:color/holo_green_light"/>
+</LinearLayout>
+</layout>

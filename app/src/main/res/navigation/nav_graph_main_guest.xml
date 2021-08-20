@@ -24,11 +24,6 @@
             app:destination="@id/listPriceListByProductFragment" />
     </fragment>
     <fragment
-        android:id="@+id/guestInformationFragment"
-        android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.fragment.GuestInformationFragment"
-        android:label="Information"
-        tools:layout="@layout/fragment_guest_information" />
-    <fragment
         android:id="@+id/cartFragment"
         android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.fragment.CartFragment"
         android:label="Your Cart"
@@ -37,7 +32,11 @@
         android:id="@+id/findProductFragment"
         android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.fragment.FindProductFragment"
         android:label="Search Product"
-        tools:layout="@layout/fragment_find_product" />
+        tools:layout="@layout/fragment_find_product" >
+        <action
+            android:id="@+id/action_findProductFragment_to_informationProductFragment"
+            app:destination="@id/informationProductFragment" />
+    </fragment>
     <fragment
         android:id="@+id/listPriceListByProductFragment"
         android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.fragment.ListPriceListByProductFragment"
@@ -62,6 +61,9 @@
         <action
             android:id="@+id/action_informationProductFragment_to_listPriceListByProductFragment"
             app:destination="@id/listPriceListByProductFragment" />
+        <action
+            android:id="@+id/action_informationProductFragment_to_findProductFragment"
+            app:destination="@id/findProductFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailBillFragment"

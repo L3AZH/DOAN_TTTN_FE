@@ -15,12 +15,14 @@ import com.google.android.material.snackbar.Snackbar
 import com.thuctaptotnghiep.doantttn.Constant
 import com.thuctaptotnghiep.doantttn.R
 import com.thuctaptotnghiep.doantttn.databinding.ActivityMainGuestBinding
+import com.thuctaptotnghiep.doantttn.databinding.NavHeaderMainGuestBinding
 import com.thuctaptotnghiep.doantttn.dialog.ChangePasswordDialog
 import com.thuctaptotnghiep.doantttn.ui.LoginRegister.LoginAndRegisterActivity
 
 class MainGuestActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainGuestBinding
+    lateinit var headerNavBinding: NavHeaderMainGuestBinding
     lateinit var viewModel: MainGuestViewModel
     lateinit var navController: NavController
 
@@ -38,9 +40,13 @@ class MainGuestActivity : AppCompatActivity() {
         binding.bottomNavigationViewGuest.setupWithNavController(navController)
         binding.guestMainToolbar.setupWithNavController(navController, appBarConfiguration)
 
+        headerNavBinding = NavHeaderMainGuestBinding.bind(binding.navViewMainGuest.getHeaderView(0))
+
         viewModel = ViewModelProvider(this).get(MainGuestViewModel::class.java)
+
         setOnlickLogoutOptionOnSildeMenu()
         setOnClickChangePasswordOptionSildeMenu()
+        setOnAvatarClick()
     }
 
     fun setOnlickLogoutOptionOnSildeMenu() {
@@ -71,6 +77,12 @@ class MainGuestActivity : AppCompatActivity() {
                     return true
                 }
             })
+    }
+
+    fun setOnAvatarClick(){
+        headerNavBinding.circleImageNavHeadGuest.setOnClickListener {
+
+        }
     }
 
 

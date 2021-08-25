@@ -20,8 +20,8 @@
         android:label="Category"
         tools:layout="@layout/fragment_category_guest" >
         <action
-            android:id="@+id/action_categoryGuestFragment_to_listPriceListByProductFragment"
-            app:destination="@id/listPriceListByProductFragment" />
+            android:id="@+id/action_categoryGuestFragment_to_listDetailShopProductByProductFragment"
+            app:destination="@id/listDetailShopProductByProductFragment" />
     </fragment>
     <fragment
         android:id="@+id/cartFragment"
@@ -38,42 +38,42 @@
             app:destination="@id/informationProductFragment" />
     </fragment>
     <fragment
-        android:id="@+id/listPriceListByProductFragment"
-        android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.fragment.ListPriceListByProductFragment"
-        android:label="ListPriceListByProductFragment" >
-        <action
-            android:id="@+id/action_listPriceListByProductFragment_to_categoryGuestFragment"
-            app:destination="@id/categoryGuestFragment" />
-        <argument
-            android:name="idProduct"
-            app:argType="string" />
-        <action
-            android:id="@+id/action_listPriceListByProductFragment_to_informationProductFragment"
-            app:destination="@id/informationProductFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/informationProductFragment"
         android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.fragment.InformationProductFragment"
-        android:label="InformationProductFragment" >
-        <argument
-            android:name="priceListFullInfoItem"
-            app:argType="com.thuctaptotnghiep.doantttn.api.response.PriceListFullInformation" />
-        <action
-            android:id="@+id/action_informationProductFragment_to_listPriceListByProductFragment"
-            app:destination="@id/listPriceListByProductFragment" />
+        android:label="Information Product" >
         <action
             android:id="@+id/action_informationProductFragment_to_findProductFragment"
             app:destination="@id/findProductFragment" />
+        <action
+            android:id="@+id/action_informationProductFragment_to_listDetailShopProductByProductFragment"
+            app:destination="@id/listDetailShopProductByProductFragment" />
+        <argument
+            android:name="detailShopProductFullInformation"
+            app:argType="com.thuctaptotnghiep.doantttn.api.response.DetailShopProductFullInformation" />
     </fragment>
     <fragment
         android:id="@+id/detailBillFragment"
         android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.fragment.DetailBillFragment"
-        android:label="DetailBillFragment" >
+        android:label="Detail Bill" >
         <action
             android:id="@+id/action_detailBillFragment_to_billHistoryFragment"
             app:destination="@id/billHistoryFragment" />
         <argument
             android:name="bill"
             app:argType="com.thuctaptotnghiep.doantttn.api.response.Bill" />
+    </fragment>
+    <fragment
+        android:id="@+id/listDetailShopProductByProductFragment"
+        android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.fragment.ListDetailShopProductByProductFragment"
+        android:label="List Product" >
+        <action
+            android:id="@+id/action_listDetailShopProductByProductFragment_to_categoryGuestFragment"
+            app:destination="@id/categoryGuestFragment" />
+        <action
+            android:id="@+id/action_listDetailShopProductByProductFragment_to_informationProductFragment"
+            app:destination="@id/informationProductFragment" />
+        <argument
+            android:name="idProduct"
+            app:argType="string" />
     </fragment>
 </navigation>

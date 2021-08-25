@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 
-data class PriceListFullInformation(
+data class DetailShopProductFullInformation(
     @SerializedName("Shop_idShop")
     var idShop: String,
     @SerializedName("Product_idProduct")
@@ -24,16 +24,16 @@ data class PriceListFullInformation(
     var phoneShop:String
 ):Serializable
 
-data class DataListPrictListByProductResponse(
+data class DataListDetailShopProductByProductResponse(
     @SerializedName("result")
-    var result: List<PriceListFullInformation>
+    var result: List<DetailShopProductFullInformation>
 )
 
-data class GetListPriceListByProductResponse(
+data class GetListDetailShopProductByProductResponse(
     @SerializedName("code")
     var code:Int,
     @SerializedName("data")
-    var data:DataListPrictListByProductResponse,
+    var data:DataListDetailShopProductByProductResponse,
     @SerializedName("flag")
     var flag:Boolean
 )

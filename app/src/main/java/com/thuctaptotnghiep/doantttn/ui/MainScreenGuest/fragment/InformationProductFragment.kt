@@ -52,17 +52,17 @@ class InformationProductFragment : Fragment() {
     fun setUpBindingDetail() {
         binding.imagePriceListDetail.setImageBitmap(
             BitmapFactory.decodeByteArray(
-                args.priceListFullInfoItem.image.data,
+                args.detailShopProductFullInformation.image.data,
                 0,
-                args.priceListFullInfoItem.image.data.size
+                args.detailShopProductFullInformation.image.data.size
             )
         )
-        binding.nameProductDetail.text = "Name: " + args.priceListFullInfoItem.nameProduct
+        binding.nameProductDetail.text = "Name: " + args.detailShopProductFullInformation.nameProduct
         binding.priceProductDetail.text =
-            "Price: " + args.priceListFullInfoItem.price.toString() + " $"
-        binding.nameShopDetail.text = "Shop name: " + args.priceListFullInfoItem.nameShop
-        binding.addressShopDetail.text = "Address: " + args.priceListFullInfoItem.addressShop
-        binding.phoneShopDetail.text = "Phone: " + args.priceListFullInfoItem.phoneShop
+            "Price: " + args.detailShopProductFullInformation.price.toString() + " $"
+        binding.nameShopDetail.text = "Shop name: " + args.detailShopProductFullInformation.nameShop
+        binding.addressShopDetail.text = "Address: " + args.detailShopProductFullInformation.addressShop
+        binding.phoneShopDetail.text = "Phone: " + args.detailShopProductFullInformation.phoneShop
     }
 
     fun setOnclickAddToCartBtn() {
@@ -79,7 +79,7 @@ class InformationProductFragment : Fragment() {
             if (checkValidAmount(binding.amountProductDetailTextInputEditText.text.toString())) {
                 CoroutineScope(Dispatchers.Default).launch {
                     val rs = viewModel.addToCart(
-                        args.priceListFullInfoItem,
+                        args.detailShopProductFullInformation,
                         binding.amountProductDetailTextInputEditText.text.toString().toInt(),
                         email!!
                     ).await()

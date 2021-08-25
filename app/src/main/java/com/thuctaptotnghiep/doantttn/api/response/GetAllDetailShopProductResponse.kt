@@ -9,7 +9,7 @@ data class ImageDataFromMySQL(
     var data:ByteArray
 )
 
-data class PriceList(
+data class DetailShopProduct(
     @SerializedName("ShopIdShop")
     var shopIdShop:String,
     @SerializedName("ProductIdProduct")
@@ -20,16 +20,16 @@ data class PriceList(
     var image:ImageDataFromMySQL
 )
 
-data class DataAllPriceListResponse(
+data class DataAllDetailShopProductResponse(
     @SerializedName("result")
-    var result:List<PriceList>
+    var result:List<DetailShopProduct>
 )
 
-data class GetAllPriceListResponse(
+data class GetAllDetailShopProductResponse(
     @SerializedName("code")
     var code:Int,
     @SerializedName("data")
-    var data:DataAllPriceListResponse,
+    var data:DataAllDetailShopProductResponse,
     @SerializedName("flag")
     var flag:Boolean
 )

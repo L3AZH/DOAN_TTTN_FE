@@ -52,7 +52,9 @@ class RegisterAccountForAdminFragment : Fragment() {
                 ) {
                     val resultMap = viewModel.registerAdminAccount(
                         binding.emailRegisterAdminEditText.text.toString(),
-                        binding.confirmPasswordAdminEditText.text.toString()
+                        binding.confirmPasswordAdminEditText.text.toString(),
+                        binding.phoneAdminEditText.text.toString(),
+                        binding.addressAdminEditText.text.toString()
                     ).await()
                     if (resultMap["flag"] as Boolean) {
                         CoroutineScope(Dispatchers.Main).launch {

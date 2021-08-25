@@ -132,47 +132,47 @@ interface ApiInterface {
     /**
      * API PriceList
      */
-    @GET("pricelist/get-all-price-list")
-    suspend fun getAllPriceList(
+    @GET("detailshopproduct/get-all-detail-shop-product")
+    suspend fun getAllDetailShopProduct(
         @Header("Authorization") token: String
-    ):Response<GetAllPriceListResponse>
+    ):Response<GetAllDetailShopProductResponse>
 
-    @GET("pricelist/get-shop-by-id-product/{idProduct}")
-    suspend fun getListPriceListByIdProduct(
+    @GET("detailshopproduct/get-shop-by-id-product/{idProduct}")
+    suspend fun getListDetailShopProductByIdProduct(
         @Header("Authorization") token: String,
         @Path("idProduct") idProduct: String
-    ):Response<GetListPriceListByProductResponse>
+    ):Response<GetListDetailShopProductByProductResponse>
 
     /**
-     * Get cant have a param like @Body, @Body will make error like non HTTP cant have a body
+     * GET method cant have a param like @Body, @Body will make error like non HTTP cant have a body
      */
 
-    @GET("pricelist/get-list-price-list-by-name-product/{nameProduct}")
-    suspend fun getListPriceListByNameProduct(
+    @GET("detailshopproduct/get-list-detail-shop-product-by-name-product/{nameProduct}")
+    suspend fun getListDetailShopProductByNameProduct(
         @Header("Authorization") token: String,
         @Path("nameProduct") nameProduct:String
-    ):Response<GetListPriceListByNameProductResponse>
+    ):Response<GetListDetailShopProductByNameProductResponse>
 
-    @POST("pricelist/create-new-price-list-object")
-    suspend fun createNewPriceListObject(
+    @POST("detailshopproduct/create-new-detail-shop-product-object")
+    suspend fun createNewDetailShopProductObject(
         @Header("Authorization") token: String,
-        @Body addPriceListObjectRequest: AddPriceListObjectRequest
-    ):Response<AddPriceListObjectResponse>
+        @Body addDetailShopProductObjectRequest: AddDetailShopProductObjectRequest
+    ):Response<AddDetailShopProductObjectResponse>
 
-    @DELETE("pricelist/delete-price-list-object/{idShop}/{idProduct}")
-    suspend fun deletePriceListObject(
+    @DELETE("detailshopproduct/delete-detail-shop-product-object/{idShop}/{idProduct}")
+    suspend fun deleteDetailShopProductObject(
         @Header("Authorization") token: String,
         @Path("idShop") idShop:String,
         @Path("idProduct") idProduct: String
-    ):Response<DeletePriceListResponse>
+    ):Response<DeleteDetailShopProductResponse>
 
-    @PUT("pricelist/update-price-list-object/{idShop}/{idProduct}")
-    suspend fun updatePriceListObject(
+    @PUT("detailshopproduct/update-detail-shop-product-object/{idShop}/{idProduct}")
+    suspend fun updateDetailShopProductObject(
         @Header("Authorization") token: String,
         @Path("idShop") idShop: String,
         @Path("idProduct") idProduct: String,
-        @Body updatePriceListRequest: UpdatePriceListRequest
-    ):Response<UpdatePriceListResponse>
+        @Body updateDetailShopProductRequest: UpdateDetailShopProductRequest
+    ):Response<UpdateDetailShopProductResponse>
 
     /**
      * API Bill

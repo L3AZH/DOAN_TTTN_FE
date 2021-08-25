@@ -44,7 +44,7 @@ class ShopAdapter : RecyclerView.Adapter<ShopAdapter.ShopViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        if (diff.currentList == null || diff.currentList.isNullOrEmpty()) return 0
+        if (diff.currentList.isNullOrEmpty()) return 0
         return diff.currentList.size
     }
 

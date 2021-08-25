@@ -10,7 +10,6 @@ import com.thuctaptotnghiep.doantttn.api.request.*
 import com.thuctaptotnghiep.doantttn.api.response.*
 import com.thuctaptotnghiep.doantttn.repository.Repository
 import kotlinx.coroutines.*
-import okhttp3.internal.notify
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
@@ -22,7 +21,7 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
     var listCategory: MutableLiveData<List<Category>> = MutableLiveData()
     var listProduct: MutableLiveData<List<Product>> = MutableLiveData()
     var listShop: MutableLiveData<List<Shop>> = MutableLiveData()
-    var listPriceList: MutableLiveData<List<PriceList>> = MutableLiveData()
+    var listDetailShopProduct: MutableLiveData<List<DetailShopProduct>> = MutableLiveData()
     var listBill: MutableLiveData<List<Bill>> = MutableLiveData()
     var listDetailBill: MutableLiveData<List<BillDetail>> = MutableLiveData()
 
@@ -40,7 +39,7 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
     fun createNewCategory(token: String, nameCategory: String): Deferred<Map<String, Any>> =
         CoroutineScope(Dispatchers.Default).async {
             val response = repository.createNewCategory(token, AddCategoryRequest(nameCategory))
-            var resultMap: MutableMap<String, Any> = mutableMapOf()
+            val resultMap: MutableMap<String, Any> = mutableMapOf()
             if (response.isSuccessful) {
                 resultMap["flag"] = response.body()!!.flag
                 resultMap["message"] = response.body()!!.data.message
@@ -57,7 +56,7 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
     fun deleteCategory(token: String, idCategory: String): Deferred<Map<String, Any>> =
         CoroutineScope(Dispatchers.Default).async {
             val response = repository.deleteCategory(token, idCategory)
-            var resultMap: MutableMap<String, Any> = mutableMapOf()
+            val resultMap: MutableMap<String, Any> = mutableMapOf()
             if (response.isSuccessful) {
                 resultMap["flag"] = response.body()!!.flag
                 resultMap["message"] = response.body()!!.data.message
@@ -78,7 +77,7 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
     ): Deferred<Map<String, Any>> = CoroutineScope(Dispatchers.Default).async {
         val response =
             repository.updateCategory(token, idCategory, UpdateCategoryRequest(newCategoryname))
-        var resultMap: MutableMap<String, Any> = mutableMapOf()
+        val resultMap: MutableMap<String, Any> = mutableMapOf()
         if (response.isSuccessful) {
             resultMap["flag"] = response.body()!!.flag
             resultMap["message"] = response.body()!!.data.message
@@ -107,7 +106,7 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
         CoroutineScope(Dispatchers.Default).async {
             val response =
                 repository.createNewProduct(token, AddProductRequest(nameProduct, idCategory))
-            var resultMap: MutableMap<String, Any> = mutableMapOf()
+            val resultMap: MutableMap<String, Any> = mutableMapOf()
             if (response.isSuccessful) {
                 resultMap["flag"] = response.body()!!.flag
                 resultMap["message"] = response.body()!!.data.message
@@ -126,7 +125,7 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
         idProduct: String
     ): Deferred<Map<String, Any>> = CoroutineScope(Dispatchers.Default).async {
         val response = repository.deleteProduct(token, idProduct)
-        var resultMap: MutableMap<String, Any> = mutableMapOf()
+        val resultMap: MutableMap<String, Any> = mutableMapOf()
         if (response.isSuccessful) {
             resultMap["flag"] = response.body()!!.flag
             resultMap["message"] = response.body()!!.data.message
@@ -148,7 +147,7 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
     ): Deferred<Map<String, Any>> = CoroutineScope(Dispatchers.Default).async {
         val response =
             repository.updateProduct(token, idProduct, UpdateProductRequest(name, idCategory))
-        var resultMap: MutableMap<String, Any> = mutableMapOf()
+        val resultMap: MutableMap<String, Any> = mutableMapOf()
         if (response.isSuccessful) {
             resultMap["flag"] = response.body()!!.flag
             resultMap["message"] = response.body()!!.data.message
@@ -177,7 +176,7 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
     ): Deferred<Map<String, Any>> = CoroutineScope(Dispatchers.Default).async {
         val response =
             repository.createNewShop(token, AddShopRequest(name, phone, address))
-        var resultMap: MutableMap<String, Any> = mutableMapOf()
+        val resultMap: MutableMap<String, Any> = mutableMapOf()
         if (response.isSuccessful) {
             resultMap["flag"] = response.body()!!.flag
             resultMap["message"] = response.body()!!.data.message
@@ -196,7 +195,7 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
         idShop: String
     ): Deferred<Map<String, Any>> = CoroutineScope(Dispatchers.Default).async {
         val response = repository.deleteShop(token, idShop)
-        var resultMap: MutableMap<String, Any> = mutableMapOf()
+        val resultMap: MutableMap<String, Any> = mutableMapOf()
         if (response.isSuccessful) {
             resultMap["flag"] = response.body()!!.flag
             resultMap["message"] = response.body()!!.data.message
@@ -219,7 +218,7 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
     ): Deferred<Map<String, Any>> = CoroutineScope(Dispatchers.Default).async {
         val response =
             repository.updateShop(token, idShop, UpdateShopRequest(name, phone, address))
-        var resultMap: MutableMap<String, Any> = mutableMapOf()
+        val resultMap: MutableMap<String, Any> = mutableMapOf()
         if (response.isSuccessful) {
             resultMap["flag"] = response.body()!!.flag
             resultMap["message"] = response.body()!!.data.message
@@ -234,14 +233,20 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
 
-    fun getAllPriceList(token: String) = CoroutineScope(Dispatchers.Default).launch {
-        val response = repository.getAllPriceList(token)
+    fun getAllDetailShopProduct(token: String) = CoroutineScope(Dispatchers.Default).launch {
+        val response = repository.getAllDetailShopProduct(token)
         if (response.isSuccessful) {
-            listPriceList.postValue((response.body()!!.data.result))
+            listDetailShopProduct.postValue((response.body()!!.data.result))
+        }
+        else{
+            val error = ErrorResponse.convertErrorBodyToErrorResponseClass(response.errorBody()!!)
+            if(error.data.message.equals("Can't find any DetailShopProduct in database",true)){
+                listDetailShopProduct.postValue(emptyList())
+            }
         }
     }
 
-    fun createNewPriceListObject(
+    fun createNewDetailShopProductObject(
         token: String,
         idShop: String,
         idProduct: String,
@@ -252,11 +257,11 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
         image.compress(Bitmap.CompressFormat.PNG, 50, stream)
         val imageByte = stream.toByteArray()
         val response =
-            repository.createNewPriceListObject(
+            repository.createNewDetailShopProductObject(
                 token,
-                AddPriceListObjectRequest(idShop, idProduct, price, imageByte)
+                AddDetailShopProductObjectRequest(idShop, idProduct, price, imageByte)
             )
-        var resultMap: MutableMap<String, Any> = mutableMapOf()
+        val resultMap: MutableMap<String, Any> = mutableMapOf()
         if (response.isSuccessful) {
             resultMap["flag"] = response.body()!!.flag
             resultMap["message"] = response.body()!!.data.message
@@ -266,18 +271,18 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
             resultMap["flag"] = error.flag
             resultMap["message"] = error.data.message
         }
-        getAllPriceList(token)
+        getAllDetailShopProduct(token)
         resultMap
     }
 
-    fun deletePriceListObject(
+    fun deleteDetailShopProductObject(
         token: String,
         idShop: String,
         idProduct: String
     ): Deferred<Map<String, Any>> =
         CoroutineScope(Dispatchers.Default).async {
-            val response = repository.deletePriceListObject(token, idShop, idProduct)
-            var resultMap: MutableMap<String, Any> = mutableMapOf()
+            val response = repository.deleteDetailShopProductObject(token, idShop, idProduct)
+            val resultMap: MutableMap<String, Any> = mutableMapOf()
             if (response.isSuccessful) {
                 resultMap["flag"] = response.body()!!.flag
                 resultMap["message"] = response.body()!!.data.message
@@ -287,11 +292,11 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
                 resultMap["flag"] = error.flag
                 resultMap["message"] = error.data.message
             }
-            getAllPriceList(token)
+            getAllDetailShopProduct(token)
             resultMap
         }
 
-    fun updatePriceListObject(
+    fun updateDetailShopProductObject(
         token: String,
         idShop: String,
         idProduct: String,
@@ -303,13 +308,13 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
             image.compress(Bitmap.CompressFormat.PNG, 50, stream)
             val imageByte = stream.toByteArray()
             val response =
-                repository.updatePriceListObject(
+                repository.updateDetailShopProductObject(
                     token,
                     idShop,
                     idProduct,
-                    UpdatePriceListRequest(price, imageByte)
+                    UpdateDetailShopProductRequest(price, imageByte)
                 )
-            var resultMap: MutableMap<String, Any> = mutableMapOf()
+            val resultMap: MutableMap<String, Any> = mutableMapOf()
             if (response.isSuccessful) {
                 resultMap["flag"] = response.body()!!.flag
                 resultMap["message"] = response.body()!!.data.message
@@ -319,8 +324,8 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
                 resultMap["flag"] = error.flag
                 resultMap["message"] = error.data.message
             }
-            getAllPriceList(token)
-            Log.i("TEST L4AZH", listPriceList.value!!.elementAt(0).price.toString())
+            getAllDetailShopProduct(token)
+            Log.i("TEST L4AZH", listDetailShopProduct.value!!.elementAt(0).price.toString())
             resultMap
         }
 
@@ -356,10 +361,15 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
             }
         }
 
-    fun registerAdminAccount(email: String, password: String): Deferred<Map<String, Any>> =
+    fun registerAdminAccount(
+        email: String,
+        password: String,
+        phone: String,
+        address: String
+    ): Deferred<Map<String, Any>> =
         CoroutineScope(Dispatchers.Default).async {
             val resultMap: MutableMap<String, Any> = mutableMapOf()
-            val resposne = repository.register(email, password, "admin")
+            val resposne = repository.register(email, password, "admin", phone, address)
             if (resposne.isSuccessful) {
                 resultMap["flag"] = resposne.body()!!.flag
                 resultMap["message"] = resposne.body()!!.data.message
@@ -405,7 +415,7 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun clearListPriceList() {
-        listPriceList.postValue(emptyList())
+        listDetailShopProduct.postValue(emptyList())
     }
 
 

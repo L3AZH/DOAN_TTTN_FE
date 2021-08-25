@@ -9,8 +9,6 @@ data class DataCreateNewListBillDetailRequest(
     var idProduct:String,
     @SerializedName("idShop")
     var idShop:String,
-    @SerializedName("price")
-    var price:Double,
     @SerializedName("amount")
     var amount:Int
 )

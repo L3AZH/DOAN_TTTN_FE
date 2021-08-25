@@ -7,19 +7,15 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
@@ -29,18 +25,17 @@ import com.thuctaptotnghiep.doantttn.adapter.ProductArrayAdapter
 import com.thuctaptotnghiep.doantttn.adapter.ShopArrayAdapter
 import com.thuctaptotnghiep.doantttn.api.response.Product
 import com.thuctaptotnghiep.doantttn.api.response.Shop
-import com.thuctaptotnghiep.doantttn.databinding.PriceListAddDialogBinding
+import com.thuctaptotnghiep.doantttn.databinding.DetailShopProductAddDialogBinding
 import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminActivity
 import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import java.lang.IllegalStateException
 
-class PriceListAddDialog : DialogFragment() {
+class DetailShopProductAddDialog : DialogFragment() {
 
-    lateinit var binding: PriceListAddDialogBinding
+    lateinit var binding: DetailShopProductAddDialogBinding
     lateinit var viewModel: MainAdminViewModel
     lateinit var shopArrayAdapter: ShopArrayAdapter
     lateinit var productArrayAdapter: ProductArrayAdapter
@@ -57,7 +52,7 @@ class PriceListAddDialog : DialogFragment() {
         return activity?.let {
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater
-            binding = DataBindingUtil.inflate(inflater, R.layout.price_list_add_dialog, null, false)
+            binding = DataBindingUtil.inflate(inflater, R.layout.detail_shop_product_add_dialog, null, false)
             viewModel = (requireActivity() as MainAdminActivity).viewModel
 
             setUpShopArrayAdapter()
@@ -180,7 +175,7 @@ class PriceListAddDialog : DialogFragment() {
                 CoroutineScope(Dispatchers.Default).launch {
                     val loadingDialog = LoadingDialog()
                     loadingDialog.show(requireActivity().supportFragmentManager,"loading dialog")
-                    val result = viewModel.createNewPriceListObject(
+                    val result = viewModel.createNewDetailShopProductObject(
                         token!!,
                         selectedShop.idShop,
                         selectedProduct.idProduct,

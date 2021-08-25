@@ -27,7 +27,7 @@ class CategoryArrayAdapter( context: Context, var categoryList: List<Category>) 
         var view:View
         val binding:CategorySpinnerItemBinding
         if(convertView == null){
-            val layoutInflater = LayoutInflater.from(parent!!.context)
+            val layoutInflater = LayoutInflater.from(parent.context)
             binding = DataBindingUtil.inflate(layoutInflater,R.layout.category_spinner_item,null,false)
             view = binding.root
             view.tag = binding
@@ -45,7 +45,7 @@ class CategoryArrayAdapter( context: Context, var categoryList: List<Category>) 
         var view:View
         val binding:CategorySpinnerItemBinding
         if(convertView == null){
-            val layoutInflater = LayoutInflater.from(parent!!.context)
+            val layoutInflater = LayoutInflater.from(parent.context)
             binding = DataBindingUtil.inflate(layoutInflater,R.layout.category_spinner_item,null,false)
             view = binding.root
             view.tag = binding

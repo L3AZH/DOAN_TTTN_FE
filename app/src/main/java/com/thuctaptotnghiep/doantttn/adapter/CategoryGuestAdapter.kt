@@ -75,7 +75,7 @@ class CategoryGuestAdapter(
     }
 
     override fun getItemCount(): Int {
-        if (diff.currentList.isEmpty() || diff.currentList == null) return 0
+        if (diff.currentList.isEmpty()) return 0
         return diff.currentList.size
     }
 

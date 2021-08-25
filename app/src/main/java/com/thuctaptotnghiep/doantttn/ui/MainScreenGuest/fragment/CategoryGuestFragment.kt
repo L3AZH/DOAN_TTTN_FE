@@ -75,7 +75,7 @@ class CategoryGuestFragment : Fragment() {
         binding.categoryRecycleViewGuest.adapter = categoryGuestAdapter
         categoryGuestAdapter.setItemlistProductByCategoryCallBack {
             val goToListPriceListByProductFragment =
-                CategoryGuestFragmentDirections.actionCategoryGuestFragmentToListPriceListByProductFragment(
+                CategoryGuestFragmentDirections.actionCategoryGuestFragmentToListDetailShopProductByProductFragment(
                     it.idProduct
                 )
             findNavController().navigate(goToListPriceListByProductFragment)

@@ -24,19 +24,19 @@ import com.thuctaptotnghiep.doantttn.Constant
 import com.thuctaptotnghiep.doantttn.R
 import com.thuctaptotnghiep.doantttn.adapter.ProductArrayAdapter
 import com.thuctaptotnghiep.doantttn.adapter.ShopArrayAdapter
-import com.thuctaptotnghiep.doantttn.api.response.PriceList
+import com.thuctaptotnghiep.doantttn.api.response.DetailShopProduct
 import com.thuctaptotnghiep.doantttn.api.response.Product
 import com.thuctaptotnghiep.doantttn.api.response.Shop
-import com.thuctaptotnghiep.doantttn.databinding.PriceListEditDialogBinding
+import com.thuctaptotnghiep.doantttn.databinding.DetailShopProductEditDialogBinding
 import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminActivity
 import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PriceListEditDialog(val priceList: PriceList) : DialogFragment() {
+class DetailShopProductEditDialog(val detailShopProduct: DetailShopProduct) : DialogFragment() {
 
-    lateinit var binding: PriceListEditDialogBinding
+    lateinit var binding: DetailShopProductEditDialogBinding
     lateinit var viewModel: MainAdminViewModel
     lateinit var shopArrayAdapter: ShopArrayAdapter
     lateinit var productArrayAdapter: ProductArrayAdapter
@@ -52,7 +52,7 @@ class PriceListEditDialog(val priceList: PriceList) : DialogFragment() {
             val layoutInflater = requireActivity().layoutInflater
             binding = DataBindingUtil.inflate(
                 layoutInflater,
-                R.layout.price_list_edit_dialog,
+                R.layout.detail_shop_product_edit_dialog,
                 null,
                 false
             )
@@ -76,12 +76,12 @@ class PriceListEditDialog(val priceList: PriceList) : DialogFragment() {
     }
 
     fun setUpBinding() {
-        binding.priceEditTextInputEditText.setText(priceList.price.toString())
+        binding.priceEditTextInputEditText.setText(detailShopProduct.price.toString())
         binding.imageProductOfShopEdit.setImageBitmap(
             BitmapFactory.decodeByteArray(
-                priceList.image.data,
+                detailShopProduct.image.data,
                 0,
-                priceList.image.data.size
+                detailShopProduct.image.data.size
             )
         )
     }
@@ -100,7 +100,7 @@ class PriceListEditDialog(val priceList: PriceList) : DialogFragment() {
                     selectedShop = shopArrayAdapter.getItem(position)!!
                 }
             }
-        selectedShop = shopArrayAdapter.getItemId(priceList.shopIdShop)!!
+        selectedShop = shopArrayAdapter.getItemId(detailShopProduct.shopIdShop)!!
         binding.shopEditSpinnervalue.setText(selectedShop.name)
     }
 
@@ -118,7 +118,7 @@ class PriceListEditDialog(val priceList: PriceList) : DialogFragment() {
                     selectedProduct = productArrayAdapter.getItem(position)!!
                 }
             }
-        selectedProduct = productArrayAdapter.getItemId(priceList.productIdProduct)!!
+        selectedProduct = productArrayAdapter.getItemId(detailShopProduct.productIdProduct)!!
         binding.productEditSpinnerValue.setText(selectedProduct.name)
     }
 
@@ -130,10 +130,10 @@ class PriceListEditDialog(val priceList: PriceList) : DialogFragment() {
             )
             val token = prefs.getString("token", "null")!!
             CoroutineScope(Dispatchers.Default).launch {
-                val result = viewModel.deletePriceListObject(
+                val result = viewModel.deleteDetailShopProductObject(
                     token,
-                    priceList.shopIdShop,
-                    priceList.productIdProduct
+                    detailShopProduct.shopIdShop,
+                    detailShopProduct.productIdProduct
                 ).await()
                 if ((result["flag"] as Boolean)) {
                     val dialogInform = InformDialog("success", result["message"].toString())
@@ -164,7 +164,7 @@ class PriceListEditDialog(val priceList: PriceList) : DialogFragment() {
                 CoroutineScope(Dispatchers.Default).launch {
                     val loadingDialog = LoadingDialog()
                     loadingDialog.show(requireActivity().supportFragmentManager,"loading dialog")
-                    val result = viewModel.updatePriceListObject(
+                    val result = viewModel.updateDetailShopProductObject(
                         token!!,
                         selectedShop.idShop,
                         selectedProduct.idProduct,

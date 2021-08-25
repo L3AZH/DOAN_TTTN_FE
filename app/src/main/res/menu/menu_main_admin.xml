@@ -16,8 +16,8 @@
         android:title="Shop"
         android:icon="@drawable/ic_baseline_home_24"/>
     <item
-        android:id="@+id/priceListFragment"
-        android:title="PriceList"
+        android:id="@+id/detailShopProductFragment"
+        android:title="Detail Shop Product"
         android:icon="@drawable/ic_baseline_list_alt_32"/>
     <item
         android:id="@+id/billFragment"

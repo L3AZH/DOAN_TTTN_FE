@@ -2,16 +2,16 @@ package com.thuctaptotnghiep.doantttn.api.response
 
 import com.google.gson.annotations.SerializedName
 
-data class DataDeletePriceListResponse(
+data class DataUpdateDetailShopProduct(
     @SerializedName("message")
     var message:String
 )
 
-data class DeletePriceListResponse(
+data class UpdateDetailShopProductResponse(
     @SerializedName("code")
     var code:Int,
     @SerializedName("data")
-    var data:DataDeletePriceListResponse,
+    var data:DataUpdateDetailShopProduct,
     @SerializedName("flag")
     var flag:Boolean
 )

@@ -3,7 +3,6 @@ package com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.fragment
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,12 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.thuctaptotnghiep.doantttn.Constant
 import com.thuctaptotnghiep.doantttn.R
-import com.thuctaptotnghiep.doantttn.adapter.CategoryAdapter
-import com.thuctaptotnghiep.doantttn.adapter.PriceListAdapter
-import com.thuctaptotnghiep.doantttn.databinding.FragmentPriceListBinding
+import com.thuctaptotnghiep.doantttn.adapter.DetailShopProductAdapter
+import com.thuctaptotnghiep.doantttn.databinding.FragmentDetailShopProductBinding
 import com.thuctaptotnghiep.doantttn.dialog.LoadingDialog
-import com.thuctaptotnghiep.doantttn.dialog.PriceListAddDialog
-import com.thuctaptotnghiep.doantttn.dialog.PriceListEditDialog
+import com.thuctaptotnghiep.doantttn.dialog.DetailShopProductAddDialog
+import com.thuctaptotnghiep.doantttn.dialog.DetailShopProductEditDialog
 import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminActivity
 import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -27,11 +25,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class PriceListFragment : Fragment() {
+class DetailShopProductFragment : Fragment() {
 
-    lateinit var binding: FragmentPriceListBinding
+    lateinit var binding: FragmentDetailShopProductBinding
     lateinit var viewModel: MainAdminViewModel
-    lateinit var priceListAdapter: PriceListAdapter
+    lateinit var detailShopProductAdapter: DetailShopProductAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +37,7 @@ class PriceListFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding =
-            DataBindingUtil.inflate(layoutInflater, R.layout.fragment_price_list, container, false)
+            DataBindingUtil.inflate(layoutInflater, R.layout.fragment_detail_shop_product, container, false)
         viewModel = (requireActivity() as MainAdminActivity).viewModel
         return binding.root
     }
@@ -57,8 +55,8 @@ class PriceListFragment : Fragment() {
     }
 
     fun intialViewModel() {
-        viewModel.listPriceList.observe(viewLifecycleOwner, Observer {
-            priceListAdapter.diff.submitList(it)
+        viewModel.listDetailShopProduct.observe(viewLifecycleOwner, Observer {
+            detailShopProductAdapter.diff.submitList(it)
         })
         CoroutineScope(Dispatchers.Default).launch {
             val pref = requireActivity().getSharedPreferences(
@@ -72,7 +70,7 @@ class PriceListFragment : Fragment() {
             } else {
                 val loadingDialog = LoadingDialog()
                 loadingDialog.show(requireActivity().supportFragmentManager,"loading dialog")
-                viewModel.getAllPriceList(token)
+                viewModel.getAllDetailShopProduct(token)
                 /**
                  * Why i had to do this ???
                  * getDialog from loading dialog return null only when I call getDialog too early before
@@ -91,21 +89,21 @@ class PriceListFragment : Fragment() {
     }
 
     fun setUpRecycleView() {
-        priceListAdapter = PriceListAdapter()
-        priceListAdapter.setItemPriceListAdapterOnClickListener {
-            val dialogEditPriceList = PriceListEditDialog(it)
+        detailShopProductAdapter = DetailShopProductAdapter()
+        detailShopProductAdapter.setItemDetailShopProductAdapterOnClickListener {
+            val dialogEditPriceList = DetailShopProductEditDialog(it)
             dialogEditPriceList.show(
                 requireActivity().supportFragmentManager,
                 "dialog edit price list"
             )
         }
-        binding.priceListRecycleView.layoutManager = LinearLayoutManager(activity)
-        binding.priceListRecycleView.adapter = priceListAdapter
+        binding.detailShopProductRecycleView.layoutManager = LinearLayoutManager(activity)
+        binding.detailShopProductRecycleView.adapter = detailShopProductAdapter
     }
 
     fun setOnClickAddPriceListFloatingBtn() {
-        binding.addPriceListObjectFloatingBtn.setOnClickListener {
-            val dialogAddPriceList = PriceListAddDialog()
+        binding.addDetailShopProductObjectFloatingBtn.setOnClickListener {
+            val dialogAddPriceList = DetailShopProductAddDialog()
             dialogAddPriceList.show(
                 requireActivity().supportFragmentManager,
                 "dialog add price list"

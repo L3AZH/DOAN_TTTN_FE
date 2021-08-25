@@ -26,7 +26,7 @@ class ProductArrayAdapter(context: Context, var productList: List<Product>) :
         var view: View
         val binding: ProductSpinnerItemBinding
         if(convertView == null){
-            val layoutInflater = LayoutInflater.from(parent!!.context)
+            val layoutInflater = LayoutInflater.from(parent.context)
             binding = DataBindingUtil.inflate(layoutInflater,
                 R.layout.product_spinner_item,null,false)
             view = binding.root
@@ -45,7 +45,7 @@ class ProductArrayAdapter(context: Context, var productList: List<Product>) :
         var view: View
         val binding: ProductSpinnerItemBinding
         if(convertView == null){
-            val layoutInflater = LayoutInflater.from(parent!!.context)
+            val layoutInflater = LayoutInflater.from(parent.context)
             binding = DataBindingUtil.inflate(layoutInflater,
                 R.layout.product_spinner_item,null,false)
             view = binding.root

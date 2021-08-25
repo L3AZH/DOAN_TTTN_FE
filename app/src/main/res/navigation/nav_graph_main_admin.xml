@@ -7,23 +7,23 @@
     <fragment
         android:id="@+id/categoryFragment"
         android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.fragment.CategoryFragment"
-        android:label="CategoryFragment" />
+        android:label="Category" />
     <fragment
         android:id="@+id/productFragment"
         android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.fragment.ProductFragment"
-        android:label="ProductFragment" />
+        android:label="Product" />
     <fragment
         android:id="@+id/shopFragment"
         android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.fragment.ShopFragment"
-        android:label="ShopFragment" />
+        android:label="Shop" />
     <fragment
-        android:id="@+id/priceListFragment"
-        android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.fragment.PriceListFragment"
-        android:label="PriceListFragment" />
+        android:id="@+id/detailShopProductFragment"
+        android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.fragment.DetailShopProductFragment"
+        android:label="Detail Shop Product" />
     <fragment
         android:id="@+id/billFragment"
         android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.fragment.BillFragment"
-        android:label="BillFragment" >
+        android:label="Bill" >
         <action
             android:id="@+id/action_billFragment_to_detailBillAdminFragment"
             app:destination="@id/detailBillAdminFragment" />
@@ -31,7 +31,7 @@
     <fragment
         android:id="@+id/detailBillAdminFragment"
         android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.fragment.DetailBillAdminFragment"
-        android:label="DetailBillAdminFragment" >
+        android:label="Detail Bill" >
         <action
             android:id="@+id/action_detailBillAdminFragment_to_billFragment"
             app:destination="@id/billFragment" />
@@ -42,5 +42,5 @@
     <fragment
         android:id="@+id/registerAccountForAdminFragment"
         android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.fragment.RegisterAccountForAdminFragment"
-        android:label="RegisterAccountForAdminFragment" />
+        android:label="Register Account Admin" />
 </navigation>

@@ -13,9 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.thuctaptotnghiep.doantttn.Constant
 import com.thuctaptotnghiep.doantttn.R
-import com.thuctaptotnghiep.doantttn.adapter.BillDetailAdapter
-import com.thuctaptotnghiep.doantttn.adapter.PriceListByProductAdapter
-import com.thuctaptotnghiep.doantttn.api.response.PriceListFullInformation
+import com.thuctaptotnghiep.doantttn.adapter.DetailShopProductByProductAdapter
+import com.thuctaptotnghiep.doantttn.api.response.DetailShopProductFullInformation
 import com.thuctaptotnghiep.doantttn.databinding.FragmentFindProductBinding
 import com.thuctaptotnghiep.doantttn.dialog.LoadingDialog
 import com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.MainGuestActivity
@@ -29,7 +28,7 @@ class FindProductFragment : Fragment() {
 
     lateinit var binding: FragmentFindProductBinding
     lateinit var viewModel: MainGuestViewModel
-    lateinit var priceListAdapter: PriceListByProductAdapter
+    lateinit var detailShopProductAdapter: DetailShopProductByProductAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,16 +58,16 @@ class FindProductFragment : Fragment() {
     }
 
     fun intialViewModel() {
-        viewModel.listListPriceListByProduct.observe(viewLifecycleOwner, {
-            priceListAdapter.diff.submitList(it)
+        viewModel.listListDetailShopProductByProduct.observe(viewLifecycleOwner, {
+            detailShopProductAdapter.diff.submitList(it)
         })
     }
 
     fun setUpAdapter() {
-        priceListAdapter = PriceListByProductAdapter()
+        detailShopProductAdapter = DetailShopProductByProductAdapter()
         binding.listProductRecycleViewSearchResult.layoutManager = LinearLayoutManager(context)
-        binding.listProductRecycleViewSearchResult.adapter = priceListAdapter
-        priceListAdapter.setPriceListByProductItemOnClickListener {
+        binding.listProductRecycleViewSearchResult.adapter = detailShopProductAdapter
+        detailShopProductAdapter.setDetailShopProductByProductItemOnClickListener {
             setOnClickItemResultFound(it)
         }
     }
@@ -105,10 +104,10 @@ class FindProductFragment : Fragment() {
         }
     }
 
-    fun setOnClickItemResultFound(priceListFullInformation: PriceListFullInformation) {
+    fun setOnClickItemResultFound(detailShopProductFullInformation: DetailShopProductFullInformation) {
         val goToProductInformationFrag =
             FindProductFragmentDirections.actionFindProductFragmentToInformationProductFragment(
-                priceListFullInformation
+                detailShopProductFullInformation
             )
         findNavController().navigate(goToProductInformationFrag)
     }

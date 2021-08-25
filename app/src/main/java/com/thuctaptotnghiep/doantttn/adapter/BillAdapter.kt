@@ -56,7 +56,7 @@ class BillAdapter : RecyclerView.Adapter<BillAdapter.BillViewHolder>() {
 
 
     override fun getItemCount(): Int {
-        if (diff.currentList == null || diff.currentList.isEmpty()) return 0
+        if (diff.currentList.isNullOrEmpty()) return 0
         return diff.currentList.size
     }
 

@@ -24,7 +24,7 @@ class MainGuestViewModel(application: Application) : AndroidViewModel(applicatio
     lateinit var repository: Repository
 
     var listCategory: MutableLiveData<List<Category>> = MutableLiveData()
-    var listListPriceListByProduct: MutableLiveData<List<PriceListFullInformation>> =
+    var listListDetailShopProductByProduct: MutableLiveData<List<DetailShopProductFullInformation>> =
         MutableLiveData()
     var listCart: MutableLiveData<List<Cart>> = MutableLiveData()
     var listBill: MutableLiveData<List<Bill>> = MutableLiveData()
@@ -53,29 +53,29 @@ class MainGuestViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun getListPriceListByProduct(token: String, idProduct: String) =
         CoroutineScope(Dispatchers.Default).launch {
-            val response = repository.getListPriceListByIdProduct(token, idProduct)
+            val response = repository.getListDetailShopProductByIdProduct(token, idProduct)
             if (response.isSuccessful) {
-                listListPriceListByProduct.postValue(response.body()!!.data.result)
+                listListDetailShopProductByProduct.postValue(response.body()!!.data.result)
             }
         }
 
     fun getListPriceListByNameProduct(token: String, nameProduct: String) =
         CoroutineScope(Dispatchers.Default).launch {
-            val resposne = repository.getListPriceListByNameProduct(
+            val resposne = repository.getListDetailShopProductByNameProduct(
                 token,
                 nameProduct
             )
             if (resposne.isSuccessful) {
-                listListPriceListByProduct.postValue(resposne.body()!!.data.result)
+                listListDetailShopProductByProduct.postValue(resposne.body()!!.data.result)
             }
         }
 
     fun clearListPriceListByProduct() {
-        listListPriceListByProduct.postValue(emptyList())
+        listListDetailShopProductByProduct.postValue(emptyList())
     }
 
     fun addToCart(
-        priceListFullInformation: PriceListFullInformation,
+        detailShopProductFullInformation: DetailShopProductFullInformation,
         amount: Int,
         email: String
     ): Deferred<Map<String, Any>> =
@@ -84,18 +84,18 @@ class MainGuestViewModel(application: Application) : AndroidViewModel(applicatio
             val newCart = Cart(
                 null,
                 email,
-                priceListFullInformation.idShop,
-                priceListFullInformation.nameShop,
-                priceListFullInformation.idProduct,
-                priceListFullInformation.nameProduct,
-                priceListFullInformation.price,
+                detailShopProductFullInformation.idShop,
+                detailShopProductFullInformation.nameShop,
+                detailShopProductFullInformation.idProduct,
+                detailShopProductFullInformation.nameProduct,
+                detailShopProductFullInformation.price,
                 amount,
-                priceListFullInformation.image.data
+                detailShopProductFullInformation.image.data
             )
             try {
                 var cartExist = repository.checkCartExistInDb(
-                    priceListFullInformation.idShop,
-                    priceListFullInformation.idProduct,
+                    detailShopProductFullInformation.idShop,
+                    detailShopProductFullInformation.idProduct,
                     email
                 )
                 if (cartExist == null) {
@@ -199,7 +199,6 @@ class MainGuestViewModel(application: Application) : AndroidViewModel(applicatio
                             idBillJustCreated,
                             itemCart.idProduct,
                             itemCart.idShop,
-                            itemCart.price,
                             itemCart.amount
                         )
                     )

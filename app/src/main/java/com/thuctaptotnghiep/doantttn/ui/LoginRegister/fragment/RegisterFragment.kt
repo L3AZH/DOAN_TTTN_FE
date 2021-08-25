@@ -65,10 +65,11 @@ class RegisterFragment : Fragment() {
                 ) {
                     viewmodel.register(
                         binding.emailRegisterEditText.text.toString(),
-                        binding.confirmPasswordEditText.text.toString()
+                        binding.confirmPasswordEditText.text.toString(),
+                        binding.phoneEditText.text.toString(),
+                        binding.addressEditText.text.toString()
                     )
-                }
-                else{
+                } else {
                     CoroutineScope(Dispatchers.Main).launch {
                         binding.confirmPasswordEditText.error = "Password doesn't match !!"
                     }
@@ -77,7 +78,7 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    fun setOnBackBtn(){
+    fun setOnBackBtn() {
         binding.backToLoginBtn.setOnClickListener {
             val goBackToLogin = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment()
             findNavController().navigate(goBackToLogin)

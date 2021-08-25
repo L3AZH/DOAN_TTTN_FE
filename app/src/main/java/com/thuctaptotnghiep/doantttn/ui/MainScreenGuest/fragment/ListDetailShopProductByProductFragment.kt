@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.thuctaptotnghiep.doantttn.Constant
 import com.thuctaptotnghiep.doantttn.R
-import com.thuctaptotnghiep.doantttn.adapter.PriceListByProductAdapter
-import com.thuctaptotnghiep.doantttn.api.response.PriceListFullInformation
-import com.thuctaptotnghiep.doantttn.databinding.FragmentListPriceListByProductBinding
+import com.thuctaptotnghiep.doantttn.adapter.DetailShopProductByProductAdapter
+import com.thuctaptotnghiep.doantttn.api.response.DetailShopProductFullInformation
+import com.thuctaptotnghiep.doantttn.databinding.FragmentListDetailShopProductByProductBinding
 import com.thuctaptotnghiep.doantttn.dialog.LoadingDialog
 import com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.MainGuestActivity
 import com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.MainGuestViewModel
@@ -26,13 +26,13 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
-class ListPriceListByProductFragment : Fragment() {
+class ListDetailShopProductByProductFragment : Fragment() {
 
-    lateinit var binding: FragmentListPriceListByProductBinding
+    lateinit var binding: FragmentListDetailShopProductByProductBinding
     lateinit var viewModel: MainGuestViewModel
-    lateinit var priceListByProductAdapter: PriceListByProductAdapter
+    lateinit var detailShopProductByProductAdapter: DetailShopProductByProductAdapter
 
-    val args: ListPriceListByProductFragmentArgs by navArgs()
+    val args: ListDetailShopProductByProductFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +41,7 @@ class ListPriceListByProductFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(
             layoutInflater,
-            R.layout.fragment_list_price_list_by_product,
+            R.layout.fragment_list_detail_shop_product_by_product,
             container,
             false
         )
@@ -61,8 +61,8 @@ class ListPriceListByProductFragment : Fragment() {
     }
 
     fun intialViewModel() {
-        viewModel.listListPriceListByProduct.observe(viewLifecycleOwner, {
-            priceListByProductAdapter.diff.submitList(it)
+        viewModel.listListDetailShopProductByProduct.observe(viewLifecycleOwner, {
+            detailShopProductByProductAdapter.diff.submitList(it)
         })
         CoroutineScope(Dispatchers.Default).launch {
             val pref = requireActivity().getSharedPreferences(
@@ -89,18 +89,18 @@ class ListPriceListByProductFragment : Fragment() {
     }
 
     fun setUpPriceListByProductAdapter() {
-        priceListByProductAdapter = PriceListByProductAdapter()
+        detailShopProductByProductAdapter = DetailShopProductByProductAdapter()
         binding.listPriceListByProductRecycleView.layoutManager = LinearLayoutManager(context)
-        binding.listPriceListByProductRecycleView.adapter = priceListByProductAdapter
-        priceListByProductAdapter.setPriceListByProductItemOnClickListener {
-            setOnclickPriceListByProductItem(it)
+        binding.listPriceListByProductRecycleView.adapter = detailShopProductByProductAdapter
+        detailShopProductByProductAdapter.setDetailShopProductByProductItemOnClickListener {
+            setOnclickDetailShopProductByProductItem(it)
         }
     }
 
-    fun setOnclickPriceListByProductItem(priceListFullInformation: PriceListFullInformation){
+    fun setOnclickDetailShopProductByProductItem(detailShopProductFullInformation: DetailShopProductFullInformation){
         val goToInformationProductFragment =
-            ListPriceListByProductFragmentDirections.actionListPriceListByProductFragmentToInformationProductFragment(
-                priceListFullInformation
+            ListDetailShopProductByProductFragmentDirections.actionListDetailShopProductByProductFragmentToInformationProductFragment(
+                detailShopProductFullInformation
             )
         findNavController().navigate(goToInformationProductFragment)
     }

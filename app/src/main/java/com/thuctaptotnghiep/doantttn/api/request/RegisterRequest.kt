@@ -8,5 +8,9 @@ data class RegisterRequest(
     @SerializedName("password")
     var password:String,
     @SerializedName("role")
-    var role:String
+    var role:String,
+    @SerializedName("phone")
+    var phone:String,
+    @SerializedName("address")
+    var address:String
 )

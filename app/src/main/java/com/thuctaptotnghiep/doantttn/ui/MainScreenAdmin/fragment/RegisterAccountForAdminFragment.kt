@@ -60,6 +60,8 @@ class RegisterAccountForAdminFragment : Fragment() {
                         CoroutineScope(Dispatchers.Main).launch {
                             binding.passwordRegisterAdminEditText.setText("")
                             binding.confirmPasswordAdminEditText.setText("")
+                            binding.phoneAdminEditText.setText("")
+                            binding.addressAdminEditText.setText("")
                         }
                         Snackbar.make(
                             binding.root,

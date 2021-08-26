@@ -33,6 +33,15 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
         val response = repository.getAllCategory(token)
         if (response.isSuccessful) {
             listCategory.postValue(response.body()!!.data.result)
+        } else {
+            val error = ErrorResponse.convertErrorBodyToErrorResponseClass(response.errorBody()!!)
+            if (error.code == 404 && error.data.message.equals(
+                    "Can't find any category in database",
+                    true
+                )
+            ) {
+                listCategory.postValue(emptyList())
+            }
         }
     }
 
@@ -43,13 +52,13 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
             if (response.isSuccessful) {
                 resultMap["flag"] = response.body()!!.flag
                 resultMap["message"] = response.body()!!.data.message
+                getAllCategory(token)
             } else {
                 val error =
                     ErrorResponse.convertErrorBodyToErrorResponseClass(response.errorBody()!!)
                 resultMap["flag"] = error.flag
                 resultMap["message"] = error.data.message
             }
-            getAllCategory(token)
             resultMap
         }
 
@@ -60,13 +69,13 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
             if (response.isSuccessful) {
                 resultMap["flag"] = response.body()!!.flag
                 resultMap["message"] = response.body()!!.data.message
+                getAllCategory(token)
             } else {
                 val error =
                     ErrorResponse.convertErrorBodyToErrorResponseClass(response.errorBody()!!)
                 resultMap["flag"] = error.flag
                 resultMap["message"] = error.data.message
             }
-            getAllCategory(token)
             resultMap
         }
 
@@ -81,13 +90,13 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
         if (response.isSuccessful) {
             resultMap["flag"] = response.body()!!.flag
             resultMap["message"] = response.body()!!.data.message
+            getAllCategory(token)
         } else {
             val error =
                 ErrorResponse.convertErrorBodyToErrorResponseClass(response.errorBody()!!)
             resultMap["flag"] = error.flag
             resultMap["message"] = error.data.message
         }
-        getAllCategory(token)
         resultMap
     }
 
@@ -95,6 +104,15 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
         val response = repository.getAllProduct(token)
         if (response.isSuccessful) {
             listProduct.postValue((response.body()!!.data.result))
+        } else {
+            val error = ErrorResponse.convertErrorBodyToErrorResponseClass(response.errorBody()!!)
+            if (error.code == 404 && error.data.message.equals(
+                    "Can't find any Product in database !!",
+                    true
+                )
+            ) {
+                listProduct.postValue(emptyList())
+            }
         }
     }
 
@@ -110,13 +128,13 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
             if (response.isSuccessful) {
                 resultMap["flag"] = response.body()!!.flag
                 resultMap["message"] = response.body()!!.data.message
+                getAllProduct(token)
             } else {
                 val error =
                     ErrorResponse.convertErrorBodyToErrorResponseClass(response.errorBody()!!)
                 resultMap["flag"] = error.flag
                 resultMap["message"] = error.data.message
             }
-            getAllProduct(token)
             resultMap
         }
 
@@ -129,13 +147,13 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
         if (response.isSuccessful) {
             resultMap["flag"] = response.body()!!.flag
             resultMap["message"] = response.body()!!.data.message
+            getAllProduct(token)
         } else {
             val error =
                 ErrorResponse.convertErrorBodyToErrorResponseClass(response.errorBody()!!)
             resultMap["flag"] = error.flag
             resultMap["message"] = error.data.message
         }
-        getAllProduct(token)
         resultMap
     }
 
@@ -151,13 +169,13 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
         if (response.isSuccessful) {
             resultMap["flag"] = response.body()!!.flag
             resultMap["message"] = response.body()!!.data.message
+            getAllProduct(token)
         } else {
             val error =
                 ErrorResponse.convertErrorBodyToErrorResponseClass(response.errorBody()!!)
             resultMap["flag"] = error.flag
             resultMap["message"] = error.data.message
         }
-        getAllProduct(token)
         resultMap
     }
 
@@ -165,6 +183,16 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
         val response = repository.getAllShop(token)
         if (response.isSuccessful) {
             listShop.postValue(response.body()!!.data.result)
+        }
+        else{
+            val error = ErrorResponse.convertErrorBodyToErrorResponseClass(response.errorBody()!!)
+            if (error.code == 404 && error.data.message.equals(
+                    "Can't find any shop in database",
+                    true
+                )
+            ) {
+                listShop.postValue(emptyList())
+            }
         }
     }
 
@@ -180,13 +208,13 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
         if (response.isSuccessful) {
             resultMap["flag"] = response.body()!!.flag
             resultMap["message"] = response.body()!!.data.message
+            getAllShop(token)
         } else {
             val error =
                 ErrorResponse.convertErrorBodyToErrorResponseClass(response.errorBody()!!)
             resultMap["flag"] = error.flag
             resultMap["message"] = error.data.message
         }
-        getAllShop(token)
         resultMap
     }
 
@@ -199,13 +227,13 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
         if (response.isSuccessful) {
             resultMap["flag"] = response.body()!!.flag
             resultMap["message"] = response.body()!!.data.message
+            getAllShop(token)
         } else {
             val error =
                 ErrorResponse.convertErrorBodyToErrorResponseClass(response.errorBody()!!)
             resultMap["flag"] = error.flag
             resultMap["message"] = error.data.message
         }
-        getAllShop(token)
         resultMap
     }
 
@@ -222,13 +250,13 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
         if (response.isSuccessful) {
             resultMap["flag"] = response.body()!!.flag
             resultMap["message"] = response.body()!!.data.message
+            getAllShop(token)
         } else {
             val error =
                 ErrorResponse.convertErrorBodyToErrorResponseClass(response.errorBody()!!)
             resultMap["flag"] = error.flag
             resultMap["message"] = error.data.message
         }
-        getAllShop(token)
         resultMap
     }
 
@@ -237,10 +265,13 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
         val response = repository.getAllDetailShopProduct(token)
         if (response.isSuccessful) {
             listDetailShopProduct.postValue((response.body()!!.data.result))
-        }
-        else{
+        } else {
             val error = ErrorResponse.convertErrorBodyToErrorResponseClass(response.errorBody()!!)
-            if(error.data.message.equals("Can't find any DetailShopProduct in database",true)){
+            if (error.code == 404 && error.data.message.equals(
+                    "Can't find any DetailShopProduct in database",
+                    true
+                )
+            ) {
                 listDetailShopProduct.postValue(emptyList())
             }
         }
@@ -265,13 +296,13 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
         if (response.isSuccessful) {
             resultMap["flag"] = response.body()!!.flag
             resultMap["message"] = response.body()!!.data.message
+            getAllDetailShopProduct(token)
         } else {
             val error =
                 ErrorResponse.convertErrorBodyToErrorResponseClass(response.errorBody()!!)
             resultMap["flag"] = error.flag
             resultMap["message"] = error.data.message
         }
-        getAllDetailShopProduct(token)
         resultMap
     }
 
@@ -286,13 +317,13 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
             if (response.isSuccessful) {
                 resultMap["flag"] = response.body()!!.flag
                 resultMap["message"] = response.body()!!.data.message
+                getAllDetailShopProduct(token)
             } else {
                 val error =
                     ErrorResponse.convertErrorBodyToErrorResponseClass(response.errorBody()!!)
                 resultMap["flag"] = error.flag
                 resultMap["message"] = error.data.message
             }
-            getAllDetailShopProduct(token)
             resultMap
         }
 
@@ -318,13 +349,13 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
             if (response.isSuccessful) {
                 resultMap["flag"] = response.body()!!.flag
                 resultMap["message"] = response.body()!!.data.message
+                getAllDetailShopProduct(token)
             } else {
                 val error =
                     ErrorResponse.convertErrorBodyToErrorResponseClass(response.errorBody()!!)
                 resultMap["flag"] = error.flag
                 resultMap["message"] = error.data.message
             }
-            getAllDetailShopProduct(token)
             Log.i("TEST L4AZH", listDetailShopProduct.value!!.elementAt(0).price.toString())
             resultMap
         }

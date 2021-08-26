@@ -111,7 +111,6 @@ class DetailShopProductAddDialog : DialogFragment() {
     fun setUpShopArrayAdapter() {
         shopArrayAdapter = ShopArrayAdapter(requireContext(), viewModel.listShop.value!!)
         (binding.shopSpinnervalue as AutoCompleteTextView).setAdapter(shopArrayAdapter)
-
         binding.shopSpinnervalue.setText(shopArrayAdapter.getItem(0).toString(), false)
         (binding.shopSpinnervalue as AutoCompleteTextView).onItemClickListener =
             object : AdapterView.OnItemClickListener {

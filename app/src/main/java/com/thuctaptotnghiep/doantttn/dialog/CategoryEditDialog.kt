@@ -59,7 +59,6 @@ class CategoryEditDialog(val category: Category) : DialogFragment() {
                 } else {
                     val dialogInform = InformDialog("fail", result["message"].toString())
                     dialogInform.show(requireActivity().supportFragmentManager, "inform dialog")
-                    dialog?.cancel()
                 }
             }
         }
@@ -85,7 +84,6 @@ class CategoryEditDialog(val category: Category) : DialogFragment() {
                 } else {
                     val dialogInform = InformDialog("fail", result["message"].toString())
                     dialogInform.show(requireActivity().supportFragmentManager, "inform dialog")
-                    dialog?.cancel()
                 }
             }
         }

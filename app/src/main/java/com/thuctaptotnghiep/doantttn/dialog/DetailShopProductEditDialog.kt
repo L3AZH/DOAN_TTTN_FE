@@ -13,6 +13,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.AutoCompleteTextView
@@ -101,7 +102,11 @@ class DetailShopProductEditDialog(val detailShopProduct: DetailShopProduct) : Di
                 }
             }
         selectedShop = shopArrayAdapter.getItemId(detailShopProduct.shopIdShop)!!
-        binding.shopEditSpinnervalue.setText(selectedShop.name)
+        binding.shopEditSpinnervalue.setText(selectedShop.name, false)
+        /**
+         * dismiss drop down
+         */
+        (binding.shopEditSpinnervalue as AutoCompleteTextView).dropDownHeight = 0
     }
 
     fun setUpProductArrayAdapter() {
@@ -119,7 +124,8 @@ class DetailShopProductEditDialog(val detailShopProduct: DetailShopProduct) : Di
                 }
             }
         selectedProduct = productArrayAdapter.getItemId(detailShopProduct.productIdProduct)!!
-        binding.productEditSpinnerValue.setText(selectedProduct.name)
+        binding.productEditSpinnerValue.setText(selectedProduct.name,false)
+        (binding.productEditSpinnerValue as AutoCompleteTextView).dropDownHeight = 0
     }
 
     fun setOnClickDeleteBtn() {
@@ -163,7 +169,7 @@ class DetailShopProductEditDialog(val detailShopProduct: DetailShopProduct) : Di
             } else {
                 CoroutineScope(Dispatchers.Default).launch {
                     val loadingDialog = LoadingDialog()
-                    loadingDialog.show(requireActivity().supportFragmentManager,"loading dialog")
+                    loadingDialog.show(requireActivity().supportFragmentManager, "loading dialog")
                     val result = viewModel.updateDetailShopProductObject(
                         token!!,
                         selectedShop.idShop,

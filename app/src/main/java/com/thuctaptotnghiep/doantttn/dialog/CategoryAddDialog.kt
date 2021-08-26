@@ -53,7 +53,6 @@ class CategoryAddDialog():DialogFragment() {
                 else{
                     val dialoginform = InformDialog("fail",result["message"].toString())
                     dialoginform.show(requireActivity().supportFragmentManager,"dialog inform")
-                    dialog?.cancel()
                 }
             }
         }

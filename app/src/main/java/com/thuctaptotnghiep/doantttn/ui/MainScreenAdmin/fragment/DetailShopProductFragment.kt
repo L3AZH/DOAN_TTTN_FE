@@ -18,6 +18,7 @@ import com.thuctaptotnghiep.doantttn.databinding.FragmentDetailShopProductBindin
 import com.thuctaptotnghiep.doantttn.dialog.LoadingDialog
 import com.thuctaptotnghiep.doantttn.dialog.DetailShopProductAddDialog
 import com.thuctaptotnghiep.doantttn.dialog.DetailShopProductEditDialog
+import com.thuctaptotnghiep.doantttn.dialog.InformDialog
 import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminActivity
 import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -37,7 +38,12 @@ class DetailShopProductFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding =
-            DataBindingUtil.inflate(layoutInflater, R.layout.fragment_detail_shop_product, container, false)
+            DataBindingUtil.inflate(
+                layoutInflater,
+                R.layout.fragment_detail_shop_product,
+                container,
+                false
+            )
         viewModel = (requireActivity() as MainAdminActivity).viewModel
         return binding.root
     }
@@ -69,7 +75,7 @@ class DetailShopProductFragment : Fragment() {
                     .setBackgroundTint(Color.RED).show()
             } else {
                 val loadingDialog = LoadingDialog()
-                loadingDialog.show(requireActivity().supportFragmentManager,"loading dialog")
+                loadingDialog.show(requireActivity().supportFragmentManager, "loading dialog")
                 viewModel.getAllDetailShopProduct(token)
                 /**
                  * Why i had to do this ???
@@ -77,11 +83,10 @@ class DetailShopProductFragment : Fragment() {
                  * onCreateDialog() run so i must delay 1 sec to wait onCreateDialog finish and
                  * call cancel()
                  */
-                if(loadingDialog.dialog == null){
+                if (loadingDialog.dialog == null) {
                     delay(1000)
                     loadingDialog.cancelLoading()
-                }
-                else{
+                } else {
                     loadingDialog.cancelLoading()
                 }
             }
@@ -103,11 +108,21 @@ class DetailShopProductFragment : Fragment() {
 
     fun setOnClickAddPriceListFloatingBtn() {
         binding.addDetailShopProductObjectFloatingBtn.setOnClickListener {
-            val dialogAddPriceList = DetailShopProductAddDialog()
-            dialogAddPriceList.show(
-                requireActivity().supportFragmentManager,
-                "dialog add price list"
-            )
+            if (viewModel.listShop.value.isNullOrEmpty()) {
+                val informDialog =
+                    InformDialog("fail", "List Shop Empty !!, Can't create")
+                informDialog.show(requireActivity().supportFragmentManager, "error dialog")
+            } else if (viewModel.listProduct.value.isNullOrEmpty()) {
+                val informDialog =
+                    InformDialog("fail", "List Product Empty !!, Can't create")
+                informDialog.show(requireActivity().supportFragmentManager, "error dialog")
+            } else {
+                val dialogAddPriceList = DetailShopProductAddDialog()
+                dialogAddPriceList.show(
+                    requireActivity().supportFragmentManager,
+                    "dialog add price list"
+                )
+            }
         }
     }
 

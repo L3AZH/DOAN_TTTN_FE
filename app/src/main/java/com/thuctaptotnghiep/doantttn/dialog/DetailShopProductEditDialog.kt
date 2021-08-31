@@ -13,7 +13,6 @@ import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.AutoCompleteTextView
@@ -21,7 +20,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
-import com.thuctaptotnghiep.doantttn.Constant
+import com.thuctaptotnghiep.doantttn.utils.Constant
 import com.thuctaptotnghiep.doantttn.R
 import com.thuctaptotnghiep.doantttn.adapter.ProductArrayAdapter
 import com.thuctaptotnghiep.doantttn.adapter.ShopArrayAdapter

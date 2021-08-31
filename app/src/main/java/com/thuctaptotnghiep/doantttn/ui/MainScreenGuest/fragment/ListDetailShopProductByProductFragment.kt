@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.thuctaptotnghiep.doantttn.Constant
+import com.thuctaptotnghiep.doantttn.utils.Constant
 import com.thuctaptotnghiep.doantttn.R
 import com.thuctaptotnghiep.doantttn.adapter.DetailShopProductByProductAdapter
 import com.thuctaptotnghiep.doantttn.api.response.DetailShopProductFullInformation

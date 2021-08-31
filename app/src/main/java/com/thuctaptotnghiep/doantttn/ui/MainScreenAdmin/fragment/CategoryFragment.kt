@@ -11,7 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.thuctaptotnghiep.doantttn.Constant
+import com.thuctaptotnghiep.doantttn.utils.Constant
 import com.thuctaptotnghiep.doantttn.R
 import com.thuctaptotnghiep.doantttn.adapter.CategoryAdapter
 import com.thuctaptotnghiep.doantttn.api.response.Category

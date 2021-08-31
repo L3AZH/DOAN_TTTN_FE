@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.thuctaptotnghiep.doantttn.Constant
+import com.thuctaptotnghiep.doantttn.utils.Constant
 import com.thuctaptotnghiep.doantttn.R
 import com.thuctaptotnghiep.doantttn.adapter.ShopAdapter
 import com.thuctaptotnghiep.doantttn.api.response.Shop

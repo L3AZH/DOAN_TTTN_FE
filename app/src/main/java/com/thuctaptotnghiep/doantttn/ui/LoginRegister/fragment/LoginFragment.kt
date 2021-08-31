@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.klinker.android.link_builder.Link
 import com.klinker.android.link_builder.applyLinks
-import com.thuctaptotnghiep.doantttn.Constant
+import com.thuctaptotnghiep.doantttn.utils.Constant
 import com.thuctaptotnghiep.doantttn.R
 import com.thuctaptotnghiep.doantttn.databinding.FragmentLoginBinding
 import com.thuctaptotnghiep.doantttn.ui.LoginRegister.LoginAndRegisterActivity

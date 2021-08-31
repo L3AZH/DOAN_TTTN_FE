@@ -356,7 +356,7 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
                 resultMap["flag"] = error.flag
                 resultMap["message"] = error.data.message
             }
-            Log.i("TEST L4AZH", listDetailShopProduct.value!!.elementAt(0).price.toString())
+            //Log.i("TEST L4AZH", listDetailShopProduct.value!!.elementAt(0).price.toString())
             resultMap
         }
 

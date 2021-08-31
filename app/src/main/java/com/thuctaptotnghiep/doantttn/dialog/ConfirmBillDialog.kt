@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
-import com.thuctaptotnghiep.doantttn.Constant
+import com.thuctaptotnghiep.doantttn.utils.Constant
 import com.thuctaptotnghiep.doantttn.R
 import com.thuctaptotnghiep.doantttn.api.response.Bill
 import com.thuctaptotnghiep.doantttn.databinding.ConfirmBillAdminDialogBinding

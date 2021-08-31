@@ -10,7 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.thuctaptotnghiep.doantttn.Constant
+import com.thuctaptotnghiep.doantttn.utils.Constant
 import com.thuctaptotnghiep.doantttn.R
 import com.thuctaptotnghiep.doantttn.adapter.CartConfirmAdapter
 import com.thuctaptotnghiep.doantttn.databinding.ConfirmPayDialogBinding
@@ -92,6 +92,7 @@ class ConfirmPayDialog(val lifecycleOwner: LifecycleOwner) : DialogFragment() {
                             requireActivity().supportFragmentManager,
                             "success inform dialog"
                         )
+                        dialog?.cancel()
                     } else {
                         val errorInform = InformDialog("fail", resultMap["message"].toString())
                         errorInform.show(

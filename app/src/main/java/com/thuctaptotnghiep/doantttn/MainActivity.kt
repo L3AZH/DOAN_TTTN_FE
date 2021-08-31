@@ -13,6 +13,7 @@ import com.thuctaptotnghiep.doantttn.databinding.ActivityMainBinding
 import com.thuctaptotnghiep.doantttn.ui.LoginRegister.LoginAndRegisterActivity
 import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminActivity
 import com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.MainGuestActivity
+import com.thuctaptotnghiep.doantttn.utils.Constant
 import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {

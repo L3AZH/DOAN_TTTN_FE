@@ -1,6 +1,6 @@
 package com.thuctaptotnghiep.doantttn.repository
 
-import com.thuctaptotnghiep.doantttn.Constant
+import com.thuctaptotnghiep.doantttn.utils.Constant
 import com.thuctaptotnghiep.doantttn.api.ApiInterface
 import com.thuctaptotnghiep.doantttn.api.request.*
 import com.thuctaptotnghiep.doantttn.db.DbDao

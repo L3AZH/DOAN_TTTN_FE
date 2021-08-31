@@ -2,7 +2,7 @@ package com.thuctaptotnghiep.doantttn.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.thuctaptotnghiep.doantttn.Constant
+import com.thuctaptotnghiep.doantttn.utils.Constant
 import com.thuctaptotnghiep.doantttn.api.ApiInterface
 import dagger.Module
 import dagger.Provides

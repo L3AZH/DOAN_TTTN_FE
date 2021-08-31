@@ -68,6 +68,9 @@ class MainGuestViewModel(application: Application) : AndroidViewModel(applicatio
             if (resposne.isSuccessful) {
                 listListDetailShopProductByProduct.postValue(resposne.body()!!.data.result)
             }
+            else{
+                listListDetailShopProductByProduct.postValue(emptyList())
+            }
         }
 
     fun clearListPriceListByProduct() {

@@ -45,6 +45,8 @@ class RegisterFragment : Fragment() {
             if ((result["flag"] as Boolean)) {
                 binding.passwordRegisterEditText.setText("")
                 binding.confirmPasswordEditText.setText("")
+                binding.phoneEditText.setText("")
+                binding.addressEditText.setText("")
                 binding.confirmPasswordEditText.error = ""
                 Snackbar.make(binding.root, result["message"].toString(), Snackbar.LENGTH_LONG)
                     .setBackgroundTint(Color.GREEN).show()

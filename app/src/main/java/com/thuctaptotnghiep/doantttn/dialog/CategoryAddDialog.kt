@@ -6,11 +6,8 @@ import android.content.Context
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.lifecycleScope
-import com.google.android.material.snackbar.Snackbar
-import com.thuctaptotnghiep.doantttn.Constant
+import com.thuctaptotnghiep.doantttn.utils.Constant
 import com.thuctaptotnghiep.doantttn.R
-import com.thuctaptotnghiep.doantttn.api.request.AddCategoryRequest
 import com.thuctaptotnghiep.doantttn.databinding.CategoryAddDialogBinding
 import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminActivity
 import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminViewModel

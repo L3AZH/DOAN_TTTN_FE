@@ -15,7 +15,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="16dp"
             app:cardCornerRadius="15dp"
             app:layout_constraintBottom_toTopOf="@+id/amountProductDetailTextLayout"
             app:layout_constraintEnd_toEndOf="parent"
@@ -49,7 +49,10 @@
                         android:maxLines="3"
                         android:ellipsize="end"
                         android:layout_margin="10dp"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/white"
+                        android:gravity="center_vertical"
+                        android:drawablePadding="3dp"
+                        android:drawableStart="@drawable/ic_baseline_info_32"/>
 
                     <TextView
                         android:id="@+id/priceProductDetail"
@@ -60,7 +63,10 @@
                         android:maxLines="3"
                         android:ellipsize="end"
                         android:layout_margin="10dp"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/white"
+                        android:gravity="center_vertical"
+                        android:drawablePadding="3dp"
+                        android:drawableStart="@drawable/ic_baseline_price_change_32"/>
 
                     <TextView
                         android:id="@+id/nameShopDetail"
@@ -71,7 +77,10 @@
                         android:maxLines="3"
                         android:ellipsize="end"
                         android:layout_margin="10dp"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/white"
+                        android:gravity="center_vertical"
+                        android:drawablePadding="3dp"
+                        android:drawableStart="@drawable/ic_baseline_home_24"/>
 
                     <TextView
                         android:id="@+id/addressShopDetail"
@@ -82,7 +91,10 @@
                         android:maxLines="3"
                         android:ellipsize="end"
                         android:layout_margin="10dp"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/white"
+                        android:gravity="center_vertical"
+                        android:drawablePadding="3dp"
+                        android:drawableStart="@drawable/ic_baseline_home_work_32"/>
 
                     <TextView
                         android:id="@+id/phoneShopDetail"
@@ -93,7 +105,10 @@
                         android:maxLines="3"
                         android:ellipsize="end"
                         android:layout_margin="10dp"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/white"
+                        android:gravity="center_vertical"
+                        android:drawablePadding="3dp"
+                        android:drawableStart="@drawable/ic_baseline_phone_android_24"/>
                 </LinearLayout>
             </ScrollView>
         </androidx.cardview.widget.CardView>
@@ -128,8 +143,8 @@
             android:id="@+id/addToCartBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:text="Add to cart"
             android:textStyle="bold"
             app:cornerRadius="10dp"

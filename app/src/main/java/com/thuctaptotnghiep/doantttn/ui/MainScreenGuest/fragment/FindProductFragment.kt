@@ -3,14 +3,22 @@ package com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.fragment
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
 import com.thuctaptotnghiep.doantttn.utils.Constant
 import com.thuctaptotnghiep.doantttn.R
 import com.thuctaptotnghiep.doantttn.adapter.DetailShopProductByProductAdapter
@@ -19,10 +27,7 @@ import com.thuctaptotnghiep.doantttn.databinding.FragmentFindProductBinding
 import com.thuctaptotnghiep.doantttn.dialog.LoadingDialog
 import com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.MainGuestActivity
 import com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.MainGuestViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class FindProductFragment : Fragment() {
 
@@ -73,6 +78,14 @@ class FindProductFragment : Fragment() {
     }
 
     fun setOnClickSearchBtn() {
+        binding.nameProductSearchEditText.addTextChangedListener(DebouncingQueryTextListener(this.lifecycle){
+            it?.let {
+                viewModel.getListPriceListByNameProduct(
+                    Constant.getToken(requireContext())!!,
+                    binding.nameProductSearchEditText.text.toString()
+                )
+            }
+        })
         binding.nameProductSearchTextInputLayout.setEndIconOnClickListener {
             CoroutineScope(Dispatchers.Default).launch {
                 val prefs = requireActivity().getSharedPreferences(
@@ -110,5 +123,40 @@ class FindProductFragment : Fragment() {
                 detailShopProductFullInformation
             )
         findNavController().navigate(goToProductInformationFrag)
+    }
+
+    internal  class DebouncingQueryTextListener(
+        lifeCycle:Lifecycle,
+        private val onDebouncingQueryTextListener:(String?)->Unit
+    ):TextWatcher,LifecycleObserver{
+
+        var debouncePeriod:Long = 500
+
+        private val coroutineScope = CoroutineScope(Dispatchers.Main)
+
+        private var searchJob:Job? = null
+
+        init {
+            lifeCycle.addObserver(this)
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            searchJob?.cancel()
+            searchJob = coroutineScope.launch {
+                s?.let {
+                    delay(debouncePeriod)
+                    onDebouncingQueryTextListener(it.toString())
+                }
+            }
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+            Log.e("L#AZH", "beforeTextChanged: " )
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            Log.e("L#AZH", "beforeTextChanged: " )
+        }
+
     }
 }

@@ -60,6 +60,11 @@ class DetailShopProductFragment : Fragment() {
         viewModel.clearListPriceList()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getAllDetailShopProduct(Constant.getToken(requireContext())!!)
+    }
+
     fun intialViewModel() {
         viewModel.listDetailShopProduct.observe(viewLifecycleOwner, Observer {
             detailShopProductAdapter.diff.submitList(it)

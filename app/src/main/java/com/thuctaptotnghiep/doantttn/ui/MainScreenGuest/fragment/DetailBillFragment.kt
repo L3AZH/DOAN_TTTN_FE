@@ -79,7 +79,7 @@ class DetailBillFragment : Fragment() {
     }
 
     fun setUpAdapter(){
-        billDetailAdapter = BillDetailAdapter()
+        billDetailAdapter = BillDetailAdapter(requireContext())
         binding.listBillDetailRecycleView.layoutManager = LinearLayoutManager(context)
         binding.listBillDetailRecycleView.adapter = billDetailAdapter
     }

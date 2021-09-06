@@ -76,7 +76,7 @@ class DetailShopProductEditDialog(val detailShopProduct: DetailShopProduct) : Di
     }
 
     fun setUpBinding() {
-        binding.priceEditTextInputEditText.setText(detailShopProduct.price.toString())
+        binding.priceEditTextInputEditText.setText(String.format("%f",detailShopProduct.price))
         binding.imageProductOfShopEdit.setImageBitmap(
             BitmapFactory.decodeByteArray(
                 detailShopProduct.image.data,

@@ -80,7 +80,7 @@ class CartFragment : Fragment() {
                     Color.RED
                 ).show()
         }
-        cartAdapter = CartAdapter()
+        cartAdapter = CartAdapter(requireContext())
         binding.listCartRecycleView.layoutManager = LinearLayoutManager(context)
         binding.listCartRecycleView.adapter = cartAdapter
         val itemTouchHelper = object : ItemTouchHelper.SimpleCallback(
@@ -101,11 +101,7 @@ class CartFragment : Fragment() {
                 CoroutineScope(Dispatchers.Default).launch {
                     viewModel.deleteCart(cartDel, email!!)
                     Snackbar.make(binding.root, "Delete Cart Successful ", Snackbar.LENGTH_SHORT)
-                        .apply {
-                            setAction("Undo") {
-
-                            }
-                        }.show()
+                        .show()
                 }
             }
         }

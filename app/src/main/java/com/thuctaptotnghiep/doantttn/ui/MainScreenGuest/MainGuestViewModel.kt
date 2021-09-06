@@ -4,6 +4,7 @@ import android.app.Application
 import android.icu.util.Calendar
 import android.os.Build
 import android.text.format.DateFormat
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -135,15 +136,40 @@ class MainGuestViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun updateCartWhenMinus(cart: Cart, email: String) =
+        /**
+         * Giải thích tại sao ko getListCart(email)
+         * Vì biến cart là tham chiếu ts cùng ts biến cart trong list của diff trong adapter
+         * Do đó nếu biến cart này thay đổi thì biến cart trong diff cũng thay đổi
+         * Nguyên nhân do callBack lấy biến này từ viewHolder sang UI và UI đem snag đây
+         * Nhưng khi bấm nút ở UI vẫn ko update UI ?? thêm notifyItemChanged vào viewHolder
+         * ở call back sẽ giải quyết
+         * Các để nhận biết
+         */
         CoroutineScope(Dispatchers.Default).launch {
             if (cart.amount > 0) {
                 cart.amount = cart.amount - 1
+                /**
+                 * for(i in 0 until listCart.value!!.size()){
+                 *      if(listCart.value!![i].idCart == cart.idCart){
+                 *          log.e("L#AZH","${listCart.value!![i].amount} - ${cart.amount}"
+                 *          Lúc này 2 cái amount sẽ giống nhau khi mà t chưa getListCart hay gọi
+                 *          hàm update
+                 *          => Hiểu ??
+                 *      }
+                 * }
+                 */
                 if (cart.amount == 0) {
                     repository.deleteCart(cart)
+                    /**
+                     * Tại sao lại dùng getList ở đây
+                     * vì khi delete xuống 0 thì sẽ delete trong db nhưng list trong diff vẫn chưa
+                     * Câu hỏi đặt ra sao ko delete = diff luon => how ??? m đang trong viewmodel mà
+                     */
+                    getListCart(email)
                 } else {
                     repository.updateCart(cart)
                 }
-                getListCart(email)
+                //getListCart(email)
             }
         }
 
@@ -153,7 +179,7 @@ class MainGuestViewModel(application: Application) : AndroidViewModel(applicatio
                 cart.amount = cart.amount + 1
                 if (cart.amount <= 10) {
                     repository.updateCart(cart)
-                    getListCart(email)
+                    //getListCart(email)
                 }
             }
         }

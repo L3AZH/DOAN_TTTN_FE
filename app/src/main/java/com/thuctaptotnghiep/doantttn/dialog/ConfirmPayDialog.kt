@@ -16,6 +16,7 @@ import com.thuctaptotnghiep.doantttn.adapter.CartConfirmAdapter
 import com.thuctaptotnghiep.doantttn.databinding.ConfirmPayDialogBinding
 import com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.MainGuestActivity
 import com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.MainGuestViewModel
+import com.thuctaptotnghiep.doantttn.utils.CurrencyConvert
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -59,7 +60,8 @@ class ConfirmPayDialog(val lifecycleOwner: LifecycleOwner) : DialogFragment() {
             for (item in it) {
                 total += item.price * item.amount
             }
-            binding.totalListCartTextView.text = "Total: ${total} $"
+            binding.totalListCartTextView.text =
+                "Total: " + CurrencyConvert.convertCurrencyToString(total)
         })
     }
 

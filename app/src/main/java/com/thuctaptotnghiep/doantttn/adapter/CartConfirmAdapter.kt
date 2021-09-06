@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.thuctaptotnghiep.doantttn.R
 import com.thuctaptotnghiep.doantttn.databinding.ItemConfirmCartRecycleViewGuestBinding
 import com.thuctaptotnghiep.doantttn.db.model.Cart
+import com.thuctaptotnghiep.doantttn.utils.CurrencyConvert
 
 class CartConfirmAdapter : RecyclerView.Adapter<CartConfirmAdapter.CartConfirmViewHolder>() {
 
@@ -55,7 +56,8 @@ class CartConfirmAdapter : RecyclerView.Adapter<CartConfirmAdapter.CartConfirmVi
             )
             itemBinding.nameProductConfirmCartItem.text = "Name: " + cart.nameProduct
             itemBinding.nameShopConfirmCartItem.text = "Shop: " + cart.nameShop
-            itemBinding.priceProductConfirmCartItem.text = "Price: " + cart.price + " $"
+            itemBinding.priceProductConfirmCartItem.text =
+                "Price: " + CurrencyConvert.convertCurrencyToString(cart.price)
             itemBinding.amountConfirmCartItem.text = "Amount: " + cart.amount.toString()
         }
     }

@@ -1,8 +1,15 @@
 package com.thuctaptotnghiep.doantttn.adapter
 
+import android.app.Activity
+import android.content.Context
 import android.graphics.BitmapFactory
+import android.graphics.Paint
+import android.os.Build
+import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -10,8 +17,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.thuctaptotnghiep.doantttn.R
 import com.thuctaptotnghiep.doantttn.databinding.ItemCartRecycleViewGuestBinding
 import com.thuctaptotnghiep.doantttn.db.model.Cart
+import com.thuctaptotnghiep.doantttn.utils.CurrencyConvert
+import kotlinx.coroutines.currentCoroutineContext
 
-class CartAdapter : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
+class CartAdapter(val context:Context) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
 
     var onClickMinusBtnCallBack: ((cart: Cart) -> Unit)? = null
     var onClickPlusBtnCallBack: ((cart: Cart) -> Unit)? = null
@@ -47,11 +56,14 @@ class CartAdapter : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
         return CartViewHolder(binding)
     }
 
+    @RequiresApi(Build.VERSION_CODES.R)
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
         holder.setUpBinding(
+            position,
             diff.currentList[position],
             onClickMinusBtnCallBack!!,
-            onClickPlusBtnCallBack!!
+            onClickPlusBtnCallBack!!,
+            context
         )
     }
 
@@ -62,10 +74,13 @@ class CartAdapter : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
 
     inner class CartViewHolder(val binding: ItemCartRecycleViewGuestBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        @RequiresApi(Build.VERSION_CODES.R)
         fun setUpBinding(
+            position: Int,
             cart: Cart,
             callbackMinus: ((cart: Cart) -> Unit),
-            callbackPlus: ((cart: Cart) -> Unit)
+            callbackPlus: ((cart: Cart) -> Unit),
+            context: Context
         ) {
             binding.imageCartItem.setImageBitmap(
                 BitmapFactory.decodeByteArray(
@@ -74,18 +89,48 @@ class CartAdapter : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
                     cart.image.size
                 )
             )
+
+            val displayMetrics = DisplayMetrics()
+            context.display!!.getRealMetrics(displayMetrics)
+            val mPaint = Paint()
+            mPaint.textSize = 16f
+
+            val priceText = CurrencyConvert.convertCurrencyToString(cart.price)
+
+            val sizeTextNameProduct = mPaint.measureText(cart.nameProduct,0,cart.nameProduct.length)
+            val sizeTextNameShop = mPaint.measureText(cart.nameShop,0,cart.nameShop.length)
+            val sizeTextPrice = mPaint.measureText(priceText,0,priceText.length)
+            val sizeTextAmount = mPaint.measureText(cart.amount.toString(),0,cart.amount.toString().length)
+
+            val listSize:MutableList<Float> = mutableListOf()
+            listSize.add(sizeTextNameProduct)
+            listSize.add(sizeTextNameShop)
+            listSize.add(sizeTextPrice)
+
+            val sizeMax:Float = (listSize.maxOrNull() ?:0) as Float
+
+
+            if(sizeMax > (displayMetrics.widthPixels-80-10-64-10-sizeTextAmount-64)/3){
+                val maxWidth = (displayMetrics.widthPixels-80-10-64-10-sizeTextAmount-64)/3
+                binding.nameProductCartItem.maxWidth = maxWidth.toInt()
+                binding.nameShopCartItem.maxWidth = maxWidth.toInt()
+                binding.priceProductCartItem.maxWidth = maxWidth.toInt()
+            }
+
             binding.nameProductCartItem.text = cart.nameProduct
             binding.nameShopCartItem.text = cart.nameShop
-            binding.priceProductCartItem.text = cart.price.toString()
+            binding.priceProductCartItem.text = priceText
             binding.amountCartItem.text = cart.amount.toString()
             binding.minusCartBtn.setOnClickListener {
                 callbackMinus.let {
                     it(cart)
+                    notifyItemChanged(position)
                 }
             }
             binding.plusCartBtn.setOnClickListener {
                 callbackPlus.let {
                     it(cart)
+                    notifyItemChanged(position)
                 }
             }
         }

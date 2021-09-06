@@ -17,6 +17,7 @@ import com.thuctaptotnghiep.doantttn.databinding.FragmentInformationProductBindi
 import com.thuctaptotnghiep.doantttn.dialog.InformDialog
 import com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.MainGuestActivity
 import com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.MainGuestViewModel
+import com.thuctaptotnghiep.doantttn.utils.CurrencyConvert
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -57,11 +58,13 @@ class InformationProductFragment : Fragment() {
                 args.detailShopProductFullInformation.image.data.size
             )
         )
-        binding.nameProductDetail.text = "Name: " + args.detailShopProductFullInformation.nameProduct
+        binding.nameProductDetail.text =
+            "Name: " + args.detailShopProductFullInformation.nameProduct
         binding.priceProductDetail.text =
-            "Price: " + args.detailShopProductFullInformation.price.toString() + " $"
+            "Price: " + CurrencyConvert.convertCurrencyToString(args.detailShopProductFullInformation.price)
         binding.nameShopDetail.text = "Shop name: " + args.detailShopProductFullInformation.nameShop
-        binding.addressShopDetail.text = "Address: " + args.detailShopProductFullInformation.addressShop
+        binding.addressShopDetail.text =
+            "Address: " + args.detailShopProductFullInformation.addressShop
         binding.phoneShopDetail.text = "Phone: " + args.detailShopProductFullInformation.phoneShop
     }
 

@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.thuctaptotnghiep.doantttn.R
 import com.thuctaptotnghiep.doantttn.api.response.DetailShopProductFullInformation
 import com.thuctaptotnghiep.doantttn.databinding.ItemListDetailShopProductByProductRecycleViewGuestBinding
+import com.thuctaptotnghiep.doantttn.utils.CurrencyConvert
+import kotlinx.coroutines.currentCoroutineContext
 
 class DetailShopProductByProductAdapter :
     RecyclerView.Adapter<DetailShopProductByProductAdapter.PriceListByProductViewHolder>() {
@@ -71,7 +73,7 @@ class DetailShopProductByProductAdapter :
                 "Name Product: " + detailShopProductFullInformation.nameProduct
             binding.nameShopTextView.text = "Shop: " + detailShopProductFullInformation.nameShop
             binding.priceProductTextView.text =
-                "Price: " + detailShopProductFullInformation.price.toString() + "$"
+                "Price: " + CurrencyConvert.convertCurrencyToString(detailShopProductFullInformation.price)
             binding.imageDetailShopProduct.setImageBitmap(
                 BitmapFactory.decodeByteArray(
                     detailShopProductFullInformation.image.data,

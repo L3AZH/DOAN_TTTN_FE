@@ -11,6 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.snackbar.Snackbar
 import com.thuctaptotnghiep.doantttn.utils.Constant
 import com.thuctaptotnghiep.doantttn.R
 import com.thuctaptotnghiep.doantttn.databinding.ActivityMainGuestBinding
@@ -24,6 +25,8 @@ class MainGuestActivity : AppCompatActivity() {
     lateinit var headerNavBinding: NavHeaderMainGuestBinding
     lateinit var viewModel: MainGuestViewModel
     lateinit var navController: NavController
+
+    private var isCloseAppFlag = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,5 +87,21 @@ class MainGuestActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        if(isCloseAppFlag){
+            val homeItent = Intent(Intent.ACTION_MAIN)
+            homeItent.addCategory(Intent.CATEGORY_HOME)
+            homeItent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(homeItent)
+        }
+        else{
+            Snackbar.make(binding.root,"Press Back agian to exist", Snackbar.LENGTH_SHORT).show()
+            isCloseAppFlag = true
+        }
+    }
 
+    override fun onStop() {
+        super.onStop()
+        isCloseAppFlag = false
+    }
 }

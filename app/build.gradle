@@ -34,6 +34,7 @@ android {
     }
     buildFeatures{
         dataBinding = true
+        viewBinding = true
     }
 }
 
@@ -48,6 +49,7 @@ dependencies {
     def nav_version = "2.3.3"
     def material_version = "1.5.0-alpha01"
     def dagger_version = "2.28.3"
+    def chart_version = "3.1.0"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.5.0'
@@ -93,8 +95,6 @@ dependencies {
     //linkfortextview
     implementation 'com.klinkerapps:link_builder:2.0.5'
 
-    //decode jwt
-    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
-    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2',
-            'io.jsonwebtoken:jjwt-jackson:0.11.2'
+    //Chart
+    implementation "com.github.PhilJay:MPAndroidChart:v$chart_version"
 }

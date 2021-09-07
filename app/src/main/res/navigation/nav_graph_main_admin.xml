@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_main_admin"
-    app:startDestination="@id/categoryFragment">
+    app:startDestination="@id/staticalReportFragment">
 
     <fragment
         android:id="@+id/categoryFragment"
@@ -38,9 +39,21 @@
         <argument
             android:name="bill"
             app:argType="com.thuctaptotnghiep.doantttn.api.response.Bill" />
+        <action
+            android:id="@+id/action_detailBillAdminFragment_to_staticalReportFragment"
+            app:destination="@id/staticalReportFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerAccountForAdminFragment"
         android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.fragment.RegisterAccountForAdminFragment"
         android:label="Register Account Admin" />
+    <fragment
+        android:id="@+id/staticalReportFragment"
+        android:name="com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.fragment.StaticalReportFragment"
+        android:label="Dash board"
+        tools:layout="@layout/fragment_statical_report" >
+        <action
+            android:id="@+id/action_staticalReportFragment_to_detailBillAdminFragment"
+            app:destination="@id/detailBillAdminFragment" />
+    </fragment>
 </navigation>

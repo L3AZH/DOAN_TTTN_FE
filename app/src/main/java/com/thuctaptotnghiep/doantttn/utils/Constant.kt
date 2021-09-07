@@ -10,6 +10,9 @@ object Constant {
     const val BASICAUTH_PASSWORD = "n17dccn004"
     const val BASE_URL = "http://192.168.1.12:7000/api/"
     const val SHARE_PREFERENCE_NAME = "com.thuctaptotnghiep.doantttn.app_config"
+    const val CHANNEL_ID1 = "CHANNEL_ID1"
+    const val CHANNEL_ID2 = "CHANNEL_ID2"
+    const val ID_NOTIFICATION = 134
 
     fun getEncryptAccount():String{
         val account = "$BASICAUTH_USER:$BASICAUTH_PASSWORD"

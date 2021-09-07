@@ -3,6 +3,7 @@ package com.thuctaptotnghiep.doantttn.dialog
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
@@ -10,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.thuctaptotnghiep.doantttn.App
 import com.thuctaptotnghiep.doantttn.utils.Constant
 import com.thuctaptotnghiep.doantttn.R
 import com.thuctaptotnghiep.doantttn.adapter.CartConfirmAdapter
@@ -19,6 +21,7 @@ import com.thuctaptotnghiep.doantttn.ui.MainScreenGuest.MainGuestViewModel
 import com.thuctaptotnghiep.doantttn.utils.CurrencyConvert
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ConfirmPayDialog(val lifecycleOwner: LifecycleOwner) : DialogFragment() {
@@ -48,7 +51,7 @@ class ConfirmPayDialog(val lifecycleOwner: LifecycleOwner) : DialogFragment() {
     }
 
     fun setUpAdapter() {
-        cartConfirmAdapter = CartConfirmAdapter()
+        cartConfirmAdapter = CartConfirmAdapter(requireContext())
         binding.listCartConfirmRecycleView.layoutManager = LinearLayoutManager(requireContext())
         binding.listCartConfirmRecycleView.adapter = cartConfirmAdapter
     }
@@ -87,12 +90,27 @@ class ConfirmPayDialog(val lifecycleOwner: LifecycleOwner) : DialogFragment() {
                     val token = prefs.getString("token", "null")
                     val idAccount = prefs.getString("idAccount", "null")
                     val email = prefs.getString("email", "null")
+                    val loadingDialog = LoadingDialog()
+                    loadingDialog.show(requireActivity().supportFragmentManager, "loading dialog")
                     val resultMap = viewModel.createBill(token!!, idAccount!!, email!!).await()
+                    if (loadingDialog == null) {
+                        delay(1000)
+                        loadingDialog.cancelLoading()
+                    } else {
+                        loadingDialog.cancelLoading()
+                    }
                     if (resultMap["flag"] as Boolean) {
                         val successInform = InformDialog("success", resultMap["message"].toString())
                         successInform.show(
                             requireActivity().supportFragmentManager,
                             "success inform dialog"
+                        )
+                        App.pushNotification(
+                            requireContext(),
+                            "You Recieve a email",
+                            "Please check your mail box",
+                            R.drawable.ic_baseline_mark_email_unread_32,
+                            Color.MAGENTA
                         )
                         dialog?.cancel()
                     } else {

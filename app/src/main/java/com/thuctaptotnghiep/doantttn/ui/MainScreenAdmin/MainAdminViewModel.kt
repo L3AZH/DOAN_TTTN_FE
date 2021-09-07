@@ -2,15 +2,22 @@ package com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin
 
 import android.app.Application
 import android.graphics.Bitmap
+import android.icu.text.DateFormat
+import android.icu.text.SimpleDateFormat
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.thuctaptotnghiep.doantttn.App
 import com.thuctaptotnghiep.doantttn.api.request.*
 import com.thuctaptotnghiep.doantttn.api.response.*
 import com.thuctaptotnghiep.doantttn.repository.Repository
 import kotlinx.coroutines.*
+import okhttp3.internal.wait
 import java.io.ByteArrayOutputStream
+import java.util.*
 import javax.inject.Inject
 
 class MainAdminViewModel(application: Application) : AndroidViewModel(application) {
@@ -23,6 +30,7 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
     var listShop: MutableLiveData<List<Shop>> = MutableLiveData()
     var listDetailShopProduct: MutableLiveData<List<DetailShopProduct>> = MutableLiveData()
     var listBill: MutableLiveData<List<Bill>> = MutableLiveData()
+    var listBillToday:MutableLiveData<List<Bill>> = MutableLiveData()
     var listDetailBill: MutableLiveData<List<BillDetail>> = MutableLiveData()
 
     init {
@@ -447,6 +455,55 @@ class MainAdminViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun clearListPriceList() {
         listDetailShopProduct.postValue(emptyList())
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun getListBillToday(token: String) = viewModelScope.launch{
+
+        val response = repository.getAllBill(token)
+        if (response.isSuccessful) {
+            /**
+             * set value duoc thuc hien khi trong luong hoat dong
+             * post value duoc thuc hien khi ngoai luong hoat dong
+             */
+            listBill.value = response.body()!!.data.result
+        }
+
+        Log.e("L#AZH", "getListBillToday: ${listBill.value?.size}", )
+        if(!listBill.value.isNullOrEmpty()){
+            val sdf = SimpleDateFormat("yyyy-MM-dd")
+            val currentDate = sdf.format(Date())
+            val billsToday:MutableList<Bill> = mutableListOf()
+            for(item in listBill.value!!){
+                Log.e("DateCompare", "$currentDate // ${sdf.format(item.date)}" )
+                if (sdf.format(item.date).equals(currentDate,ignoreCase = true)){
+                    billsToday.add(item)
+                }
+            }
+            listBillToday.postValue(billsToday.toList())
+        }
+        else{
+            Log.e("L#AZH", "getListBillToday: listbil null", )
+            listBillToday.postValue(emptyList())
+        }
+    }
+
+    fun getNumberBillConfirmAndPending(listBill:List<Bill>):Map<String,Int>{
+        var numConfirm:Int = 0
+        var numPending:Int = 0
+        var result:MutableMap<String,Int> = mutableMapOf()
+        for(item in listBill){
+            if(item.status.equals("Confirmed",true)){
+                numConfirm++
+            }
+            else{
+                numPending++
+            }
+        }
+        result["Confirmed"] = numConfirm
+        result["Pending"] = numPending
+        return result
+
     }
 
 

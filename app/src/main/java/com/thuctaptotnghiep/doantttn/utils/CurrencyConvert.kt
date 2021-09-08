@@ -20,13 +20,14 @@ class CurrencyConvert {
             return decimalFormat!!
         }
         fun convertCurrencyToString(price:Double):String{
+
             var result = 0.0
             if(price<999){
                 result = price
                 Log.e(TAG, "convertCurrencyToString: 1" )
                 Log.e(TAG, "convertCurrencyToString: $price" )
                 Log.e(TAG, "convertCurrencyToString: $result" )
-                return result.toString()
+                return String.format("%s", getDecimalFormat().format(result))
             }
             else if(price>999 && price<999999){
                 result = price/1000

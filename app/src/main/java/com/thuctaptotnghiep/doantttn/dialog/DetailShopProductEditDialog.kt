@@ -10,6 +10,7 @@ import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.graphics.drawable.BitmapDrawable
+import android.icu.text.DecimalFormat
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -18,6 +19,7 @@ import android.widget.AdapterView
 import android.widget.AutoCompleteTextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.thuctaptotnghiep.doantttn.utils.Constant
@@ -30,6 +32,7 @@ import com.thuctaptotnghiep.doantttn.api.response.Shop
 import com.thuctaptotnghiep.doantttn.databinding.DetailShopProductEditDialogBinding
 import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminActivity
 import com.thuctaptotnghiep.doantttn.ui.MainScreenAdmin.MainAdminViewModel
+import com.thuctaptotnghiep.doantttn.utils.CurrencyConvert
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -46,6 +49,7 @@ class DetailShopProductEditDialog(val detailShopProduct: DetailShopProduct) : Di
     lateinit var onResultLauncher: ActivityResultLauncher<Intent>
     lateinit var onRequestLauncher: ActivityResultLauncher<String>
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             val builder = AlertDialog.Builder(it)
@@ -75,8 +79,14 @@ class DetailShopProductEditDialog(val detailShopProduct: DetailShopProduct) : Di
         } ?: throw  IllegalStateException("Activity must not empty")
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     fun setUpBinding() {
-        binding.priceEditTextInputEditText.setText(String.format("%f",detailShopProduct.price))
+        binding.priceEditTextInputEditText.setText(
+            String.format(
+                "%s",
+                CurrencyConvert.getDecimalFormat().format(detailShopProduct.price)
+            )
+        )
         binding.imageProductOfShopEdit.setImageBitmap(
             BitmapFactory.decodeByteArray(
                 detailShopProduct.image.data,
@@ -123,7 +133,7 @@ class DetailShopProductEditDialog(val detailShopProduct: DetailShopProduct) : Di
                 }
             }
         selectedProduct = productArrayAdapter.getItemId(detailShopProduct.productIdProduct)!!
-        binding.productEditSpinnerValue.setText(selectedProduct.name,false)
+        binding.productEditSpinnerValue.setText(selectedProduct.name, false)
         (binding.productEditSpinnerValue as AutoCompleteTextView).dropDownHeight = 0
     }
 

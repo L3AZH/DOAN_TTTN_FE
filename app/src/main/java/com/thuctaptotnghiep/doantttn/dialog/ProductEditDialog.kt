@@ -73,6 +73,7 @@ class ProductEditDialog(var product: Product, val categoryList: List<Category>) 
                 }
             }
         selectedCategory = categoryArrayAdapter.getItemId(product.CategoryIdCategory)!!
+        (binding.categorySpinnerEditDialogInutEditText as AutoCompleteTextView).dropDownHeight=0
     }
 
     fun setOnClickDeleteBtn() {

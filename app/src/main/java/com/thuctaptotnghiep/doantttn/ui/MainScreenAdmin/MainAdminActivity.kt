@@ -18,6 +18,9 @@ import com.thuctaptotnghiep.doantttn.databinding.ActivityMainAdminBinding
 import com.thuctaptotnghiep.doantttn.databinding.NavHeaderMainAdminBinding
 import com.thuctaptotnghiep.doantttn.dialog.ChangePasswordDialog
 import com.thuctaptotnghiep.doantttn.ui.LoginRegister.LoginAndRegisterActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainAdminActivity : AppCompatActivity() {
 
@@ -48,6 +51,7 @@ class MainAdminActivity : AppCompatActivity() {
         setLogoutOptionAdminClick()
         setChangePasswordOptionAdminClick()
         setOnAvatarClick()
+        setUpDataForUI()
     }
 
     fun setLogoutOptionAdminClick() {
@@ -102,6 +106,16 @@ class MainAdminActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         isCloseAppFlag = false
+    }
+
+    fun setUpDataForUI(){
+        CoroutineScope(Dispatchers.Default).launch {
+            viewModel.getAllCategory(Constant.getToken(applicationContext)!!)
+            viewModel.getAllProduct(Constant.getToken(applicationContext)!!)
+            viewModel.getAllShop(Constant.getToken(applicationContext)!!)
+            viewModel.getAllDetailShopProduct(Constant.getToken(applicationContext)!!)
+            viewModel.getAllBill(Constant.getToken(applicationContext)!!)
+        }
     }
 }
 

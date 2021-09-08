@@ -25,7 +25,7 @@
             android:textSize="18sp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="32dp"
-            app:cornerRadius="10dp"
+            app:cornerRadius="20dp"
             app:icon="@drawable/ic_baseline_check_32"
             app:iconTint="@color/white"
             android:backgroundTint="@android:color/holo_green_light"/>
